@@ -5,8 +5,9 @@
 Game::Game() {
 	SDL_Init(SDL_INIT_VIDEO);
 	window = new Window();
-	handler = new InputHandler();
-	window->setOnInputHandler(handler);
+	handler = new InputHandler(this);
+	gameState = PLAY;
+    window->setOnInputHandler(handler);
 	window->start();
 }
 
@@ -20,6 +21,14 @@ Game::~Game() {
 		handler = NULL;
 	}
 	SDL_Quit();
+}
+
+Game::GameState Game::getGameState() {
+    return gameState;
+}
+
+void Game::setGameState(GameState state) {
+    gameState = state;
 }
 
 void Game::run() {

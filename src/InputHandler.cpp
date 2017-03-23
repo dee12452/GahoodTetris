@@ -1,6 +1,9 @@
 #include "InputHandler.hpp"
+#include "Game.hpp"
 
-InputHandler::InputHandler() {}
+InputHandler::InputHandler(Game *g) : BaseInputHandler() {
+    game = g;
+}
 
 InputHandler::~InputHandler() {}
 
@@ -17,5 +20,7 @@ void InputHandler::onKeyUp() {
 }
 
 void InputHandler::onQuitGame() {
-	std::cout << "Quitter!" << std::endl;
+    game->setGameState(Game::EXIT);
 }
+
+Game * InputHandler::getGame() const { return game; }

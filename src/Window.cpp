@@ -1,5 +1,6 @@
 #include "Window.hpp"
-#include "BaseInputHandler.hpp"
+#include "InputHandler.hpp"
+#include "Game.hpp"
 
 Window::Window() {
 	rendering = true;
@@ -17,6 +18,10 @@ void Window::render() {
 	while (shouldRender) {
 		if (eventHandler != NULL) {
 			eventHandler->pollEvents(DEFAULT_SCAN_KEYS, DEFAULT_SCAN_KEYS_SIZE);
+            InputHandler *h = static_cast<InputHandler *> (eventHandler);
+            if(h->getGame()->getGameState() == Game::EXIT) {
+                break;
+            }
 		}
 	}
 	if (window != NULL) {

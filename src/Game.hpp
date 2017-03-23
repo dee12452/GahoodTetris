@@ -11,11 +11,15 @@ public:
 	Game();
 	~Game();
 
+    enum GameState { PLAY, EXIT };
 	void run();
+    GameState getGameState();
+    void setGameState(GameState);
 
 private:
 	Window *window;
 	InputHandler *handler;
+    GameState gameState;
 };
 
 #endif
