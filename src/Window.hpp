@@ -1,24 +1,35 @@
 #ifndef WINDOW_HPP
 #define WINDOW_HPP
 
-#include "Const.hpp"
+#include "Util.hpp"
 
-class BaseInputHandler;
+class InputHandler;
+class Timer;
 
 class Window {
 public:
-	Window();
+	Window(InputHandler *);
+	Window(InputHandler *, float);
 	~Window();
 	void start();
 	bool isRendering();
-	void setOnInputHandler(BaseInputHandler *);
 
 private:
+	//For SDL rendering to screen
 	SDL_Window *window;
+	SDL_Texture *windowTexture;
+	SDL_Renderer *windowRenderer;
+	void renderToScreen();
+
+	//For the window thread
 	std::thread thread;
 	void render();
-	bool rendering, shouldRender;
-	BaseInputHandler *eventHandler;
+	bool rendering;
+	InputHandler *eventHandler;
+
+	//For fps handling
+	int fps;
+	Timer *timer;
 };
 
 #endif

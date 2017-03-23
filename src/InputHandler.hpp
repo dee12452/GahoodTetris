@@ -1,6 +1,7 @@
 #ifndef INPUT_HANDLER_HPP
 #define INPUT_HANDLER_HPP
 
+#include "Const.hpp"
 #include "BaseInputHandler.hpp"
 
 class Game;
@@ -8,18 +9,16 @@ class Game;
 class InputHandler : public BaseInputHandler {
 public:
 	InputHandler(Game *);
-	~InputHandler();
+	~InputHandler() {}
 
-    Game *getGame() const;
+	Game * getGame() const;
 
 protected:
 	void onKeyDown();
 	void onKeyHeld(SDL_Scancode);
 	void onKeyUp();
 	void onQuitGame();
-
-private:
-    Game *game;
+	Game *game;
 };
 
-#endif 
+#endif

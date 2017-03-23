@@ -3,11 +3,12 @@
 #include "InputHandler.hpp"
 
 Game::Game() {
-	SDL_Init(SDL_INIT_VIDEO);
-	window = new Window();
-	handler = new InputHandler(this);
+	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+		Util::fatalSDLError("Failed to initialize SDL");
+	}
 	gameState = PLAY;
-    window->setOnInputHandler(handler);
+	handler = new InputHandler(this);
+	window = new Window(handler);
 	window->start();
 }
 

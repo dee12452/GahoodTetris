@@ -1,7 +1,7 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "Const.hpp"
+#include "Util.hpp"
 
 class Window;
 class InputHandler;
