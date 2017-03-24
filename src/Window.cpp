@@ -29,53 +29,27 @@ Window::~Window() {
 }
 
 void Window::render() {
-	window = SDL_CreateWindow("title", 
-		DisplayUtil::getScreenWidth() / 2 - windowWidth / 2,
-		DisplayUtil::getScreenHeight() / 2 - windowHeight / 2, 
-		windowWidth, 
-		windowHeight, 
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
-	if (window == NULL)
-		Util::fatalSDLError("Failed to create the window");
-
-	windowRenderer = SDL_CreateRenderer(window, 
-		-1, 
-		SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
-	if (windowRenderer == NULL)
-		Util::fatalSDLError("Failed to create window renderer");
-	SDL_SetRenderDrawColor(windowRenderer, 0, 0, 0, 255);
-
-	windowTexture = SDL_CreateTexture(windowRenderer, 
-		SDL_PIXELFORMAT_RGB888, 
-		SDL_TEXTUREACCESS_TARGET, 
-		windowWidth, 
-		windowHeight);
-	if (windowTexture == NULL)
-		Util::fatalSDLError("Failed to create window texture");
-
-	while (true) {
+	init();
+	bool isRendering = true;
+	while (isRendering) {
 		if (eventHandler != NULL) {
 			eventHandler->pollEvents(DEFAULT_SCAN_KEYS, DEFAULT_SCAN_KEYS_SIZE);
-			if (eventHandler->getGame()->getGameState() == Game::EXIT) {
+			switch (eventHandler->getGame()->getGameState())
+			{
+			case Game::PLAY:
+				if (timer->check()) {
+					renderToScreen();
+				}
 				break;
-			}
-			if (timer->check()) {
-				renderToScreen();
+			case Game::EXIT:
+				isRendering = false;
+				break;
+			default:
+				break;
 			}
 		}
 	}
-	if (windowTexture != NULL) {
-		SDL_DestroyTexture(windowTexture);
-		windowTexture = NULL;
-	}
-	if (windowRenderer != NULL) {
-		SDL_DestroyRenderer(windowRenderer);
-		windowRenderer = NULL;
-	}
-	if (window != NULL) {
-		SDL_DestroyWindow(window);
-		window = NULL;
-	}
+	close();
 	rendering = false;
 }
 
@@ -95,3 +69,44 @@ void Window::renderToScreen() {
 
 int Window::getWindowWidth() const { return windowWidth; }
 int Window::getWindowHeight() const { return windowHeight; }
+
+void Window::init() {
+	window = SDL_CreateWindow("title",
+		DisplayUtil::getScreenWidth() / 2 - windowWidth / 2,
+		DisplayUtil::getScreenHeight() / 2 - windowHeight / 2,
+		windowWidth,
+		windowHeight,
+		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+	if (window == NULL)
+		Util::fatalSDLError("Failed to create the window");
+
+	windowRenderer = SDL_CreateRenderer(window,
+		-1,
+		SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
+	if (windowRenderer == NULL)
+		Util::fatalSDLError("Failed to create window renderer");
+	SDL_SetRenderDrawColor(windowRenderer, 0, 0, 0, 255);
+
+	windowTexture = SDL_CreateTexture(windowRenderer,
+		SDL_PIXELFORMAT_RGB888,
+		SDL_TEXTUREACCESS_TARGET,
+		windowWidth,
+		windowHeight);
+	if (windowTexture == NULL)
+		Util::fatalSDLError("Failed to create window texture");
+}
+
+void Window::close() {
+	if (windowTexture != NULL) {
+		SDL_DestroyTexture(windowTexture);
+		windowTexture = NULL;
+	}
+	if (windowRenderer != NULL) {
+		SDL_DestroyRenderer(windowRenderer);
+		windowRenderer = NULL;
+	}
+	if (window != NULL) {
+		SDL_DestroyWindow(window);
+		window = NULL;
+	}
+}

@@ -28,6 +28,8 @@ private:
 
 	//For the window thread
 	std::thread thread;
+	void init();
+	void close();
 	void render();
 	bool rendering;
 	InputHandler *eventHandler;
