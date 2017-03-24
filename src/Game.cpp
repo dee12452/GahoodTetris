@@ -6,6 +6,9 @@ Game::Game() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		Util::fatalSDLError("Failed to initialize SDL");
 	}
+	if (IMG_Init(IMG_INIT_PNG) < 0) {
+		Util::fatalSDLError("Failed to init sdl img library");
+	}
 	gameState = PLAY;
 	handler = new InputHandler(this);
 	window = new Window(handler);
@@ -21,6 +24,7 @@ Game::~Game() {
 		delete handler;
 		handler = NULL;
 	}
+	IMG_Quit();
 	SDL_Quit();
 }
 

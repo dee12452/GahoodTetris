@@ -9,12 +9,17 @@ class Timer;
 class Window {
 public:
 	Window(InputHandler *);
-	Window(InputHandler *, float);
+	Window(InputHandler *, int);
 	~Window();
 	void start();
 	bool isRendering();
+	int getWindowWidth() const;
+	int getWindowHeight() const;
 
 private:
+	int windowWidth;
+	int windowHeight;
+
 	//For SDL rendering to screen
 	SDL_Window *window;
 	SDL_Texture *windowTexture;
