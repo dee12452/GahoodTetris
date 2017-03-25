@@ -3,6 +3,8 @@
 
 #include "Const.hpp"
 
+class Sprite;
+
 class Util {
 private:
 	Util() {}
@@ -17,9 +19,11 @@ public:
 	static void fatalError(const std::string &);
 	static void fatalSDLError(const std::string &);
 
-	static void createTetrisPiece(Uint8 **&, PieceTypes);
+	static void createTetrisPiece(Uint8 **&);
 	static void destroyTetrisPiece(Uint8 **&);
 	static void rotateTetrisPiece(Direction, Uint8 **&);
+
+	static int getRandomNumber(int, int);
 };
 
 #endif

@@ -1,6 +1,7 @@
 #include "Game.hpp"
 #include "Window.hpp"
 #include "InputHandler.hpp"
+#include "TetrisGrid.hpp"
 
 Game::Game() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -24,11 +25,15 @@ Game::~Game() {
 		delete handler;
 		handler = NULL;
 	}
+	if (grid != NULL) {
+		delete grid;
+		grid = NULL;
+	}
 	IMG_Quit();
 	SDL_Quit();
 }
 
-Game::GameState Game::getGameState() {
+Game::GameState Game::getGameState() const {
     return gameState;
 }
 
@@ -38,9 +43,26 @@ void Game::setGameState(GameState state) {
 
 void Game::run() {
 	while (window->isRendering()) {
-		//std::cout << "Game here" << std::endl;
+		//perform logic here
+		//SDL_Delay for the CPU usage issue
+		SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 	}
 }
 
+void Game::createTetrisGrid(SDL_Renderer *renderer) {
+	grid = new TetrisGrid(renderer,
+		getGridX(),
+		0,
+		DESIRED_WINDOW_HEIGHT / 2,
+		DESIRED_WINDOW_HEIGHT);
+}
+
+TetrisGrid * Game::getTetrisGrid() const {
+	return grid;
+}
+
+int Game::getGridX() const {
+	return ((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4;
+}
 
 

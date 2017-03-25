@@ -5,6 +5,7 @@
 
 class Window;
 class InputHandler;
+class TetrisGrid;
 
 class Game {
 public:
@@ -13,13 +14,17 @@ public:
 
     enum GameState { PLAY, EXIT };
 	void run();
-    GameState getGameState();
+    GameState getGameState() const;
     void setGameState(GameState);
+	TetrisGrid * getTetrisGrid() const;
+	void createTetrisGrid(SDL_Renderer *);
 
 private:
 	Window *window;
 	InputHandler *handler;
+	TetrisGrid *grid;
     GameState gameState;
+	int getGridX() const;
 };
 
 #endif

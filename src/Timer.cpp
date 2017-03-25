@@ -27,7 +27,6 @@ void Timer::reset() {
 }
 
 bool Timer::check() {
-	finish = clock();
 	if (getElapsedTime() >= target) {
 		reset();
 		return true;
@@ -38,5 +37,6 @@ bool Timer::check() {
 }
 
 float Timer::getElapsedTime() {
+	finish = clock();
 	return (float) ((float)finish - start) / CLOCKS_PER_SEC;
 }

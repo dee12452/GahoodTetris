@@ -15,6 +15,7 @@ public:
 	//Sprite sheet height of target texture area
 	//ticks per second
 	Sprite(SDL_Renderer *, const char *, int, int, int, int, int);
+	Sprite(SDL_Renderer *, const char *, bool, int);
 	virtual ~Sprite();
 
 	void update();
@@ -25,11 +26,15 @@ public:
 	int getWidth() const;
 	int getHeight() const;
 	SDL_Texture * getTexture() const;
+	bool isUsingWholeTexture() const;
 
 	void setLocationX(int);
 	void setLocationY(int);
 	void setWidth(int);
 	void setHeight(int);
+	void setUsingWholeTexture(bool);
+	void setRGBColor(Uint8, Uint8, Uint8);
+	void setAlpha(Uint8);
 
 	static const int DEFAULT_TICKS_PER_SECOND;
 
@@ -38,10 +43,11 @@ protected:
 	virtual void onUpdate() = 0;
 
 private:
-	int locationX;
-	int locationY;
-	int width;
-	int height;
+	int locationX = 0;
+	int locationY = 0;
+	int width = 0;
+	int height = 0;
+	bool usingWholeTexture;
 	Timer *onTickTimer;
 	SDL_Texture *spriteSheet;
 };

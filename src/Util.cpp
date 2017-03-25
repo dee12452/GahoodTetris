@@ -1,4 +1,5 @@
 #include "Util.hpp"
+#include <random>
 
 const std::string Util::TAG = "Gahood Tetris : ";
 const int Util::PIECE_ROWS = 3;
@@ -22,7 +23,7 @@ void Util::fatalSDLError(const std::string &s) {
 	fatalError(s);
 }
 
-void Util::createTetrisPiece(Uint8 **&piece, PieceTypes type) {
+void Util::createTetrisPiece(Uint8 **&piece) {
 	piece = new Uint8 *[Util::PIECE_ROWS];
 	for (int i = 0; i < Util::PIECE_ROWS; i++) {
 		piece[i] = new Uint8[Util::PIECE_COLUMNS];
@@ -30,7 +31,7 @@ void Util::createTetrisPiece(Uint8 **&piece, PieceTypes type) {
 			piece[i][j] = 0;
 		}
 	}
-	switch (type) {
+	switch (Util::getRandomNumber(0, NUMBER_OF_PIECE_TYPES - 1)) {
 	case I:
 		piece[1][0] = 1;
 		piece[1][1] = 1;
@@ -81,4 +82,11 @@ void Util::rotateTetrisPiece(Direction d, Uint8 **&piece) {
 	default:
 		break;
 	}
+}
+
+int Util::getRandomNumber(int min, int max) {
+	std::mt19937 rng;
+	rng.seed(std::random_device()());
+	std::uniform_int_distribution<std::mt19937::result_type> distribution(min, max);
+	return distribution(rng);
 }

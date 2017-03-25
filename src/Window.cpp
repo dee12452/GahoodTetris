@@ -3,6 +3,7 @@
 #include "Game.hpp"
 #include "Timer.hpp"
 #include "DisplayUtil.hpp"
+#include "TetrisGrid.hpp"
 
 Window::Window(InputHandler *input) {
 	windowWidth = DESIRED_WINDOW_WIDTH;
@@ -32,6 +33,7 @@ void Window::render() {
 	init();
 	bool isRendering = true;
 	while (isRendering) {
+		SDL_Delay(CPU_USAGE_EVENT_DELAY);
 		if (eventHandler != NULL) {
 			eventHandler->pollEvents(DEFAULT_SCAN_KEYS, DEFAULT_SCAN_KEYS_SIZE);
 			switch (eventHandler->getGame()->getGameState())
@@ -64,6 +66,7 @@ bool Window::isRendering() {
 void Window::renderToScreen() {
 	SDL_RenderClear(windowRenderer);
 	SDL_RenderCopy(windowRenderer, windowTexture, NULL, NULL);
+	eventHandler->getGame()->getTetrisGrid()->draw(windowRenderer, windowTexture);
 	SDL_RenderPresent(windowRenderer);
 }
 
@@ -94,6 +97,13 @@ void Window::init() {
 		windowHeight);
 	if (windowTexture == NULL)
 		Util::fatalSDLError("Failed to create window texture");
+
+	if (eventHandler != NULL && eventHandler->getGame() != NULL) {
+		eventHandler->getGame()->createTetrisGrid(windowRenderer);
+	}
+	else {
+		Util::fatalError("Could not instantiate the event handler");
+	}
 }
 
 void Window::close() {
