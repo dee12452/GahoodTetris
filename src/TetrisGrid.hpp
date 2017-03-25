@@ -14,6 +14,7 @@ public:
 
 private:
 	Sprite *blockYellow;
+	Sprite *gridOutline;
 	//Sprite *blockRed;
 	//Sprite *blockBlue;
 	//Sprite *blockGreen;
