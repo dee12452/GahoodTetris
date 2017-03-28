@@ -13,9 +13,9 @@ void BaseInputHandler::pollEvents(const SDL_Scancode *desiredScanCodes, int scan
 			onQuitGame();
 			return;
 		case SDL_KEYDOWN:
-			onKeyDown();
+			onKeyDown(e.key.keysym.scancode);
 		case SDL_KEYUP:
-			onKeyUp();
+			onKeyUp(e.key.keysym.scancode);
 		default:
 			break;
 		}

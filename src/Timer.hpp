@@ -13,9 +13,10 @@ public:
 	bool check();
 	void setTargetTime(float);
 	void setTargetTimeFPS(int);
+	float getElapsedTime();
+    float getTargetTime() const;
 
 private:
-	float getElapsedTime();
 
 	float target;
 	clock_t start;

@@ -11,9 +11,9 @@ public:
 	virtual void pollEvents(const SDL_Scancode *desiredScanCodes, int scanCodesLength);
 
 protected:
-	virtual void onKeyDown() = 0;
+	virtual void onKeyDown(SDL_Scancode) = 0;
 	virtual void onKeyHeld(SDL_Scancode) = 0;
-	virtual void onKeyUp() = 0;
+	virtual void onKeyUp(SDL_Scancode) = 0;
 	virtual void onQuitGame() = 0;
 };
 

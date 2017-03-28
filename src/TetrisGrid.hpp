@@ -4,6 +4,8 @@
 #include "Util.hpp"
 
 class Sprite;
+class Timer;
+class TetrisPiece;
 
 class TetrisGrid {
 public:
@@ -11,17 +13,26 @@ public:
 	~TetrisGrid();
 
 	void draw(SDL_Renderer *, SDL_Texture *);
+    void update();
+    void setUpdateTime(float);
+	
+    TetrisPiece * getCurrentPiece() const;
+    Uint8 ** getGrid() const;
+    
+    const static int GRID_ROWS;
+	const static int GRID_COLUMNS;
 
 private:
 	Sprite *blockYellow;
-	Sprite *gridOutline;
+	Sprite *blockBlank;
+    Sprite *gridOutline;
 	//Sprite *blockRed;
 	//Sprite *blockBlue;
 	//Sprite *blockGreen;
+    Timer *tickTimer;
+    TetrisPiece *currentPiece;
 
 	Uint8 **grid;
-	const static int GRID_ROWS;
-	const static int GRID_COLUMNS;
 	int blockWidth;
 	int blockHeight;
 	int gridX, gridY;

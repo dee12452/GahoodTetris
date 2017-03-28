@@ -14,9 +14,9 @@ public:
 	Game * getGame() const;
 
 protected:
-	void onKeyDown();
+	void onKeyDown(SDL_Scancode);
 	void onKeyHeld(SDL_Scancode);
-	void onKeyUp();
+	void onKeyUp(SDL_Scancode);
 	void onQuitGame();
 	Game *game;
 };

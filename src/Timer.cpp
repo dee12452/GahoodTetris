@@ -9,7 +9,9 @@ Timer::Timer(float t) {
 }
 
 //Essentially an FPS timer
-Timer::Timer(int t) : Timer((float) 1 / t) {}
+Timer::Timer(int t) : Timer((float) 1 / t) {
+    target /= 10;
+}
 
 Timer::~Timer() {}
 
@@ -27,8 +29,8 @@ void Timer::reset() {
 }
 
 bool Timer::check() {
-	if (getElapsedTime() >= target) {
-		reset();
+    if (getElapsedTime() >= target) {
+        reset();
 		return true;
 	}
 	else {
@@ -36,7 +38,11 @@ bool Timer::check() {
 	}
 }
 
+float Timer::getTargetTime() const {
+    return target;
+}
+
 float Timer::getElapsedTime() {
-	finish = clock();
-	return (float) ((float)finish - start) / CLOCKS_PER_SEC;
+    finish = clock();
+	return ((float)finish - start) / CLOCKS_PER_SEC;
 }

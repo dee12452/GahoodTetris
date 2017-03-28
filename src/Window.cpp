@@ -38,8 +38,8 @@ void Window::render() {
 			eventHandler->pollEvents(DEFAULT_SCAN_KEYS, DEFAULT_SCAN_KEYS_SIZE);
 			switch (eventHandler->getGame()->getGameState())
 			{
-			case Game::PLAY:
-				if (timer->check()) {
+			case Game::PLAY:				
+                if (timer->check()) {
 					renderToScreen();
 				}
 				break;
@@ -64,7 +64,7 @@ bool Window::isRendering() {
 }
 
 void Window::renderToScreen() {
-	SDL_RenderClear(windowRenderer);
+    SDL_RenderClear(windowRenderer);
 	SDL_RenderCopy(windowRenderer, windowTexture, NULL, NULL);
 	eventHandler->getGame()->getTetrisGrid()->draw(windowRenderer, windowTexture);
 	SDL_RenderPresent(windowRenderer);
@@ -104,6 +104,8 @@ void Window::init() {
 	else {
 		Util::fatalError("Could not instantiate the event handler");
 	}
+
+    renderToScreen();
 }
 
 void Window::close() {

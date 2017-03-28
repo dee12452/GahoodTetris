@@ -11,6 +11,7 @@ Game::Game() {
 		Util::fatalSDLError("Failed to init sdl img library");
 	}
 	gameState = PLAY;
+    grid = NULL;
 	handler = new InputHandler(this);
 	window = new Window(handler);
 	window->start();
@@ -45,7 +46,9 @@ void Game::run() {
 	while (window->isRendering()) {
 		//perform logic here
 		//SDL_Delay for the CPU usage issue
-		SDL_Delay(CPU_USAGE_LOGIC_DELAY);
+		if(grid != NULL)
+            grid->update();
+        SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 	}
 }
 
