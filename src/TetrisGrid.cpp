@@ -126,6 +126,7 @@ void TetrisGrid::update() {
 
 void TetrisGrid::clearRows() {
 	/* Columns == currRow, Rows = currCols? :( WHY!? */
+	std::vector<int> rowsCleared;
 	for (int currCol = 0; currCol < GRID_COLUMNS; currCol++) {
 		bool clearRow = true;
 		for (int currRow = 0; currRow < GRID_ROWS; currRow++) {
@@ -135,9 +136,31 @@ void TetrisGrid::clearRows() {
 			}
 		}
 		if (clearRow) {
-			for (int currRow = 0; currRow < GRID_ROWS; currRow++)
-				grid[currRow][currCol] = 0;
+			rowsCleared.push_back(currCol);
 		}
+	}
+	if (rowsCleared.size() > 0) {
+		Uint8 **newGrid = new Uint8 *[GRID_ROWS];
+		for (int i = 0; i < GRID_ROWS; i++) {
+			newGrid[i] = new Uint8[GRID_COLUMNS];
+			for (int j = 0; j < GRID_COLUMNS; j++) {
+				newGrid[i][j] = 0;
+			}
+		}
+		for (int i = 0, rowCleared = 0; i < GRID_COLUMNS - rowsCleared.size(); i++) {
+			if (rowsCleared[rowCleared] == i) {
+				rowCleared++;
+				continue;
+			}
+			for (int j = 0; j < GRID_ROWS; j++) {
+				newGrid[j][i + rowsCleared.size()] = grid[j][i];
+			}
+		}
+		for (int i = 0; i < GRID_ROWS; i++) {
+			delete[] grid[i];
+		}
+		delete[] grid;
+		grid = newGrid;
 	}
 }
 
