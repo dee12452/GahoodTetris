@@ -72,15 +72,6 @@ TetrisGrid::~TetrisGrid() {
 }
 
 void TetrisGrid::draw(SDL_Renderer *renderer, SDL_Texture *texture) {
-	//if (currentPiece != NULL) {
-	//	for (int i = 0; i < currentPiece->getRows(); i++) {
-	//		for (int j = 0; j < currentPiece->getColumns(); j++) {
-	//			if ((currentPiece->getBlocks())[i][j] == 1) {
-	//				grid[i + currentPiece->getX()][j + currentPiece->getY()] = 1;
-	//			}
-	//		}
-	//	}
-	//}
     int locX = gridX;
     for (int i = 0; i < GRID_ROWS; i++, locX += blockWidth) {
 		int locY = gridY;
@@ -144,9 +135,8 @@ void TetrisGrid::clearRows() {
 			}
 		}
 		if (clearRow) {
-			for (int currRow = 0; currRow < GRID_ROWS; currRow++) {
+			for (int currRow = 0; currRow < GRID_ROWS; currRow++)
 				grid[currRow][currCol] = 0;
-			}
 		}
 	}
 }
