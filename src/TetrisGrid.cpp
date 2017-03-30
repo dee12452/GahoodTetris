@@ -33,8 +33,9 @@ TetrisGrid::TetrisGrid(SDL_Renderer *renderer, int x, int y, int width, int heig
     gridOutline->setLocationY(0);
     gridOutline->setWidth(DESIRED_WINDOW_WIDTH / 2);
     gridOutline->setHeight(DESIRED_WINDOW_HEIGHT);
-    currentPiece = new TetrisPiece(PieceTypes::S, GRID_ROWS / 2, 0);
-    tickTimer = new Timer(100);
+	currentPiece = new TetrisPiece(PieceTypes::I, GRID_ROWS / 2, 0);
+    tickTimer = new Timer(1.5f);
+	updating = false;
 }
 
 TetrisGrid::~TetrisGrid() {
@@ -45,11 +46,11 @@ TetrisGrid::~TetrisGrid() {
 	if (grid != NULL) {
 		for (int i = 0; i < GRID_ROWS; i++) {
 			if (grid[i] != NULL) {
-				delete grid[i];
+				delete[] grid[i];
 				grid[i] = NULL;
 			}
 		}
-		delete grid;
+		delete[] grid;
 		grid = NULL;
 	}
 	if (blockYellow != NULL) {
@@ -71,13 +72,15 @@ TetrisGrid::~TetrisGrid() {
 }
 
 void TetrisGrid::draw(SDL_Renderer *renderer, SDL_Texture *texture) {
-    for(int i = 0; i < TetrisPiece::ROWS; i++) {
-        for(int j = 0; j < TetrisPiece::COLUMNS; j++) {
-            if((currentPiece->getBlocks())[i][j] == 1) {
-                grid[i + currentPiece->getX()][j + currentPiece->getY()] = 1;
-            }
-        }
-    }
+	//if (currentPiece != NULL) {
+	//	for (int i = 0; i < currentPiece->getRows(); i++) {
+	//		for (int j = 0; j < currentPiece->getColumns(); j++) {
+	//			if ((currentPiece->getBlocks())[i][j] == 1) {
+	//				grid[i + currentPiece->getX()][j + currentPiece->getY()] = 1;
+	//			}
+	//		}
+	//	}
+	//}
     int locX = gridX;
     for (int i = 0; i < GRID_ROWS; i++, locX += blockWidth) {
 		int locY = gridY;
@@ -94,20 +97,58 @@ void TetrisGrid::draw(SDL_Renderer *renderer, SDL_Texture *texture) {
             }
 		}
 	}
-    for(int i = 0; i < TetrisPiece::ROWS; i++) {
-        for(int j = 0; j < TetrisPiece::COLUMNS; j++) {
-            if((currentPiece->getBlocks())[i][j] == 1) {
-                grid[i + currentPiece->getX()][j + currentPiece->getY()] = 0;
-            }
-        }
-    }
+	locX = (currentPiece->getX() * blockWidth) + gridX;
+	if (currentPiece != NULL) {
+		for (int i = 0; i < currentPiece->getRows(); i++, locX += blockWidth) {
+			int locY = (currentPiece->getY() * blockHeight) + gridY;
+			for (int j = 0; j < currentPiece->getColumns(); j++, locY += blockHeight) {
+				if ((currentPiece->getBlocks())[i][j] == 1) {
+					blockYellow->setLocationX(locX);
+					blockYellow->setLocationY(locY);
+					blockYellow->draw(renderer, texture);
+				}
+			}
+		}
+	}
     gridOutline->draw(renderer, texture);
 }
 
 void TetrisGrid::update() {
-    if(tickTimer->check()) {
-        //currentPiece->moveDown(grid);
+    if(tickTimer->check() && currentPiece != NULL) {
+		if (!currentPiece->moveDown(grid)) {
+			for (int i = 0; i < currentPiece->getRows(); i++) {
+				for (int j = 0; j < currentPiece->getColumns(); j++) {
+					if ((currentPiece->getBlocks())[i][j] == 1) {
+						grid[i + currentPiece->getX()][j + currentPiece->getY()] = 1;
+					}
+				}
+			}
+
+			clearRows();
+			
+			delete currentPiece;
+			int nextPiece = Util::getRandomNumber(0, 4);
+			currentPiece = new TetrisPiece(/*static_cast<PieceTypes> (nextPiece) */ PieceTypes::I, GRID_ROWS / 2, 0);
+		}
     }
+}
+
+void TetrisGrid::clearRows() {
+	/* Columns == currRow, Rows = currCols? :( WHY!? */
+	for (int currCol = 0; currCol < GRID_COLUMNS; currCol++) {
+		bool clearRow = true;
+		for (int currRow = 0; currRow < GRID_ROWS; currRow++) {
+			if (grid[currRow][currCol] == 0) {
+				clearRow = false;
+				break;
+			}
+		}
+		if (clearRow) {
+			for (int currRow = 0; currRow < GRID_ROWS; currRow++) {
+				grid[currRow][currCol] = 0;
+			}
+		}
+	}
 }
 
 void TetrisGrid::setUpdateTime(float tickTime) {

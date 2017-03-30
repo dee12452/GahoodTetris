@@ -13,10 +13,10 @@
 //Set higher for less CPU usage
 
 //Delays the game loop thread, not the window thread
-const int CPU_USAGE_LOGIC_DELAY = 2;
+const int CPU_USAGE_LOGIC_DELAY = 15;
 
 //Delays the window thread, not the game loop thread
-const int CPU_USAGE_EVENT_DELAY = 2;
+const int CPU_USAGE_EVENT_DELAY = 15;
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////

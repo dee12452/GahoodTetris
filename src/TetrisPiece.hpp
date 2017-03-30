@@ -10,22 +10,26 @@ public:
 
     int getX() const;
     int getY() const;
+	int getRows() const;
+	int getColumns() const;
     void setX(int);
     void setY(int);
 
-    void moveLeft(Uint8 **);
-    void moveRight(Uint8 **);
-    void moveDown(Uint8 **);
-    Uint8 ** getBlocks() const;
+    bool moveLeft(Uint8 **);
+    bool moveRight(Uint8 **);
+    bool moveDown(Uint8 **);
 
-    const static int ROWS;
-    const static int COLUMNS;
+	Uint8 ** getBlocks() const;
 private:
     bool canMoveLeft(Uint8 **) const;
     bool canMoveRight(Uint8 **) const;
-    bool canMoveDown(Uint8 **) const;
-    int x;
+	bool canMoveDown(Uint8 **) const;
+	void initGrid(int, int);
+
+	int x;
     int y;
+	int rows;
+	int columns;
     Uint8 **blocks;
 };
 

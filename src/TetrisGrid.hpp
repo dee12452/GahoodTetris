@@ -36,6 +36,9 @@ private:
 	int blockWidth;
 	int blockHeight;
 	int gridX, gridY;
+	bool updating;
+
+	void clearRows();
 };
 
 #endif
