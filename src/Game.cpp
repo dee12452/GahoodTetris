@@ -2,6 +2,7 @@
 #include "Window.hpp"
 #include "InputHandler.hpp"
 #include "TetrisGrid.hpp"
+#include "Player.hpp"
 
 Game::Game() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -12,6 +13,7 @@ Game::Game() {
 	}
 	gameState = PLAY;
     grid = NULL;
+	player = new Player();
 	handler = new InputHandler(this);
 	window = new Window(handler);
 	window->start();
@@ -29,6 +31,10 @@ Game::~Game() {
 	if (grid != NULL) {
 		delete grid;
 		grid = NULL;
+	}
+	if (player != NULL) {
+		delete player;
+		player = NULL;
 	}
 	IMG_Quit();
 	SDL_Quit();
@@ -73,6 +79,10 @@ TetrisGrid * Game::getTetrisGrid() const {
 
 int Game::getGridX() const {
 	return ((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4;
+}
+
+Player * Game::getPlayer() const {
+	return player;
 }
 
 

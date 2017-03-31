@@ -6,6 +6,7 @@
 class Window;
 class InputHandler;
 class TetrisGrid;
+class Player;
 
 class Game {
 public:
@@ -17,11 +18,13 @@ public:
     void setGameState(GameState);
 	TetrisGrid * getTetrisGrid() const;
 	void createTetrisGrid(SDL_Renderer *);
+	Player * getPlayer() const;
 
 private:
 	Window *window;
 	InputHandler *handler;
 	TetrisGrid *grid;
+	Player *player;
     GameState gameState;
 	int getGridX() const;
 };
