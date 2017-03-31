@@ -19,12 +19,17 @@ public:
     bool moveRight(Uint8 **);
     bool moveDown(Uint8 **);
 
+	void rotate(Uint8 **, bool);
+
 	Uint8 ** getBlocks() const;
 private:
     bool canMoveLeft(Uint8 **) const;
     bool canMoveRight(Uint8 **) const;
 	bool canMoveDown(Uint8 **) const;
 	void initGrid(int, int);
+
+	void rotateClockwise(Uint8 **);
+	void rotateCounterclockwise(Uint8 **);
 
 	int x;
     int y;

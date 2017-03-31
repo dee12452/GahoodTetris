@@ -38,12 +38,12 @@ void Window::render() {
 			eventHandler->pollEvents(DEFAULT_SCAN_KEYS, DEFAULT_SCAN_KEYS_SIZE);
 			switch (eventHandler->getGame()->getGameState())
 			{
-			case Game::PLAY:				
+			case PLAY:				
                 if (timer->check()) {
 					renderToScreen();
 				}
 				break;
-			case Game::EXIT:
+			case EXIT:
 				isRendering = false;
 				break;
 			default:

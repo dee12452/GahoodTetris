@@ -4,9 +4,6 @@
 #include "Timer.hpp"
 #include "TetrisPiece.hpp"
 
-const int TetrisGrid::GRID_ROWS = 10;
-const int TetrisGrid::GRID_COLUMNS = 20;
-
 TetrisGrid::TetrisGrid(SDL_Renderer *renderer, int x, int y, int width, int height) {
 	gridX = x;
 	gridY = y;
@@ -104,9 +101,13 @@ void TetrisGrid::draw(SDL_Renderer *renderer, SDL_Texture *texture) {
     gridOutline->draw(renderer, texture);
 }
 
-void TetrisGrid::update() {
+GameState TetrisGrid::update() {
     if(tickTimer->check() && currentPiece != NULL) {
 		if (!currentPiece->moveDown(grid)) {
+
+			if (currentPiece->getY() == 0)
+				return EXIT;
+
 			for (int i = 0; i < currentPiece->getRows(); i++) {
 				for (int j = 0; j < currentPiece->getColumns(); j++) {
 					if ((currentPiece->getBlocks())[i][j] == 1) {
@@ -119,13 +120,18 @@ void TetrisGrid::update() {
 			
 			delete currentPiece;
 			int nextPiece = Util::getRandomNumber(0, 4);
-			currentPiece = new TetrisPiece(/*static_cast<PieceTypes> (nextPiece) */ PieceTypes::I, GRID_ROWS / 2, 0);
+			currentPiece = new TetrisPiece(static_cast<PieceTypes> (nextPiece), GRID_ROWS / 2, 0);
 		}
     }
+	return PLAY;
 }
 
 void TetrisGrid::clearRows() {
-	/* Columns == currRow, Rows = currCols? :( WHY!? */
+	/* Columns == currRow, Rows = currCols? :( WHY!?
+		^^^ that really threw me off, knowledge is power*/
+
+	//clearing the rows
+	//store the rows in a vector
 	std::vector<int> rowsCleared;
 	for (int currCol = 0; currCol < GRID_COLUMNS; currCol++) {
 		bool clearRow = true;
@@ -139,7 +145,11 @@ void TetrisGrid::clearRows() {
 			rowsCleared.push_back(currCol);
 		}
 	}
+
+	//Shift it all down by making a new grid
 	if (rowsCleared.size() > 0) {
+
+		//Init new grid
 		Uint8 **newGrid = new Uint8 *[GRID_ROWS];
 		for (int i = 0; i < GRID_ROWS; i++) {
 			newGrid[i] = new Uint8[GRID_COLUMNS];
@@ -147,15 +157,20 @@ void TetrisGrid::clearRows() {
 				newGrid[i][j] = 0;
 			}
 		}
-		for (int i = 0, rowCleared = 0; i < GRID_COLUMNS - rowsCleared.size(); i++) {
-			if (rowsCleared[rowCleared] == i) {
-				rowCleared++;
+
+		//Copy to new grid, exclude rows that we know are cleared
+		for (int i = 0, k = rowsCleared.size(), index = 0; i < GRID_COLUMNS; i++) {
+			if (index < rowsCleared.size() && i == rowsCleared[index]) {
+				index++;
 				continue;
 			}
 			for (int j = 0; j < GRID_ROWS; j++) {
-				newGrid[j][i + rowsCleared.size()] = grid[j][i];
+				newGrid[j][k] = grid[j][i];
 			}
+			k++;
 		}
+
+		//delete old grid, assign old grid to new grid
 		for (int i = 0; i < GRID_ROWS; i++) {
 			delete[] grid[i];
 		}

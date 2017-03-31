@@ -13,14 +13,11 @@ public:
 	~TetrisGrid();
 
 	void draw(SDL_Renderer *, SDL_Texture *);
-    void update();
+    GameState update();
     void setUpdateTime(float);
 	
     TetrisPiece * getCurrentPiece() const;
     Uint8 ** getGrid() const;
-    
-    const static int GRID_ROWS;
-	const static int GRID_COLUMNS;
 
 private:
 	Sprite *blockYellow;

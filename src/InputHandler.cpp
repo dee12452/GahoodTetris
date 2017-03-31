@@ -18,6 +18,8 @@ void InputHandler::onKeyDown(SDL_Scancode key) {
         case SDL_SCANCODE_DOWN:
             game->getTetrisGrid()->getCurrentPiece()->moveDown(game->getTetrisGrid()->getGrid());
             break;
+		case SDL_SCANCODE_SPACE:
+			game->getTetrisGrid()->getCurrentPiece()->rotate(game->getTetrisGrid()->getGrid(), true);
         default:
             break;
     }
@@ -30,7 +32,7 @@ void InputHandler::onKeyUp(SDL_Scancode key) {
 }
 
 void InputHandler::onQuitGame() {
-	game->setGameState(Game::EXIT);
+	game->setGameState(EXIT);
 }
 
 Game * InputHandler::getGame() const {

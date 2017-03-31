@@ -12,7 +12,6 @@ public:
 	Game();
 	~Game();
 
-    enum GameState { PLAY, EXIT };
 	void run();
     GameState getGameState() const;
     void setGameState(GameState);

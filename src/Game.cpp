@@ -34,7 +34,7 @@ Game::~Game() {
 	SDL_Quit();
 }
 
-Game::GameState Game::getGameState() const {
+GameState Game::getGameState() const {
     return gameState;
 }
 
@@ -46,8 +46,15 @@ void Game::run() {
 	while (window->isRendering()) {
 		//perform logic here
 		//SDL_Delay for the CPU usage issue
-		if(grid != NULL)
-            grid->update();
+		if (grid != NULL) {
+			switch (grid->update()) {
+			case PLAY:
+				break;
+			case EXIT:
+				gameState = EXIT;
+				break;
+			}
+		}
         SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 	}
 }

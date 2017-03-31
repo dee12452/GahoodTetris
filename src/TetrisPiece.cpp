@@ -1,5 +1,4 @@
 #include "TetrisPiece.hpp"
-#include "TetrisGrid.hpp"
 
 TetrisPiece::TetrisPiece(PieceTypes type, int x, int y) {
     this->x = x;
@@ -99,7 +98,7 @@ bool TetrisPiece::canMoveLeft(Uint8 **grid) const {
 }
 
 bool TetrisPiece::canMoveRight(Uint8 **grid) const {
-    if(x >= TetrisGrid::GRID_ROWS - rows) return false;
+    if(x >= GRID_ROWS - rows) return false;
     else {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
@@ -112,7 +111,7 @@ bool TetrisPiece::canMoveRight(Uint8 **grid) const {
 }
 
 bool TetrisPiece::canMoveDown(Uint8 **grid) const {
-    if(y >= TetrisGrid::GRID_COLUMNS - columns) return false;
+    if(y >= GRID_COLUMNS - columns) return false;
     else {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
@@ -138,4 +137,61 @@ void TetrisPiece::initGrid(int row, int col) {
 			blocks[i][j] = 0;
 		}
 	}
+}
+
+void TetrisPiece::rotate(Uint8 **grid, bool clockwise) {
+	if (clockwise) {
+		rotateClockwise(grid);
+	}
+	else {
+		rotateCounterclockwise(grid);
+	}
+}
+
+void TetrisPiece::rotateClockwise(Uint8 **grid) {
+	std::swap(rows, columns);
+	bool preventRotate = false;
+		Uint8 **newBlocks = new Uint8 *[rows];
+	for (int i = 0; i < rows; i++)
+		newBlocks[i] = new Uint8[columns];
+	
+	for (int i = 0; i < columns; i++) {
+		for (int j = 0; j < rows; j++) {
+			newBlocks[rows - j - 1][i] = blocks[i][j];
+		}
+	}
+
+	if (x + rows > GRID_ROWS || y + columns > GRID_COLUMNS)
+		preventRotate = true;
+
+	if (!preventRotate) {
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < columns; j++) {
+				if (newBlocks[i][j] == 1 && grid[x + i][y + j] == 1) {
+					preventRotate = true;
+				}
+			}
+		}
+	}
+
+	if (preventRotate) {
+		std::swap(rows, columns);
+		for (int i = 0; i < columns; i++) {
+			delete[] newBlocks[i];
+		}
+		delete[] newBlocks;
+		newBlocks = NULL;
+	}
+	else {
+		for (int i = 0; i < columns; i++) {
+			delete[] blocks[i];
+		}
+		delete[] blocks;
+		blocks = newBlocks;
+	}
+}
+
+void TetrisPiece::rotateCounterclockwise(Uint8 **grid) {
+	std::swap(rows, columns);
+
 }
