@@ -1,26 +1,23 @@
 #ifndef TIMER_HPP
 #define TIMER_HPP
 
-#include <time.h>
+#include "Util.hpp"
 
 class Timer {
 public:
-	explicit Timer(float);
-	Timer(int);
+	Timer(int, bool);
 	~Timer();
 
 	void reset();
 	bool check();
-	void setTargetTime(float);
-	void setTargetTimeFPS(int);
-	float getElapsedTime();
-    float getTargetTime() const;
+	int getTargetMilliseconds() const;
+	void setTargetMilliseconds(int, bool);
 
 private:
-
-	float target;
-	clock_t start;
-	clock_t finish;
+	void init(int, bool);
+	int targetMilliseconds;
+	uint16_t start;
+	uint16_t finish;
 };
 
 #endif

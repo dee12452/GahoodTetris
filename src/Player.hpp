@@ -2,20 +2,25 @@
 #define PLAYER_HPP
 
 #include "Util.hpp"
+#include "BaseDrawable.hpp"
 
-class Player {
+class Player : public BaseDrawable {
 public:
 	Player();
 	Player(const std::string &);
 	~Player();
 
+	void addPoints(PieceTypes type);
 	void addPoints(int);
+	
 	void resetPoints();
 	void setName(const std::string &);
 
-	int getPoints(int) const;
+	int getPoints() const;
+	std::string getPointsAsString() const;
 	std::string getName() const;
 
+	void draw(SDL_Renderer *, SDL_Texture *);
 
 private:
 	int points;

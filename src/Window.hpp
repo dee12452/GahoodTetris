@@ -2,6 +2,7 @@
 #define WINDOW_HPP
 
 #include "Util.hpp"
+#include "BaseDrawable.hpp"
 
 class InputHandler;
 class Timer;

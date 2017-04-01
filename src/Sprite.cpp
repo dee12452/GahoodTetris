@@ -18,7 +18,7 @@ Sprite::Sprite(SDL_Renderer *renderer,
 	spriteSourceRect.y = spriteSheetY;
 	spriteSourceRect.w = spriteSheetWidth;
 	spriteSourceRect.h = spriteSheetHeight;
-	onTickTimer = new Timer(ticksPerSecond);
+	onTickTimer = new Timer(ticksPerSecond, true);
 	usingWholeTexture = false;
 }
 

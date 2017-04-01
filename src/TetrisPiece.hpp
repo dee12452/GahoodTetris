@@ -22,7 +22,10 @@ public:
 	void rotate(Uint8 **, bool);
 
 	Uint8 ** getBlocks() const;
+	PieceTypes getPieceType() const;
+
 private:
+	PieceTypes type;
     bool canMoveLeft(Uint8 **) const;
     bool canMoveRight(Uint8 **) const;
 	bool canMoveDown(Uint8 **) const;

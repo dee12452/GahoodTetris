@@ -2,11 +2,10 @@
 #define GAME_HPP
 
 #include "Util.hpp"
+#include "BaseDrawable.hpp"
 
 class Window;
 class InputHandler;
-class TetrisGrid;
-class Player;
 
 class Game {
 public:
@@ -16,15 +15,15 @@ public:
 	void run();
     GameState getGameState() const;
     void setGameState(GameState);
-	TetrisGrid * getTetrisGrid() const;
+	BaseDrawable * getTetrisGrid() const;
 	void createTetrisGrid(SDL_Renderer *);
-	Player * getPlayer() const;
+	BaseDrawable * getPlayer() const;
 
 private:
 	Window *window;
 	InputHandler *handler;
-	TetrisGrid *grid;
-	Player *player;
+	BaseDrawable *grid;
+	BaseDrawable *player;
     GameState gameState;
 	int getGridX() const;
 };

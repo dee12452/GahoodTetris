@@ -8,18 +8,19 @@ InputHandler::InputHandler(Game *g) {
 }
 
 void InputHandler::onKeyDown(SDL_Scancode key) {
+	TetrisGrid *tGrid = static_cast<TetrisGrid *> (game->getTetrisGrid());
     switch(key) {
         case SDL_SCANCODE_LEFT:
-            game->getTetrisGrid()->getCurrentPiece()->moveLeft(game->getTetrisGrid()->getGrid());
+			tGrid->getCurrentPiece()->moveLeft(tGrid->getGrid());
             break;
         case SDL_SCANCODE_RIGHT:
-            game->getTetrisGrid()->getCurrentPiece()->moveRight(game->getTetrisGrid()->getGrid());
+			tGrid->getCurrentPiece()->moveRight(tGrid->getGrid());
             break;
         case SDL_SCANCODE_DOWN:
-            game->getTetrisGrid()->getCurrentPiece()->moveDown(game->getTetrisGrid()->getGrid());
+			tGrid->getCurrentPiece()->moveDown(tGrid->getGrid());
             break;
 		case SDL_SCANCODE_SPACE:
-			game->getTetrisGrid()->getCurrentPiece()->rotate(game->getTetrisGrid()->getGrid(), true);
+			tGrid->getCurrentPiece()->rotate(tGrid->getGrid(), true);
         default:
             break;
     }

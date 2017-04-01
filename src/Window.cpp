@@ -3,7 +3,6 @@
 #include "Game.hpp"
 #include "Timer.hpp"
 #include "DisplayUtil.hpp"
-#include "TetrisGrid.hpp"
 
 Window::Window(InputHandler *input) {
 	windowWidth = DESIRED_WINDOW_WIDTH;
@@ -12,12 +11,12 @@ Window::Window(InputHandler *input) {
 	rendering = true;
 	eventHandler = input;
 	fps = DEFAULT_FPS;
-	timer = new Timer(fps);
+	timer = new Timer(fps, true);
 }
 
 Window::Window(InputHandler *input, int targetFPS) : Window(input) {
 	fps = targetFPS;
-	timer->setTargetTimeFPS(fps);
+	timer->setTargetMilliseconds(fps, true);
 }
 
 Window::~Window() {
@@ -66,7 +65,9 @@ bool Window::isRendering() {
 void Window::renderToScreen() {
     SDL_RenderClear(windowRenderer);
 	SDL_RenderCopy(windowRenderer, windowTexture, NULL, NULL);
+	//SDL_SetRenderTarget(windowRenderer, windowTexture);
 	eventHandler->getGame()->getTetrisGrid()->draw(windowRenderer, windowTexture);
+	eventHandler->getGame()->getPlayer()->draw(windowRenderer, windowTexture);
 	SDL_RenderPresent(windowRenderer);
 }
 
@@ -74,7 +75,7 @@ int Window::getWindowWidth() const { return windowWidth; }
 int Window::getWindowHeight() const { return windowHeight; }
 
 void Window::init() {
-	window = SDL_CreateWindow("title",
+	window = SDL_CreateWindow(GAME_NAME,
 		DisplayUtil::getScreenWidth() / 2 - windowWidth / 2,
 		DisplayUtil::getScreenHeight() / 2 - windowHeight / 2,
 		windowWidth,

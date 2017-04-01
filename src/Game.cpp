@@ -53,7 +53,8 @@ void Game::run() {
 		//perform logic here
 		//SDL_Delay for the CPU usage issue
 		if (grid != NULL) {
-			switch (grid->update()) {
+			TetrisGrid *tGrid = static_cast<TetrisGrid *> (grid);
+			switch (tGrid->update(static_cast<Player *> (player))) {
 			case PLAY:
 				break;
 			case EXIT:
@@ -73,7 +74,7 @@ void Game::createTetrisGrid(SDL_Renderer *renderer) {
 		DESIRED_WINDOW_HEIGHT);
 }
 
-TetrisGrid * Game::getTetrisGrid() const {
+BaseDrawable * Game::getTetrisGrid() const {
 	return grid;
 }
 
@@ -81,7 +82,7 @@ int Game::getGridX() const {
 	return ((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4;
 }
 
-Player * Game::getPlayer() const {
+BaseDrawable * Game::getPlayer() const {
 	return player;
 }
 

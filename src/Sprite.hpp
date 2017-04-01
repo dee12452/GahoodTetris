@@ -2,10 +2,11 @@
 #define SPRITE_HPP
 
 #include "Util.hpp"
+#include "BaseDrawable.hpp"
 
 class Timer;
 
-class Sprite {
+class Sprite : public BaseDrawable {
 public:
 	//Window renderer
 	//Sprite sheet file name,

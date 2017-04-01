@@ -1,48 +1,43 @@
 #include "Timer.hpp"
 
-//Use this unless you expect an FPS timer
-//Declare the float explicitely, otherwise
-//It'll call the next constructor
-Timer::Timer(float t) {
-	target = t;
-	reset();
+Timer::Timer(int targetTime, bool isFPS) {
+	init(targetTime, isFPS);
 }
 
-//Essentially an FPS timer
-Timer::Timer(int t) : Timer((float) 1 / t) {
-    target /= 10;
-}
+Timer::~Timer() {
 
-Timer::~Timer() {}
-
-void Timer::setTargetTime(float t) {
-	target = t;
-}
-
-void Timer::setTargetTimeFPS(int t) {
-	setTargetTime((float)1 / t);
 }
 
 void Timer::reset() {
-	start = clock();
-	finish = clock();
+	start = SDL_GetTicks();
+	finish = SDL_GetTicks();
 }
 
 bool Timer::check() {
-    if (getElapsedTime() >= target) {
-        reset();
+	finish = SDL_GetTicks();
+	if (finish - start < 0) {
+		start = 0;
+	}
+	if (finish - start >= targetMilliseconds) {
+		reset();
 		return true;
 	}
-	else {
-		return false;
+	return false;
+}
+
+int Timer::getTargetMilliseconds() const { return targetMilliseconds; }
+void Timer::setTargetMilliseconds(int targetTime, bool isFPS) {
+	init(targetTime, isFPS);
+}
+
+void Timer::init(int targetTime, bool isFPS) {
+	if (isFPS) {
+		float fpms = (float)targetTime / 1000;
+		fpms = 1.0f / fpms;
+		targetMilliseconds = (int)fpms;
 	}
-}
-
-float Timer::getTargetTime() const {
-    return target;
-}
-
-float Timer::getElapsedTime() {
-    finish = clock();
-	return ((float)finish - start) / CLOCKS_PER_SEC;
+	else {
+		targetMilliseconds = targetTime;
+	}
+	reset();
 }

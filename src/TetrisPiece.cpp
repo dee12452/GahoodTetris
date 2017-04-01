@@ -1,8 +1,10 @@
 #include "TetrisPiece.hpp"
+#include "TetrisBlock.hpp"
 
 TetrisPiece::TetrisPiece(PieceTypes type, int x, int y) {
     this->x = x;
     this->y = y;
+	this->type = type;
     switch(type) {
         case I:
 			initGrid(1, 3);
@@ -38,6 +40,20 @@ TetrisPiece::TetrisPiece(PieceTypes type, int x, int y) {
             blocks[1][1] = 1;
             blocks[2][1] = 1;
             break;
+		case J:
+			initGrid(2, 3);
+			blocks[1][0] = 1;
+			blocks[1][1] = 1;
+			blocks[1][2] = 1;
+			blocks[0][2] = 1;
+			break;
+		case L:
+			initGrid(2, 3);
+			blocks[0][0] = 1;
+			blocks[0][1] = 1;
+			blocks[0][2] = 1;
+			blocks[1][2] = 1;
+			break;
     }
 }
 
@@ -89,7 +105,7 @@ bool TetrisPiece::canMoveLeft(Uint8 **grid) const {
     else {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				if (blocks[i][j] == 1 && grid[x + i - 1][y + j] == 1)
+				if (blocks[i][j] == 1 && grid[x + i - 1][y + j] >= 1)
 					return false;
 			}
 		}
@@ -102,7 +118,7 @@ bool TetrisPiece::canMoveRight(Uint8 **grid) const {
     else {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				if (blocks[i][j] == 1 && grid[x + i + 1][y + j] == 1)
+				if (blocks[i][j] == 1 && grid[x + i + 1][y + j] >= 1)
 					return false;
 			}
 		}
@@ -115,7 +131,7 @@ bool TetrisPiece::canMoveDown(Uint8 **grid) const {
     else {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				if (blocks[i][j] == 1 && grid[x + i][y + j + 1] == 1)
+				if (blocks[i][j] == 1 && grid[x + i][y + j + 1] >= 1)
 					return false;
 			}
 		}
@@ -167,7 +183,7 @@ void TetrisPiece::rotateClockwise(Uint8 **grid) {
 	if (!preventRotate) {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
-				if (newBlocks[i][j] == 1 && grid[x + i][y + j] == 1) {
+				if (newBlocks[i][j] == 1 && grid[x + i][y + j] >= 1) {
 					preventRotate = true;
 				}
 			}
@@ -191,7 +207,6 @@ void TetrisPiece::rotateClockwise(Uint8 **grid) {
 	}
 }
 
-void TetrisPiece::rotateCounterclockwise(Uint8 **grid) {
-	std::swap(rows, columns);
+void TetrisPiece::rotateCounterclockwise(Uint8 **grid) {}
 
-}
+PieceTypes TetrisPiece::getPieceType() const { return type; }

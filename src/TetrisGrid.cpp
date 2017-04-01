@@ -3,6 +3,7 @@
 #include "TetrisBorder.hpp"
 #include "Timer.hpp"
 #include "TetrisPiece.hpp"
+#include "Player.hpp"
 
 TetrisGrid::TetrisGrid(SDL_Renderer *renderer, int x, int y, int width, int height) {
 	gridX = x;
@@ -16,22 +17,9 @@ TetrisGrid::TetrisGrid(SDL_Renderer *renderer, int x, int y, int width, int heig
 			grid[i][j] = 0;
 		}
 	}
-	blockYellow = new TetrisBlock(renderer,
-		"../res/tetris_block.png");
-	blockBlank = new TetrisBlock(renderer,
-		"../res/tetris_block_empty.png");
-    gridOutline = new TetrisBorder(renderer,
-            "../res/tetris_border.png");
-	blockYellow->setWidth(blockWidth);
-	blockYellow->setHeight(blockHeight);
-	blockBlank->setWidth(blockWidth);
-	blockBlank->setHeight(blockHeight);
-    gridOutline->setLocationX((DESIRED_WINDOW_WIDTH * 2 - DESIRED_WINDOW_HEIGHT) / 4);
-    gridOutline->setLocationY(0);
-    gridOutline->setWidth(DESIRED_WINDOW_WIDTH / 2);
-    gridOutline->setHeight(DESIRED_WINDOW_HEIGHT);
-	currentPiece = new TetrisPiece(PieceTypes::I, GRID_ROWS / 2, 0);
-    tickTimer = new Timer(1.5f);
+	createSprites(renderer);
+	createRandomPiece();
+    tickTimer = new Timer(STARTING_BOARD_DELAY_TIME, false);
 	updating = false;
 }
 
@@ -54,6 +42,30 @@ TetrisGrid::~TetrisGrid() {
 		delete blockYellow;
 		blockYellow = NULL;
 	}
+	if (blockBlue != NULL) {
+		delete blockBlue;
+		blockBlue = NULL;
+	}
+	if (blockGreen != NULL) {
+		delete blockGreen;
+		blockGreen = NULL;
+	}
+	if (blockGrey != NULL) {
+		delete blockGrey;
+		blockGrey = NULL;
+	}
+	if (blockOrange != NULL) {
+		delete blockOrange;
+		blockOrange = NULL;
+	}
+	if (blockPurple != NULL) {
+		delete blockPurple;
+		blockPurple = NULL;
+	}
+	if(blockRed != NULL) {
+		delete blockRed;
+		blockRed = NULL;
+	}
 	if (blockBlank != NULL) {
 		delete blockBlank;
 		blockBlank = NULL;
@@ -68,15 +80,48 @@ TetrisGrid::~TetrisGrid() {
     }
 }
 
+void TetrisGrid::createRandomPiece() {
+	int nextPiece = Util::getRandomNumber(0, 6);
+	currentPiece = new TetrisPiece(static_cast<PieceTypes> (nextPiece), GRID_ROWS / 2, 0);
+}
+
 void TetrisGrid::draw(SDL_Renderer *renderer, SDL_Texture *texture) {
     int locX = gridX;
     for (int i = 0; i < GRID_ROWS; i++, locX += blockWidth) {
 		int locY = gridY;
 		for (int j = 0; j < GRID_COLUMNS; j++, locY += blockHeight) {
-			if (grid[i][j] == 1) {
-				blockYellow->setLocationX(locX);
-				blockYellow->setLocationY(locY);
-				blockYellow->draw(renderer, texture);
+			if (grid[i][j] >= 1) {
+				Sprite *currBlock;
+				switch (grid[i][j] - 1) {
+				case I:
+					currBlock = blockBlue;
+					break;
+				case T:
+					currBlock = blockGreen;
+					break;
+				case Z:
+					currBlock = blockPurple;
+					break;
+				case S:
+					currBlock = blockOrange;
+					break;
+				case O:
+					currBlock = blockYellow;
+					break;
+				case J:
+					currBlock = blockRed;
+					break;
+				case L:
+					currBlock = blockGrey;
+					break;
+				default:
+					std::cout << (int) grid[i][j] - 1 << std::endl;
+					Util::fatalError("Error: current block's sprite was not set to anything when drawing the grid!");
+				}
+				currBlock->setLocationX(locX);
+				currBlock->setLocationY(locY);
+				currBlock->draw(renderer, texture);
+				currBlock = NULL;
 			}
             else {
 				blockBlank->setLocationX(locX);
@@ -91,9 +136,37 @@ void TetrisGrid::draw(SDL_Renderer *renderer, SDL_Texture *texture) {
 			int locY = (currentPiece->getY() * blockHeight) + gridY;
 			for (int j = 0; j < currentPiece->getColumns(); j++, locY += blockHeight) {
 				if ((currentPiece->getBlocks())[i][j] == 1) {
-					blockYellow->setLocationX(locX);
-					blockYellow->setLocationY(locY);
-					blockYellow->draw(renderer, texture);
+					Sprite *currBlock;
+					switch (static_cast<int> (currentPiece->getPieceType())) {
+					case I:
+						currBlock = blockBlue;
+						break;
+					case T:
+						currBlock = blockGreen;
+						break;
+					case Z:
+						currBlock = blockPurple;
+						break;
+					case S:
+						currBlock = blockOrange;
+						break;
+					case O:
+						currBlock = blockYellow;
+						break;
+					case J:
+						currBlock = blockRed;
+						break;
+					case L:
+						currBlock = blockGrey;
+						break;
+					default:
+						std::cout << (int) grid[i][j] - 1 << std::endl;
+						Util::fatalError("Error: current block's sprite was not set to anything when drawing the current piece!");
+					}
+					currBlock->setLocationX(locX);
+					currBlock->setLocationY(locY);
+					currBlock->draw(renderer, texture);
+					currBlock = NULL;
 				}
 			}
 		}
@@ -101,34 +174,35 @@ void TetrisGrid::draw(SDL_Renderer *renderer, SDL_Texture *texture) {
     gridOutline->draw(renderer, texture);
 }
 
-GameState TetrisGrid::update() {
+GameState TetrisGrid::update(Player *player) {
     if(tickTimer->check() && currentPiece != NULL) {
 		if (!currentPiece->moveDown(grid)) {
 
 			if (currentPiece->getY() == 0)
 				return EXIT;
 
+			player->addPoints(currentPiece->getPieceType());
+
 			for (int i = 0; i < currentPiece->getRows(); i++) {
 				for (int j = 0; j < currentPiece->getColumns(); j++) {
 					if ((currentPiece->getBlocks())[i][j] == 1) {
-						grid[i + currentPiece->getX()][j + currentPiece->getY()] = 1;
+						grid[i + currentPiece->getX()][j + currentPiece->getY()] = static_cast<int> (currentPiece->getPieceType()) + 1;
 					}
 				}
 			}
 
-			clearRows();
+			player->addPoints(clearRows() * static_cast<int> (currentPiece->getPieceType()));
 			
 			delete currentPiece;
-			int nextPiece = Util::getRandomNumber(0, 4);
-			currentPiece = new TetrisPiece(static_cast<PieceTypes> (nextPiece), GRID_ROWS / 2, 0);
+			createRandomPiece();
 		}
     }
 	return PLAY;
 }
 
-void TetrisGrid::clearRows() {
+int TetrisGrid::clearRows() {
 	/* Columns == currRow, Rows = currCols? :( WHY!?
-		^^^ that really threw me off, knowledge is power*/
+		^^^ that really threw me off, knowledge is power */
 
 	//clearing the rows
 	//store the rows in a vector
@@ -159,7 +233,7 @@ void TetrisGrid::clearRows() {
 		}
 
 		//Copy to new grid, exclude rows that we know are cleared
-		for (int i = 0, k = rowsCleared.size(), index = 0; i < GRID_COLUMNS; i++) {
+		for (size_t i = 0, k = rowsCleared.size(), index = 0; i < GRID_COLUMNS; i++) {
 			if (index < rowsCleared.size() && i == rowsCleared[index]) {
 				index++;
 				continue;
@@ -177,10 +251,12 @@ void TetrisGrid::clearRows() {
 		delete[] grid;
 		grid = newGrid;
 	}
+	
+	return rowsCleared.size();
 }
 
-void TetrisGrid::setUpdateTime(float tickTime) {
-    tickTimer->setTargetTime(tickTime);
+void TetrisGrid::setUpdateTime(int time) const {
+    tickTimer->setTargetMilliseconds(time, false);
 }
 
 TetrisPiece * TetrisGrid::getCurrentPiece() const {
@@ -189,4 +265,38 @@ TetrisPiece * TetrisGrid::getCurrentPiece() const {
 
 Uint8 ** TetrisGrid::getGrid() const {
     return grid;
+}
+
+void TetrisGrid::createSprites(SDL_Renderer *renderer) {
+	blockYellow = new TetrisBlock(renderer, BLOCK_YELLOW_SPRITE);
+	blockGreen = new TetrisBlock(renderer, BLOCK_GREEN_SPRITE);
+	blockGrey = new TetrisBlock(renderer, BLOCK_GREY_SPRITE);
+	blockOrange = new TetrisBlock(renderer, BLOCK_ORANGE_SPRITE);
+	blockPurple = new TetrisBlock(renderer, BLOCK_PURPLE_SPRITE);
+	blockRed = new TetrisBlock(renderer, BLOCK_RED_SPRITE);
+	blockBlue = new TetrisBlock(renderer, BLOCK_BLUE_SPRITE);
+	blockBlank = new TetrisBlock(renderer, BLOCK_BLANK_SPRITE);
+	gridOutline = new TetrisBorder(renderer, GRID_SPRITE);
+
+	blockYellow->setWidth(blockWidth);
+	blockYellow->setHeight(blockHeight);
+	blockGreen->setWidth(blockWidth);
+	blockGreen->setHeight(blockHeight);
+	blockGrey->setWidth(blockWidth);
+	blockGrey->setHeight(blockHeight);
+	blockOrange->setWidth(blockWidth);
+	blockOrange->setHeight(blockHeight);
+	blockPurple->setWidth(blockWidth);
+	blockPurple->setHeight(blockHeight);
+	blockRed->setWidth(blockWidth);
+	blockRed->setHeight(blockHeight);
+	blockBlue->setWidth(blockWidth);
+	blockBlue->setHeight(blockHeight);
+	blockBlank->setWidth(blockWidth);
+	blockBlank->setHeight(blockHeight);
+	
+	gridOutline->setLocationX((DESIRED_WINDOW_WIDTH * 2 - DESIRED_WINDOW_HEIGHT) / 4);
+	gridOutline->setLocationY(0);
+	gridOutline->setWidth(DESIRED_WINDOW_WIDTH / 2);
+	gridOutline->setHeight(DESIRED_WINDOW_HEIGHT);
 }
