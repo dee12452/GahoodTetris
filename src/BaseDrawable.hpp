@@ -8,7 +8,7 @@ public:
 	BaseDrawable() {}
 	virtual ~BaseDrawable() {}
 
-	virtual void draw(SDL_Renderer *, SDL_Texture *) = 0;
+	virtual void draw(SDL_Renderer *) = 0;
 };
 
 #endif

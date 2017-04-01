@@ -65,9 +65,10 @@ bool Window::isRendering() {
 void Window::renderToScreen() {
     SDL_RenderClear(windowRenderer);
 	SDL_RenderCopy(windowRenderer, windowTexture, NULL, NULL);
-	//SDL_SetRenderTarget(windowRenderer, windowTexture);
-	eventHandler->getGame()->getTetrisGrid()->draw(windowRenderer, windowTexture);
-	eventHandler->getGame()->getPlayer()->draw(windowRenderer, windowTexture);
+	SDL_SetRenderTarget(windowRenderer, windowTexture);
+	eventHandler->getGame()->getTetrisGrid()->draw(windowRenderer);
+	eventHandler->getGame()->getPlayer()->draw(windowRenderer);
+	SDL_SetRenderTarget(windowRenderer, NULL);
 	SDL_RenderPresent(windowRenderer);
 }
 

@@ -20,7 +20,7 @@ public:
 	virtual ~Sprite();
 
 	void update();
-	virtual void draw(SDL_Renderer *, SDL_Texture *);
+	virtual void draw(SDL_Renderer *);
 
 	int getLocationX() const;
 	int getLocationY() const;

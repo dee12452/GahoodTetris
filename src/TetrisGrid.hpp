@@ -14,7 +14,7 @@ public:
 	TetrisGrid(SDL_Renderer *, int, int, int, int);
 	~TetrisGrid();
 
-	void draw(SDL_Renderer *, SDL_Texture *);
+	void draw(SDL_Renderer *);
     GameState update(Player *);
     void setUpdateTime(int) const;
 	

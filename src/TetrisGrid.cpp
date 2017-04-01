@@ -85,7 +85,13 @@ void TetrisGrid::createRandomPiece() {
 	currentPiece = new TetrisPiece(static_cast<PieceTypes> (nextPiece), GRID_ROWS / 2, 0);
 }
 
-void TetrisGrid::draw(SDL_Renderer *renderer, SDL_Texture *texture) {
+void TetrisGrid::draw(SDL_Renderer *renderer) {
+	//Clear screen by drawing the blank block
+	//For the total screen 
+	blockBlank->setLocationX(0);
+	blockBlank->setLocationY(0);
+	blockBlank->draw(renderer);
+
     int locX = gridX;
     for (int i = 0; i < GRID_ROWS; i++, locX += blockWidth) {
 		int locY = gridY;
@@ -120,14 +126,9 @@ void TetrisGrid::draw(SDL_Renderer *renderer, SDL_Texture *texture) {
 				}
 				currBlock->setLocationX(locX);
 				currBlock->setLocationY(locY);
-				currBlock->draw(renderer, texture);
+				currBlock->draw(renderer);
 				currBlock = NULL;
 			}
-            else {
-				blockBlank->setLocationX(locX);
-				blockBlank->setLocationY(locY);
-				blockBlank->draw(renderer, texture);
-            }
 		}
 	}
 	locX = (currentPiece->getX() * blockWidth) + gridX;
@@ -165,13 +166,13 @@ void TetrisGrid::draw(SDL_Renderer *renderer, SDL_Texture *texture) {
 					}
 					currBlock->setLocationX(locX);
 					currBlock->setLocationY(locY);
-					currBlock->draw(renderer, texture);
+					currBlock->draw(renderer);
 					currBlock = NULL;
 				}
 			}
 		}
 	}
-    gridOutline->draw(renderer, texture);
+    gridOutline->draw(renderer);
 }
 
 GameState TetrisGrid::update(Player *player) {
@@ -292,8 +293,8 @@ void TetrisGrid::createSprites(SDL_Renderer *renderer) {
 	blockRed->setHeight(blockHeight);
 	blockBlue->setWidth(blockWidth);
 	blockBlue->setHeight(blockHeight);
-	blockBlank->setWidth(blockWidth);
-	blockBlank->setHeight(blockHeight);
+	blockBlank->setWidth(DESIRED_WINDOW_WIDTH);
+	blockBlank->setHeight(DESIRED_WINDOW_HEIGHT);
 	
 	gridOutline->setLocationX((DESIRED_WINDOW_WIDTH * 2 - DESIRED_WINDOW_HEIGHT) / 4);
 	gridOutline->setLocationY(0);

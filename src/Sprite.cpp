@@ -46,18 +46,16 @@ void Sprite::update() {
 	}
 }
 
-void Sprite::draw(SDL_Renderer *renderer, SDL_Texture *target) {
+void Sprite::draw(SDL_Renderer *renderer) {
 	SDL_Rect destinationRect;
 	destinationRect.x = locationX;
 	destinationRect.y = locationY;
 	destinationRect.w = width;
 	destinationRect.h = height;
-	SDL_SetRenderTarget(renderer, target);
 	if(usingWholeTexture)
 		SDL_RenderCopy(renderer, spriteSheet, NULL, &destinationRect);
 	else
 		SDL_RenderCopy(renderer, spriteSheet, &spriteSourceRect, &destinationRect);
-	SDL_SetRenderTarget(renderer, NULL);
 }
 
 int Sprite::getLocationX() const { return locationX; }
