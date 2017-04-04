@@ -1,6 +1,7 @@
 #include "BaseInputHandler.hpp"
+#include "Game.hpp"
 
-BaseInputHandler::BaseInputHandler() {}
+BaseInputHandler::BaseInputHandler(Game *g) { this->game = g; }
 
 BaseInputHandler::~BaseInputHandler() {}
 
@@ -20,9 +21,13 @@ void BaseInputHandler::pollEvents(const SDL_Scancode *desiredScanCodes, int scan
 			break;
 		}
 	}
+	if (desiredScanCodes == NULL || scanCodesLength < 0)
+		return;
 	for (int i = 0; i < scanCodesLength; i++) {
 		if (keyboardState[desiredScanCodes[i]]) {
 			onKeyHeld(desiredScanCodes[i]);
 		}
 	}
 }
+
+Game * BaseInputHandler::getGame() const { return game; }

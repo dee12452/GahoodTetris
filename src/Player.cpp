@@ -56,7 +56,7 @@ std::string Player::getPointsAsString() const {
 		str += (char)((tempPoints % 10) + '0');
 		tempPoints /= 10;
 	}
-	for (int i = 0; i < str.length() / 2; i++) {
+	for (size_t i = 0; i < str.length() / 2; i++) {
 		char temp = str[i];
 		str[i] = str[str.length() - i - 1];
 		str[str.length() - i - 1] = temp;
@@ -72,7 +72,7 @@ void Player::draw(SDL_Renderer *renderer) {
 
 	std::string pointsStr = getPointsAsString();
 	int numbersSheetWidth = 690, numbersSheetHeight = 338;
-	for (int i = 0; i < pointsStr.length(); i++) {
+	for (size_t i = 0; i < pointsStr.length(); i++) {
 		
 		int numChar = (int)pointsStr[i] - '0';
 		SDL_Rect numbersRect;

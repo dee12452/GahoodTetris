@@ -3,7 +3,7 @@
 #include "TetrisGrid.hpp"
 #include "TetrisPiece.hpp"
 
-InputHandler::InputHandler(Game *g) {
+InputHandler::InputHandler(Game *g) : BaseInputHandler(g) {
 	game = g;
 }
 
@@ -34,8 +34,4 @@ void InputHandler::onKeyUp(SDL_Scancode key) {
 
 void InputHandler::onQuitGame() {
 	game->setGameState(EXIT);
-}
-
-Game * InputHandler::getGame() const {
-	return game;
 }

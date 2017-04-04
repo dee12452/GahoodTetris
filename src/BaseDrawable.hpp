@@ -5,8 +5,8 @@
 
 class BaseDrawable {
 public:
-	BaseDrawable() {}
-	virtual ~BaseDrawable() {}
+	BaseDrawable();
+	virtual ~BaseDrawable();
 
 	virtual void draw(SDL_Renderer *) = 0;
 };
