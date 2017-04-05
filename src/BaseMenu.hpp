@@ -1,13 +1,12 @@
 #ifndef BASE_MENU_HPP
 #define BASE_MENU_HPP
 
-#include "BaseInputHandler.hpp"
 #include "BaseDrawable.hpp"
 
-class BaseMenu : public BaseInputHandler, public BaseDrawable {
+class BaseMenu : public BaseDrawable {
 public:
-	BaseMenu(Game *, SDL_Renderer *, const char *, const char *);
-	BaseMenu(Game *, SDL_Renderer *, const char *, const char *, int, int, int, int, int, int, int, int);
+	BaseMenu(SDL_Renderer *, const char *, const char *);
+	BaseMenu(SDL_Renderer *, const char *, const char *, int, int, int, int, int, int, int, int);
 	virtual ~BaseMenu();
 
 	void setMenuX(int);
@@ -29,21 +28,11 @@ public:
 	int getSelectorWidth() const;
 	int getSelectorHeight() const;
 	int getCurrentSelection() const;
-	virtual int getNumberOfSelections() = 0;
 
 	void draw(SDL_Renderer *);
 
 protected:
-	virtual void onLeftPressed() = 0;
-	virtual void onRightPressed() = 0;
-	virtual void onUpPressed() = 0;
-	virtual void onDownPressed() = 0;
-	virtual void onSelectMenuOption(int) = 0;
-
-	void onKeyDown(SDL_Scancode);
-	void onKeyHeld(SDL_Scancode);
-	void onKeyUp(SDL_Scancode);
-	void onQuitGame();
+	virtual void onSetCurrentSelection() = 0;
 
 private:
 	SDL_Texture *menuSprite;
@@ -54,8 +43,6 @@ private:
 	SDL_Rect *selectorSourceRect;
 	
 	int currentSelection;
-	void onEnterPressed();
-	void onEscapePressed();
 };
 
 #endif

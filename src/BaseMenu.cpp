@@ -1,9 +1,8 @@
 #include "BaseMenu.hpp"
 
-BaseMenu::BaseMenu(Game *g,
-	SDL_Renderer *renderer, 
+BaseMenu::BaseMenu(SDL_Renderer *renderer, 
 	const char *menuSpriteFile, 
-	const char *selectorSpriteFile) : BaseInputHandler(g) {
+	const char *selectorSpriteFile) : BaseDrawable() {
 
 	menuSprite = IMG_LoadTexture(renderer, menuSpriteFile);
 	if (menuSprite == NULL) {
@@ -30,8 +29,7 @@ BaseMenu::BaseMenu(Game *g,
 	currentSelection = 0;
 }
 
-BaseMenu::BaseMenu(Game *g, 
-	SDL_Renderer *renderer,
+BaseMenu::BaseMenu(SDL_Renderer *renderer,
 	const char *menuSpriteFile, 
 	const char *selectorSpriteFile, 
 	int mX, 
@@ -42,7 +40,7 @@ BaseMenu::BaseMenu(Game *g,
 	int sY, 
 	int sW, 
 	int sH)
-	: BaseMenu(g, renderer, menuSpriteFile, selectorSpriteFile) {
+	: BaseMenu(renderer, menuSpriteFile, selectorSpriteFile) {
 
 	menuSourceRect = (SDL_Rect *)malloc(sizeof(SDL_Rect));
 	selectorSourceRect = (SDL_Rect *)malloc(sizeof(SDL_Rect));
@@ -81,47 +79,6 @@ void BaseMenu::draw(SDL_Renderer *renderer) {
 	SDL_RenderCopy(renderer, selectorSprite, selectorSourceRect, &selectorDestinationRect);
 }
 
-void BaseMenu::onKeyDown(SDL_Scancode scanCode) {
-	switch (scanCode) {
-		case SDLK_ESCAPE:
-			onEscapePressed();
-			break;
-		case SDLK_UP:
-			onUpPressed();
-			break;
-		case SDLK_DOWN:
-			onDownPressed();
-			break;
-		case SDLK_LEFT:
-			onLeftPressed();
-			break;
-		case SDLK_RIGHT:
-			onRightPressed();
-			break;
-		case SDLK_RETURN:
-			onEnterPressed();
-			break;
-		default:
-			break;
-	}
-}
-
- void BaseMenu::onEscapePressed() {
-	 onQuitGame();
- }
-
- void BaseMenu::onEnterPressed() {
-	 onSelectMenuOption(currentSelection);
- }
-
-void BaseMenu::onKeyHeld(SDL_Scancode) {}
-
-void BaseMenu::onKeyUp(SDL_Scancode) {}
-
-void BaseMenu::onQuitGame() {
-	game->setGameState(EXIT);
-}
-
 void BaseMenu::setMenuX(int x) { menuDestinationRect.x = x; }
 void BaseMenu::setMenuY(int y) { menuDestinationRect.y = y; }
 void BaseMenu::setMenuWidth(int w) { menuDestinationRect.w = w; }
@@ -130,7 +87,7 @@ void BaseMenu::setSelectorX(int x) { selectorDestinationRect.x = x; }
 void BaseMenu::setSelectorY(int y) { selectorDestinationRect.y = y; }
 void BaseMenu::setSelectorWidth(int w) { selectorDestinationRect.w = w; }
 void BaseMenu::setSelectorHeight(int h) { selectorDestinationRect.h = h; }
-void BaseMenu::setCurrentSelection(int selection) { currentSelection = selection; }
+void BaseMenu::setCurrentSelection(int selection) { onSetCurrentSelection(); currentSelection = selection; }
 
 int BaseMenu::getMenuX() const { return menuDestinationRect.x; }
 int BaseMenu::getMenuY() const { return menuDestinationRect.y; }
