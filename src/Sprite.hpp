@@ -17,7 +17,7 @@ public:
 	//ticks per second
 	Sprite(SDL_Renderer *, const char *, int, int, int, int);
 	Sprite(SDL_Renderer *, const char *, bool);
-	virtual ~Sprite();
+	~Sprite();
 
 	virtual void draw(SDL_Renderer *);
 

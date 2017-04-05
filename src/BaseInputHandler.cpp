@@ -1,7 +1,6 @@
 #include "BaseInputHandler.hpp"
-#include "Game.hpp"
 
-BaseInputHandler::BaseInputHandler(Game *g) { this->game = g; }
+BaseInputHandler::BaseInputHandler(Game *g) { this->game = g; gameCreated = false; }
 
 BaseInputHandler::~BaseInputHandler() {}
 
@@ -31,3 +30,28 @@ void BaseInputHandler::pollEvents(const SDL_Scancode *desiredScanCodes, int scan
 }
 
 Game * BaseInputHandler::getGame() const { return game; }
+
+GameState BaseInputHandler::getCurrentGameState() const {
+	return game->getGameState();
+}
+
+std::vector<BaseDrawable *> BaseInputHandler::getCurrentGameDrawables() const {
+	return game->getGameDrawables()[static_cast<int> (getCurrentGameState())];
+}
+
+bool BaseInputHandler::createGameDrawables(SDL_Renderer *renderer) {
+	if (!gameCreated) {
+		game->createGameDrawables(renderer);
+		gameCreated = true;
+		return true;
+	}
+	return false;
+}
+
+void BaseInputHandler::setGameState(GameState gs) const {
+	game->setGameState(gs);
+}
+
+void BaseInputHandler::onQuitGame() {
+	game->setGameState(EXIT);
+}

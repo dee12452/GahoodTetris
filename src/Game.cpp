@@ -1,7 +1,9 @@
 #include "Game.hpp"
 #include "Window.hpp"
-#include "InputHandler.hpp"
+#include "PlayInputHandler.hpp"
+#include "MenuInputHandler.hpp"
 #include "TetrisGrid.hpp"
+#include "MainMenu.hpp"
 #include "Player.hpp"
 
 Game::Game() {
@@ -11,12 +13,9 @@ Game::Game() {
 	if (IMG_Init(IMG_INIT_PNG) < 0) {
 		Util::fatalSDLError("Failed to init sdl img library");
 	}
-	gameState = PLAY;
-    grid = NULL;
-	player = new Player();
-	handler = new InputHandler(this);
-	window = new Window(handler);
-	window->start();
+	gameState = MENU;
+	window = new Window();
+	createInputHandlers();
 }
 
 Game::~Game() {
@@ -24,17 +23,19 @@ Game::~Game() {
 		delete window;
 		window = NULL;
 	}
-	if (handler != NULL) {
-		delete handler;
-		handler = NULL;
+	for (size_t i = 0; i < inputHandlers.size(); i++) {
+		if (inputHandlers[i] != NULL) {
+			delete inputHandlers[i];
+			inputHandlers[i] = NULL;
+		}
 	}
-	if (grid != NULL) {
-		delete grid;
-		grid = NULL;
-	}
-	if (player != NULL) {
-		delete player;
-		player = NULL;
+	for (size_t i = 0; i < gameDrawables.size(); i++) {
+		for (size_t j = 0; j < gameDrawables[i].size(); j++) {
+			if (gameDrawables[i][j] != NULL) {
+				delete gameDrawables[i][j];
+				gameDrawables[i][j] = NULL;
+			}
+		}
 	}
 	IMG_Quit();
 	SDL_Quit();
@@ -49,41 +50,64 @@ void Game::setGameState(GameState state) {
 }
 
 void Game::run() {
+	window->setInputHandler(inputHandlers[static_cast<int> (gameState)]);
+	window->start();
 	while (window->isRendering()) {
 		//perform logic here
 		//SDL_Delay for the CPU usage issue
-		if (grid != NULL) {
-			TetrisGrid *tGrid = static_cast<TetrisGrid *> (grid);
-			switch (tGrid->update(static_cast<Player *> (player))) {
+		if (gameDrawables.size() == 0) {
+			SDL_Delay(CPU_USAGE_LOGIC_DELAY);
+			continue;
+		}
+	
+		switch (gameState) {
+			case MENU:
+				break;
 			case PLAY:
+				if (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_GRID] != NULL) {
+					TetrisGrid *tGrid = static_cast<TetrisGrid *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_GRID]);
+					gameState = tGrid->update(static_cast<Player *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_PLAYER]));
+				}
 				break;
 			case EXIT:
-				gameState = EXIT;
 				break;
-			}
 		}
         SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 	}
 }
 
-void Game::createTetrisGrid(SDL_Renderer *renderer) {
-	grid = new TetrisGrid(renderer,
-		getGridX(),
+std::vector<std::vector<BaseDrawable *>> Game::getGameDrawables() const {
+	return gameDrawables;
+}
+
+void Game::createGameDrawables(SDL_Renderer *renderer) {
+	
+	//Create menu drawables
+	std::vector<BaseDrawable *> menu;
+	menu.push_back(new MainMenu(renderer));
+
+	//Create play drawables
+	std::vector<BaseDrawable *> play;
+	play.push_back(new TetrisGrid(renderer,
+		((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4,
 		0,
 		DESIRED_WINDOW_HEIGHT / 2,
-		DESIRED_WINDOW_HEIGHT);
+		DESIRED_WINDOW_HEIGHT));
+	play.push_back(new Player(renderer));
+
+	//Push back those game vectors
+	gameDrawables.push_back(menu);
+	gameDrawables.push_back(play);
 }
 
-BaseDrawable * Game::getTetrisGrid() const {
-	return grid;
+void Game::createInputHandlers() {
+	//menu input handler
+	inputHandlers.push_back(new MenuInputHandler(this));
+
+	//play input handler
+	inputHandlers.push_back(new PlayInputHandler(this));
 }
 
-int Game::getGridX() const {
-	return ((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4;
+std::vector<BaseInputHandler *> Game::getInputHandlers() const {
+	return inputHandlers;
 }
-
-BaseDrawable * Game::getPlayer() const {
-	return player;
-}
-
-

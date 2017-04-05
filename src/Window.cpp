@@ -1,20 +1,19 @@
 #include "Window.hpp"
-#include "InputHandler.hpp"
-#include "Game.hpp"
 #include "Timer.hpp"
 #include "DisplayUtil.hpp"
+#include "BaseInputHandler.hpp"
 
-Window::Window(InputHandler *input) {
+Window::Window() {
 	windowWidth = DESIRED_WINDOW_WIDTH;
 	windowHeight = DESIRED_WINDOW_HEIGHT;
 	DisplayUtil::initScreen(windowWidth, windowHeight);
 	rendering = true;
-	eventHandler = input;
+	eventHandler = NULL;
 	fps = DEFAULT_FPS;
 	timer = new Timer(fps, true);
 }
 
-Window::Window(InputHandler *input, int targetFPS) : Window(input) {
+Window::Window(int targetFPS) : Window() {
 	fps = targetFPS;
 	timer->setTargetMilliseconds(fps, true);
 }
@@ -35,17 +34,15 @@ void Window::render() {
 		SDL_Delay(CPU_USAGE_EVENT_DELAY);
 		if (eventHandler != NULL) {
 			eventHandler->pollEvents(DEFAULT_SCAN_KEYS, DEFAULT_SCAN_KEYS_SIZE);
-			switch (eventHandler->getGame()->getGameState())
+			switch (eventHandler->getCurrentGameState())
 			{
-			case PLAY:				
-                if (timer->check()) {
-					renderToScreen();
-				}
-				break;
 			case EXIT:
 				isRendering = false;
 				break;
 			default:
+				if (timer->check()) {
+					renderToScreen();
+				}
 				break;
 			}
 		}
@@ -66,8 +63,9 @@ void Window::renderToScreen() {
     SDL_RenderClear(windowRenderer);
 	SDL_RenderCopy(windowRenderer, windowTexture, NULL, NULL);
 	SDL_SetRenderTarget(windowRenderer, windowTexture);
-	eventHandler->getGame()->getTetrisGrid()->draw(windowRenderer);
-	eventHandler->getGame()->getPlayer()->draw(windowRenderer);
+	for (size_t i = 0; i < eventHandler->getCurrentGameDrawables().size(); i++) {
+		eventHandler->getCurrentGameDrawables()[i]->draw(windowRenderer);
+	}
 	SDL_SetRenderTarget(windowRenderer, NULL);
 	SDL_RenderPresent(windowRenderer);
 }
@@ -100,8 +98,9 @@ void Window::init() {
 	if (windowTexture == NULL)
 		Util::fatalSDLError("Failed to create window texture");
 
-	if (eventHandler != NULL && eventHandler->getGame() != NULL) {
-		eventHandler->getGame()->createTetrisGrid(windowRenderer);
+	if (eventHandler != NULL) {
+		if (!eventHandler->createGameDrawables(windowRenderer))
+			Util::fatalError("Failed to create the sprites for the game: WINDOW ERROR");
 	}
 	else {
 		Util::fatalError("Could not instantiate the event handler");
@@ -123,4 +122,8 @@ void Window::close() {
 		SDL_DestroyWindow(window);
 		window = NULL;
 	}
+}
+
+void Window::setInputHandler(BaseInputHandler *input) {
+	eventHandler = input;
 }

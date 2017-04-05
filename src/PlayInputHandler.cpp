@@ -1,14 +1,13 @@
-#include "InputHandler.hpp"
-#include "Game.hpp"
+#include "PlayInputHandler.hpp"
 #include "TetrisGrid.hpp"
 #include "TetrisPiece.hpp"
 
-InputHandler::InputHandler(Game *g) : BaseInputHandler(g) {
-	game = g;
+PlayInputHandler::PlayInputHandler(Game *g) : BaseInputHandler(g) {
 }
 
-void InputHandler::onKeyDown(SDL_Scancode key) {
-	TetrisGrid *tGrid = static_cast<TetrisGrid *> (game->getTetrisGrid());
+void PlayInputHandler::onKeyDown(SDL_Scancode key) {
+	if (getCurrentGameDrawables().size() == 0) return;
+	TetrisGrid *tGrid = static_cast<TetrisGrid *> (getCurrentGameDrawables()[VECTOR_PLAY_GRID]);
     switch(key) {
         case SDL_SCANCODE_LEFT:
 			tGrid->getCurrentPiece()->moveLeft(tGrid->getGrid());
@@ -26,12 +25,12 @@ void InputHandler::onKeyDown(SDL_Scancode key) {
     }
 }
 
-void InputHandler::onKeyHeld(SDL_Scancode key) {
+void PlayInputHandler::onKeyHeld(SDL_Scancode key) {
 }
 
-void InputHandler::onKeyUp(SDL_Scancode key) {
+void PlayInputHandler::onKeyUp(SDL_Scancode key) {
 }
 
-void InputHandler::onQuitGame() {
-	game->setGameState(EXIT);
+void PlayInputHandler::onQuitGame() {
+	setGameState(EXIT);
 }

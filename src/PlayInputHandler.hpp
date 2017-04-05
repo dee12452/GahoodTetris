@@ -1,13 +1,13 @@
-#ifndef INPUT_HANDLER_HPP
-#define INPUT_HANDLER_HPP
+#ifndef PLAY_INPUT_HANDLER_HPP
+#define PLAY_INPUT_HANDLER_HPP
 
 #include "Const.hpp"
 #include "BaseInputHandler.hpp"
 
-class InputHandler : public BaseInputHandler {
+class PlayInputHandler : public BaseInputHandler {
 public:
-	InputHandler(Game *);
-	~InputHandler() {}
+	PlayInputHandler(Game *);
+	~PlayInputHandler() {}
 
 protected:
 	void onKeyDown(SDL_Scancode);

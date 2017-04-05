@@ -4,18 +4,19 @@
 #include "Util.hpp"
 #include "BaseDrawable.hpp"
 
-class InputHandler;
+class BaseInputHandler;
 class Timer;
 
 class Window {
 public:
-	Window(InputHandler *);
-	Window(InputHandler *, int);
+	Window();
+	Window(int);
 	~Window();
 	void start();
 	bool isRendering();
 	int getWindowWidth() const;
 	int getWindowHeight() const;
+	void setInputHandler(BaseInputHandler *);
 
 private:
 	int windowWidth;
@@ -33,7 +34,7 @@ private:
 	void close();
 	void render();
 	bool rendering;
-	InputHandler *eventHandler;
+	BaseInputHandler *eventHandler;
 
 	//For fps handling
 	int fps;

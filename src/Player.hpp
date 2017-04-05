@@ -6,8 +6,8 @@
 
 class Player : public BaseDrawable {
 public:
-	Player();
-	Player(const std::string &);
+	Player(SDL_Renderer *);
+	Player(SDL_Renderer *, const std::string &);
 	~Player();
 
 	void addPoints(PieceTypes type);
@@ -23,6 +23,7 @@ public:
 	void draw(SDL_Renderer *);
 
 private:
+	SDL_Texture *numbersSheet;
 	int points;
 	std::string name;
 };

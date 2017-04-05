@@ -4,6 +4,8 @@
 #include "Util.hpp"
 #include "Game.hpp"
 
+class BaseDrawable;
+
 class BaseInputHandler {
 public:
 	BaseInputHandler(Game *);
@@ -11,15 +13,21 @@ public:
 
 	virtual void pollEvents(const SDL_Scancode *desiredScanCodes, int scanCodesLength);
 
-	Game * getGame() const;
+	GameState getCurrentGameState() const;
+	std::vector<BaseDrawable *> getCurrentGameDrawables() const;
+	bool createGameDrawables(SDL_Renderer *);
+	void setGameState(GameState) const;
 
 protected:
 	virtual void onKeyDown(SDL_Scancode) = 0;
 	virtual void onKeyHeld(SDL_Scancode) = 0;
 	virtual void onKeyUp(SDL_Scancode) = 0;
-	virtual void onQuitGame() = 0;
+	virtual void onQuitGame();
+	Game * getGame() const;
 
+private:
 	Game *game;
+	bool gameCreated;
 };
 
 #endif

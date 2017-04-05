@@ -5,7 +5,7 @@
 #include "BaseDrawable.hpp"
 
 class Window;
-class InputHandler;
+class BaseInputHandler;
 
 class Game {
 public:
@@ -15,17 +15,18 @@ public:
 	void run();
     GameState getGameState() const;
     void setGameState(GameState);
-	BaseDrawable * getTetrisGrid() const;
-	void createTetrisGrid(SDL_Renderer *);
-	BaseDrawable * getPlayer() const;
+
+	void createGameDrawables(SDL_Renderer *);
+	std::vector<std::vector<BaseDrawable *>> getGameDrawables() const;
+	std::vector<BaseInputHandler *> getInputHandlers() const;
 
 private:
 	Window *window;
-	InputHandler *handler;
-	BaseDrawable *grid;
-	BaseDrawable *player;
     GameState gameState;
-	int getGridX() const;
+
+	void createInputHandlers();
+	std::vector<std::vector<BaseDrawable *>> gameDrawables;
+	std::vector<BaseInputHandler *> inputHandlers;
 };
 
 #endif
