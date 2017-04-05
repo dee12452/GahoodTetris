@@ -1,15 +1,12 @@
 #include "Sprite.hpp"
 #include "Timer.hpp"
 
-const int Sprite::DEFAULT_TICKS_PER_SECOND = 100;
-
 Sprite::Sprite(SDL_Renderer *renderer,
 	const char *file,
 	int spriteSheetX, 
 	int spriteSheetY, 
 	int spriteSheetWidth, 
-	int spriteSheetHeight, 
-	int ticksPerSecond) {
+	int spriteSheetHeight) {
 	spriteSheet = IMG_LoadTexture(renderer, file);
 	if (spriteSheet == NULL) {
 		Util::fatalSDLError("Failed to load sprite texture");
@@ -18,31 +15,19 @@ Sprite::Sprite(SDL_Renderer *renderer,
 	spriteSourceRect.y = spriteSheetY;
 	spriteSourceRect.w = spriteSheetWidth;
 	spriteSourceRect.h = spriteSheetHeight;
-	onTickTimer = new Timer(ticksPerSecond, true);
 	usingWholeTexture = false;
 }
 
 Sprite::Sprite(SDL_Renderer *renderer, 
 	const char *file, 
-	bool wholeSpriteSheet, 
-	int ticksPerSecond) : Sprite(renderer, file, 0, 0, 0, 0, ticksPerSecond) {
+	bool wholeSpriteSheet) : Sprite(renderer, file, 0, 0, 0, 0) {
 	usingWholeTexture = wholeSpriteSheet;
 }
 
 Sprite::~Sprite() {
-	if (onTickTimer != NULL) {
-		delete onTickTimer;
-		onTickTimer = NULL;
-	}
 	if (spriteSheet != NULL) {
 		SDL_DestroyTexture(spriteSheet);
 		spriteSheet = NULL;
-	}
-}
-
-void Sprite::update() {
-	if (onTickTimer->check()) {
-		onUpdate();
 	}
 }
 
@@ -67,8 +52,6 @@ int Sprite::getWidth() const { return width; }
 int Sprite::getHeight() const { return height; }
 
 bool Sprite::isUsingWholeTexture() const { return usingWholeTexture; }
-
-SDL_Texture * Sprite::getTexture() const { return spriteSheet; }
 
 void Sprite::setLocationX(int x) { locationX = x; }
 

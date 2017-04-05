@@ -1,8 +1,7 @@
 #include "TetrisGrid.hpp"
-#include "TetrisBlock.hpp"
-#include "TetrisBorder.hpp"
 #include "Timer.hpp"
 #include "TetrisPiece.hpp"
+#include "Sprite.hpp"
 #include "Player.hpp"
 
 TetrisGrid::TetrisGrid(SDL_Renderer *renderer, int x, int y, int width, int height) {
@@ -269,15 +268,15 @@ Uint8 ** TetrisGrid::getGrid() const {
 }
 
 void TetrisGrid::createSprites(SDL_Renderer *renderer) {
-	blockYellow = new TetrisBlock(renderer, BLOCK_YELLOW_SPRITE);
-	blockGreen = new TetrisBlock(renderer, BLOCK_GREEN_SPRITE);
-	blockGrey = new TetrisBlock(renderer, BLOCK_GREY_SPRITE);
-	blockOrange = new TetrisBlock(renderer, BLOCK_ORANGE_SPRITE);
-	blockPurple = new TetrisBlock(renderer, BLOCK_PURPLE_SPRITE);
-	blockRed = new TetrisBlock(renderer, BLOCK_RED_SPRITE);
-	blockBlue = new TetrisBlock(renderer, BLOCK_BLUE_SPRITE);
-	blockBlank = new TetrisBlock(renderer, BLOCK_BLANK_SPRITE);
-	gridOutline = new TetrisBorder(renderer, GRID_SPRITE);
+	blockYellow = new Sprite(renderer, BLOCK_YELLOW_SPRITE, true);
+	blockGreen = new Sprite(renderer, BLOCK_GREEN_SPRITE, true);
+	blockGrey = new Sprite(renderer, BLOCK_GREY_SPRITE, true);
+	blockOrange = new Sprite(renderer, BLOCK_ORANGE_SPRITE, true);
+	blockPurple = new Sprite(renderer, BLOCK_PURPLE_SPRITE, true);
+	blockRed = new Sprite(renderer, BLOCK_RED_SPRITE, true);
+	blockBlue = new Sprite(renderer, BLOCK_BLUE_SPRITE, true);
+	blockBlank = new Sprite(renderer, BLOCK_BLANK_SPRITE, true);
+	gridOutline = new Sprite(renderer, GRID_SPRITE, true);
 
 	blockYellow->setWidth(blockWidth);
 	blockYellow->setHeight(blockHeight);

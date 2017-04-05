@@ -1,5 +1,4 @@
 #include "TetrisPiece.hpp"
-#include "TetrisBlock.hpp"
 
 TetrisPiece::TetrisPiece(PieceTypes type, int x, int y) {
     this->x = x;
