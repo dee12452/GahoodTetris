@@ -80,3 +80,9 @@ void MainMenu::nextSelection() {
 void MainMenu::previousSelection() {
 	nextSelection();
 }
+
+GameState MainMenu::selectItem() const {
+	if(shouldExit)
+		return EXIT;
+	return PLAY;
+}

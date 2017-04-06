@@ -22,6 +22,10 @@ void MenuInputHandler::onKeyDown(SDL_Scancode code) {
 		if (menu == NULL) Util::fatalError("Failed to cast to a main menu error");
 		menu->nextSelection();
 		break;
+	case SDL_SCANCODE_RETURN:
+		menu = static_cast<MainMenu *> (getGame()->getGameDrawables()[VECTOR_MENU][VECTOR_MENU_MAIN]);
+		getGame()->setGameState(menu->selectItem());
+		break;
 	default:
 		break;
 	}

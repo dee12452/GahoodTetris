@@ -13,7 +13,6 @@ Game::Game() {
 	if (IMG_Init(IMG_INIT_PNG) < 0) {
 		Util::fatalSDLError("Failed to init sdl img library");
 	}
-	gameState = MENU;
 	window = new Window();
 	createInputHandlers();
 }
@@ -47,10 +46,13 @@ GameState Game::getGameState() const {
 
 void Game::setGameState(GameState state) {
     gameState = state;
+	if (state == EXIT)
+		return;
+	window->setInputHandler(inputHandlers[static_cast<int> (gameState)]);
 }
 
 void Game::run() {
-	window->setInputHandler(inputHandlers[static_cast<int> (gameState)]);
+	setGameState(MENU);
 	window->start();
 	while (window->isRendering()) {
 		//perform logic here

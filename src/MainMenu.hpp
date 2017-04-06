@@ -15,6 +15,7 @@ public:
 
 	void nextSelection();
 	void previousSelection();
+	GameState selectItem() const;
 
 private:
 	Sprite *menuBG;
