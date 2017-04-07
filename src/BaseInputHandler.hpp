@@ -15,8 +15,8 @@ public:
 
 	GameState getCurrentGameState() const;
 	std::vector<BaseDrawable *> getCurrentGameDrawables() const;
-	bool createGameDrawables(SDL_Renderer *);
 	void setGameState(GameState) const;
+	void createGameDrawables() const;
 
 protected:
 	virtual void onKeyDown(SDL_Scancode) = 0;

@@ -16,7 +16,7 @@ public:
     GameState getGameState() const;
     void setGameState(GameState);
 
-	void createGameDrawables(SDL_Renderer *);
+	void createGameDrawables();
 	std::vector<std::vector<BaseDrawable *>> getGameDrawables() const;
 	std::vector<BaseInputHandler *> getInputHandlers() const;
 

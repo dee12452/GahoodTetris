@@ -8,26 +8,28 @@ class Sprite;
 
 class MainMenu : public BaseDrawable {
 public:
-	MainMenu(SDL_Renderer *);
+	MainMenu();
 	~MainMenu();
 
 	void draw(SDL_Renderer *);
+	void update();
 
 	void nextSelection();
 	void previousSelection();
 	GameState selectItem() const;
 
 private:
-	Sprite *menuBG;
-	Sprite *playButton;
-	Sprite *exitButton;
-	Sprite *selector;
 
 	static const int BUTTON_Y;
+	static const int BUTTON_X;
 	static const int BUTTON_WIDTH;
 	static const int BUTTON_HEIGHT;
+	int selectorLocationX;
 
 	bool shouldExit;
+	bool selectorMoveLeft;
+
+	void moveSelectorOnUpdate();
 };
 
 #endif 

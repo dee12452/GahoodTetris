@@ -61,9 +61,13 @@ void Game::run() {
 			SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 			continue;
 		}
-	
+
 		switch (gameState) {
 			case MENU:
+				if (gameDrawables[VECTOR_MENU][VECTOR_MENU_MAIN] != NULL) {
+					MainMenu *menu = static_cast<MainMenu *> (gameDrawables[VECTOR_MENU][VECTOR_MENU_MAIN]);
+					menu->update();
+				}
 				break;
 			case PLAY:
 				if (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_GRID] != NULL) {
@@ -82,20 +86,17 @@ std::vector<std::vector<BaseDrawable *>> Game::getGameDrawables() const {
 	return gameDrawables;
 }
 
-void Game::createGameDrawables(SDL_Renderer *renderer) {
+void Game::createGameDrawables() {
 	
 	//Create menu drawables
 	std::vector<BaseDrawable *> menu;
-	menu.push_back(new MainMenu(renderer));
+	menu.push_back(new MainMenu());
 
 	//Create play drawables
 	std::vector<BaseDrawable *> play;
-	play.push_back(new TetrisGrid(renderer,
-		((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4,
-		0,
-		DESIRED_WINDOW_HEIGHT / 2,
-		DESIRED_WINDOW_HEIGHT));
-	play.push_back(new Player(renderer));
+	play.push_back(new TetrisGrid(((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4,
+		0));
+	play.push_back(new Player());
 
 	//Push back those game vectors
 	gameDrawables.push_back(menu);

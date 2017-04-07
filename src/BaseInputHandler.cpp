@@ -39,19 +39,14 @@ std::vector<BaseDrawable *> BaseInputHandler::getCurrentGameDrawables() const {
 	return game->getGameDrawables()[static_cast<int> (getCurrentGameState())];
 }
 
-bool BaseInputHandler::createGameDrawables(SDL_Renderer *renderer) {
-	if (!gameCreated) {
-		game->createGameDrawables(renderer);
-		gameCreated = true;
-		return true;
-	}
-	return false;
-}
-
 void BaseInputHandler::setGameState(GameState gs) const {
 	game->setGameState(gs);
 }
 
 void BaseInputHandler::onQuitGame() {
 	game->setGameState(EXIT);
+}
+
+void BaseInputHandler::createGameDrawables() const {
+	game->createGameDrawables();
 }

@@ -43,6 +43,15 @@ void Sprite::draw(SDL_Renderer *renderer) {
 		SDL_RenderCopy(renderer, spriteSheet, &spriteSourceRect, &destinationRect);
 }
 
+void Sprite::draw(SDL_Renderer *renderer, const SDL_Rect &src) {
+	SDL_Rect destinationRect;
+	destinationRect.x = locationX;
+	destinationRect.y = locationY;
+	destinationRect.w = width;
+	destinationRect.h = height;
+	SDL_RenderCopy(renderer, spriteSheet, &src, &destinationRect);
+}
+
 int Sprite::getLocationX() const { return locationX; }
 
 int Sprite::getLocationY() const { return locationY; }

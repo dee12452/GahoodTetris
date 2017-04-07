@@ -39,16 +39,20 @@ const int INPUT_PLAY = 1;
 
 ////////////////////////////////////////////////////////////////////
 //Sprite File Locations
-const char * const BLOCK_YELLOW_SPRITE = "../res/tetris_block_yellow.png";
-const char * const BLOCK_GREEN_SPRITE = "../res/tetris_block_green.png";
-const char * const BLOCK_GREY_SPRITE = "../res/tetris_block_grey.png";
-const char * const BLOCK_ORANGE_SPRITE = "../res/tetris_block_orange.png";
-const char * const BLOCK_PURPLE_SPRITE = "../res/tetris_block_purple.png";
-const char * const BLOCK_RED_SPRITE = "../res/tetris_block_red.png";
-const char * const BLOCK_BLUE_SPRITE = "../res/tetris_block_blue.png";
-const char * const BLOCK_BLANK_SPRITE = "../res/tetris_block_empty.png";
-const char * const GRID_SPRITE = "../res/tetris_border.png";
-const char * const NUMBERS_SPRITE_SHEET = "../res/numbers.png";
+const char * const BLOCK_YELLOW_SPRITE_FILE_LOCATION = "../res/tetris_block_yellow.png";
+const char * const BLOCK_GREEN_SPRITE_FILE_LOCATION = "../res/tetris_block_green.png";
+const char * const BLOCK_GREY_SPRITE_FILE_LOCATION = "../res/tetris_block_grey.png";
+const char * const BLOCK_ORANGE_SPRITE_FILE_LOCATION = "../res/tetris_block_orange.png";
+const char * const BLOCK_PURPLE_SPRITE_FILE_LOCATION = "../res/tetris_block_purple.png";
+const char * const BLOCK_RED_SPRITE_FILE_LOCATION = "../res/tetris_block_red.png";
+const char * const BLOCK_BLUE_SPRITE_FILE_LOCATION = "../res/tetris_block_blue.png";
+const char * const BLOCK_BLANK_SPRITE_FILE_LOCATION = "../res/tetris_block_empty.png";
+const char * const GRID_SPRITE_FILE_LOCATION = "../res/tetris_border.png";
+const char * const NUMBERS_SPRITE_SHEET_FILE_LOCATION = "../res/numbers.png";
+const char * const SPRITE_MENU_BG_FILE_LOCATION = "../res/menu_bg.png";
+const char * const SPRITE_PLAY_BUTTON_FILE_LOCATION = "../res/play_button.png";
+const char * const SPRITE_EXIT_BUTTON_FILE_LOCATION = "../res/exit_button.png";
+const char * const SPRITE_SELECTOR_FILE_LOCATION = "../res/selector.png";
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
@@ -100,6 +104,12 @@ const int PLAYER_SCORE_Y = 0;
 //Grid Dimensions
 const int GRID_ROWS = 10;
 const int GRID_COLUMNS = 20;
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//Block Dimensions
+const int BLOCK_WIDTH = (DESIRED_WINDOW_HEIGHT / 2) / GRID_ROWS;
+const int BLOCK_HEIGHT = DESIRED_WINDOW_HEIGHT / GRID_COLUMNS;
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////

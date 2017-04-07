@@ -2,6 +2,7 @@
 #include "Timer.hpp"
 #include "DisplayUtil.hpp"
 #include "BaseInputHandler.hpp"
+#include "SpriteUtil.hpp"
 
 Window::Window() {
 	windowWidth = DESIRED_WINDOW_WIDTH;
@@ -90,6 +91,8 @@ void Window::init() {
 		Util::fatalSDLError("Failed to create window renderer");
 	SDL_SetRenderDrawColor(windowRenderer, 0, 0, 0, 255);
 
+	SpriteUtil::createSprites(windowRenderer);
+
 	windowTexture = SDL_CreateTexture(windowRenderer,
 		SDL_PIXELFORMAT_RGB888,
 		SDL_TEXTUREACCESS_TARGET,
@@ -98,14 +101,7 @@ void Window::init() {
 	if (windowTexture == NULL)
 		Util::fatalSDLError("Failed to create window texture");
 
-	if (eventHandler != NULL) {
-		if (!eventHandler->createGameDrawables(windowRenderer))
-			Util::fatalError("Failed to create the sprites for the game: WINDOW ERROR");
-	}
-	else {
-		Util::fatalError("Could not instantiate the event handler");
-	}
-
+	eventHandler->createGameDrawables();
     renderToScreen();
 }
 
@@ -122,6 +118,7 @@ void Window::close() {
 		SDL_DestroyWindow(window);
 		window = NULL;
 	}
+	SpriteUtil::deleteSprites();
 }
 
 void Window::setInputHandler(BaseInputHandler *input) {

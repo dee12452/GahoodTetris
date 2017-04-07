@@ -1,23 +1,16 @@
 #include "Player.hpp"
+#include "SpriteUtil.hpp"
 
-Player::Player(SDL_Renderer *renderer) {
-	numbersSheet = IMG_LoadTexture(renderer, NUMBERS_SPRITE_SHEET);
-	if (numbersSheet == NULL) {
-		Util::fatalSDLError("Failed to load the number sprite sheet!");
-	}
+Player::Player() {
 	resetPoints();
 	name = "Test";
 }
 
-Player::Player(SDL_Renderer *renderer, const std::string &n) : Player(renderer) {
+Player::Player(const std::string &n) : Player() {
 	name = n;
 }
 
 Player::~Player() {
-	if (numbersSheet != NULL) {
-		SDL_DestroyTexture(numbersSheet);
-		numbersSheet = NULL;
-	}
 }
 
 void Player::addPoints(int p) { points += p; }
@@ -77,6 +70,7 @@ std::string Player::getPointsAsString() const {
 void Player::draw(SDL_Renderer *renderer) {
 	std::string pointsStr = getPointsAsString();
 	int numbersSheetWidth = 690, numbersSheetHeight = 338;
+	Sprite *numbers = SpriteUtil::getSprite(SpriteUtil::SPRITE_NUMBERS_SHEET);
 	for (size_t i = 0; i < pointsStr.length(); i++) {
 		int numChar = (int)pointsStr[i] - '0';
 		SDL_Rect numbersRect;
@@ -105,7 +99,7 @@ void Player::draw(SDL_Renderer *renderer) {
 		destinationRect.x = PLAYER_SCORE_X + (i * destinationRect.w);
 		destinationRect.y = PLAYER_SCORE_Y;
 
-		//ERROR?
-		SDL_RenderCopy(renderer, numbersSheet, &numbersRect, &destinationRect);
+		numbers->draw(renderer, numbersRect);
 	}
+	numbers = NULL;
 }

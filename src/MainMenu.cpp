@@ -1,80 +1,58 @@
 #include "MainMenu.hpp"
-#include "Sprite.hpp"
+#include "SpriteUtil.hpp"
 
-const int MainMenu::BUTTON_Y = 350, MainMenu::BUTTON_WIDTH = 70, MainMenu::BUTTON_HEIGHT = 35;
+const int MainMenu::BUTTON_Y = 350, MainMenu::BUTTON_X = 115, MainMenu::BUTTON_WIDTH = 70, MainMenu::BUTTON_HEIGHT = 35;
 
-MainMenu::MainMenu(SDL_Renderer *renderer) {
-	
-	//Instantiate the Sprites
-	menuBG = new Sprite(renderer,
-		"../res/tetris_block_empty.png", 
-		true);
-	playButton = new Sprite(renderer,
-		"../res/play_button.png",
-		true);
-	exitButton = new Sprite(renderer,
-		"../res/exit_button.png",
-		true);
-	selector = new Sprite(renderer,
-		"../res/selector.png",
-		true);
-
+MainMenu::MainMenu() {
 	//Set location and dimensions of the sprites
-	menuBG->setWidth(DESIRED_WINDOW_WIDTH);
-	menuBG->setHeight(DESIRED_WINDOW_HEIGHT);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_MENU_BG)->setWidth(DESIRED_WINDOW_WIDTH);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_MENU_BG)->setHeight(DESIRED_WINDOW_HEIGHT);
 
-	playButton->setLocationX(BUTTON_WIDTH);
-	playButton->setLocationY(BUTTON_Y);
-	playButton->setWidth(BUTTON_WIDTH);
-	playButton->setHeight(BUTTON_HEIGHT);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON)->setLocationX(BUTTON_X);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON)->setLocationY(BUTTON_Y);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON)->setWidth(BUTTON_WIDTH);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON)->setHeight(BUTTON_HEIGHT);
 
-	exitButton->setLocationX(BUTTON_WIDTH * 3);
-	exitButton->setLocationY(BUTTON_Y);
-	exitButton->setWidth(BUTTON_WIDTH);
-	exitButton->setHeight(BUTTON_HEIGHT);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON)->setLocationX(BUTTON_X * 3);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON)->setLocationY(BUTTON_Y);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON)->setWidth(BUTTON_WIDTH);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON)->setHeight(BUTTON_HEIGHT);
 
-	selector->setLocationX(0);
-	selector->setLocationY(BUTTON_Y);
-	selector->setWidth(BUTTON_WIDTH);
-	selector->setHeight(BUTTON_HEIGHT);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setLocationX(BUTTON_X - BUTTON_WIDTH);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setLocationY(BUTTON_Y);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setWidth(BUTTON_WIDTH);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setHeight(BUTTON_HEIGHT);
+	selectorLocationX = BUTTON_X - BUTTON_WIDTH;
 
 	shouldExit = false;
+	selectorMoveLeft = true;
 }
 
 MainMenu::~MainMenu() {
-	if (menuBG != NULL) {
-		delete menuBG;
-		menuBG = NULL;
-	}
-	if (playButton != NULL) {
-		delete playButton;
-		playButton = NULL;
-	}
-	if (exitButton != NULL) {
-		delete exitButton;
-		exitButton = NULL;
-	}
-	if (selector != NULL) {
-		delete selector;
-		selector = NULL;
-	}
 }
 
 void MainMenu::draw(SDL_Renderer *renderer) {
-	menuBG->draw(renderer);
-	playButton->draw(renderer);
-	exitButton->draw(renderer);
-	selector->draw(renderer);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_MENU_BG)->draw(renderer);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON)->draw(renderer);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON)->draw(renderer);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->draw(renderer);
+}
+
+void MainMenu::update() {
+	moveSelectorOnUpdate();
 }
 
 void MainMenu::nextSelection() {
 	if (shouldExit) {
-		selector->setLocationX(0);
+		SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setLocationX(BUTTON_X - BUTTON_WIDTH);
+		selectorLocationX = BUTTON_X - BUTTON_WIDTH;
 	}
 	else {
-		selector->setLocationX(BUTTON_WIDTH * 2);
+		SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setLocationX(BUTTON_X * 3 - BUTTON_WIDTH);
+		selectorLocationX = BUTTON_X * 3 - BUTTON_WIDTH;
 	}
 	shouldExit = !shouldExit;
+	selectorMoveLeft = true;
 }
 
 void MainMenu::previousSelection() {
@@ -85,4 +63,21 @@ GameState MainMenu::selectItem() const {
 	if(shouldExit)
 		return EXIT;
 	return PLAY;
+}
+
+void MainMenu::moveSelectorOnUpdate() {
+	int selectorOffset = 20;
+	int selectorMoveSpeed = 2;
+	if (selectorMoveLeft) {
+		if (SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->getLocationX() == selectorLocationX - selectorOffset) {
+			selectorMoveLeft = false;
+		}
+		SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setLocationX(SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->getLocationX() - selectorMoveSpeed);
+	}
+	else {
+		if (SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->getLocationX() == selectorLocationX) {
+			selectorMoveLeft = true;
+		}
+		SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setLocationX(SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->getLocationX() + selectorMoveSpeed);
+	}
 }

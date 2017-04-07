@@ -1,14 +1,12 @@
 #include "TetrisGrid.hpp"
 #include "Timer.hpp"
 #include "TetrisPiece.hpp"
-#include "Sprite.hpp"
+#include "SpriteUtil.hpp"
 #include "Player.hpp"
 
-TetrisGrid::TetrisGrid(SDL_Renderer *renderer, int x, int y, int width, int height) {
+TetrisGrid::TetrisGrid(int x, int y) {
 	gridX = x;
 	gridY = y;
-	blockWidth = width / GRID_ROWS;
-	blockHeight = height / GRID_COLUMNS;
 	grid = new Uint8 *[GRID_ROWS];
 	for (int i = 0; i < GRID_ROWS; i++) {
 		grid[i] = new Uint8[GRID_COLUMNS];
@@ -16,7 +14,6 @@ TetrisGrid::TetrisGrid(SDL_Renderer *renderer, int x, int y, int width, int heig
 			grid[i][j] = 0;
 		}
 	}
-	createSprites(renderer);
 	createRandomPiece();
     tickTimer = new Timer(STARTING_BOARD_DELAY_TIME, false);
 	updating = false;
@@ -37,42 +34,6 @@ TetrisGrid::~TetrisGrid() {
 		delete[] grid;
 		grid = NULL;
 	}
-	if (blockYellow != NULL) {
-		delete blockYellow;
-		blockYellow = NULL;
-	}
-	if (blockBlue != NULL) {
-		delete blockBlue;
-		blockBlue = NULL;
-	}
-	if (blockGreen != NULL) {
-		delete blockGreen;
-		blockGreen = NULL;
-	}
-	if (blockGrey != NULL) {
-		delete blockGrey;
-		blockGrey = NULL;
-	}
-	if (blockOrange != NULL) {
-		delete blockOrange;
-		blockOrange = NULL;
-	}
-	if (blockPurple != NULL) {
-		delete blockPurple;
-		blockPurple = NULL;
-	}
-	if(blockRed != NULL) {
-		delete blockRed;
-		blockRed = NULL;
-	}
-	if (blockBlank != NULL) {
-		delete blockBlank;
-		blockBlank = NULL;
-	}
-	if (gridOutline != NULL) {
-		delete gridOutline;
-		gridOutline = NULL;
-	}
     if(tickTimer != NULL) {
         delete tickTimer;
         tickTimer = NULL;
@@ -85,39 +46,37 @@ void TetrisGrid::createRandomPiece() {
 }
 
 void TetrisGrid::draw(SDL_Renderer *renderer) {
-	//Clear screen by drawing the blank block
-	//For the total screen 
-	blockBlank->setLocationX(0);
-	blockBlank->setLocationY(0);
-	blockBlank->draw(renderer);
+	//Need the below to clear the screen
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_BLANK_BLOCK)->draw(renderer);
+	//
 
-    int locX = gridX;
-    for (int i = 0; i < GRID_ROWS; i++, locX += blockWidth) {
+	int locX = gridX;
+    for (int i = 0; i < GRID_ROWS; i++, locX += BLOCK_WIDTH) {
 		int locY = gridY;
-		for (int j = 0; j < GRID_COLUMNS; j++, locY += blockHeight) {
+		for (int j = 0; j < GRID_COLUMNS; j++, locY += BLOCK_HEIGHT) {
 			if (grid[i][j] >= 1) {
 				Sprite *currBlock;
 				switch (grid[i][j] - 1) {
 				case I:
-					currBlock = blockBlue;
+					currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_BLUE_BLOCK);
 					break;
 				case T:
-					currBlock = blockGreen;
+					currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_GREEN_BLOCK);
 					break;
 				case Z:
-					currBlock = blockPurple;
+					currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_PURPLE_BLOCK);
 					break;
 				case S:
-					currBlock = blockOrange;
+					currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_ORANGE_BLOCK);
 					break;
 				case O:
-					currBlock = blockYellow;
+					currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_YELLOW_BLOCK);
 					break;
 				case J:
-					currBlock = blockRed;
+					currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_RED_BLOCK);
 					break;
 				case L:
-					currBlock = blockGrey;
+					currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_GREY_BLOCK);
 					break;
 				default:
 					std::cout << (int) grid[i][j] - 1 << std::endl;
@@ -130,34 +89,34 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 			}
 		}
 	}
-	locX = (currentPiece->getX() * blockWidth) + gridX;
+	locX = (currentPiece->getX() * BLOCK_WIDTH) + gridX;
 	if (currentPiece != NULL) {
-		for (int i = 0; i < currentPiece->getRows(); i++, locX += blockWidth) {
-			int locY = (currentPiece->getY() * blockHeight) + gridY;
-			for (int j = 0; j < currentPiece->getColumns(); j++, locY += blockHeight) {
+		for (int i = 0; i < currentPiece->getRows(); i++, locX += BLOCK_WIDTH) {
+			int locY = (currentPiece->getY() * BLOCK_HEIGHT) + gridY;
+			for (int j = 0; j < currentPiece->getColumns(); j++, locY += BLOCK_HEIGHT) {
 				if ((currentPiece->getBlocks())[i][j] == 1) {
 					Sprite *currBlock;
 					switch (static_cast<int> (currentPiece->getPieceType())) {
 					case I:
-						currBlock = blockBlue;
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_BLUE_BLOCK);
 						break;
 					case T:
-						currBlock = blockGreen;
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_GREEN_BLOCK);
 						break;
 					case Z:
-						currBlock = blockPurple;
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_PURPLE_BLOCK);
 						break;
 					case S:
-						currBlock = blockOrange;
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_ORANGE_BLOCK);
 						break;
 					case O:
-						currBlock = blockYellow;
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_YELLOW_BLOCK);
 						break;
 					case J:
-						currBlock = blockRed;
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_RED_BLOCK);
 						break;
 					case L:
-						currBlock = blockGrey;
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_GREY_BLOCK);
 						break;
 					default:
 						std::cout << (int) grid[i][j] - 1 << std::endl;
@@ -171,7 +130,7 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 			}
 		}
 	}
-    gridOutline->draw(renderer);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_GRID_BORDER)->draw(renderer);
 }
 
 GameState TetrisGrid::update(Player *player) {
@@ -265,38 +224,4 @@ TetrisPiece * TetrisGrid::getCurrentPiece() const {
 
 Uint8 ** TetrisGrid::getGrid() const {
     return grid;
-}
-
-void TetrisGrid::createSprites(SDL_Renderer *renderer) {
-	blockYellow = new Sprite(renderer, BLOCK_YELLOW_SPRITE, true);
-	blockGreen = new Sprite(renderer, BLOCK_GREEN_SPRITE, true);
-	blockGrey = new Sprite(renderer, BLOCK_GREY_SPRITE, true);
-	blockOrange = new Sprite(renderer, BLOCK_ORANGE_SPRITE, true);
-	blockPurple = new Sprite(renderer, BLOCK_PURPLE_SPRITE, true);
-	blockRed = new Sprite(renderer, BLOCK_RED_SPRITE, true);
-	blockBlue = new Sprite(renderer, BLOCK_BLUE_SPRITE, true);
-	blockBlank = new Sprite(renderer, BLOCK_BLANK_SPRITE, true);
-	gridOutline = new Sprite(renderer, GRID_SPRITE, true);
-
-	blockYellow->setWidth(blockWidth);
-	blockYellow->setHeight(blockHeight);
-	blockGreen->setWidth(blockWidth);
-	blockGreen->setHeight(blockHeight);
-	blockGrey->setWidth(blockWidth);
-	blockGrey->setHeight(blockHeight);
-	blockOrange->setWidth(blockWidth);
-	blockOrange->setHeight(blockHeight);
-	blockPurple->setWidth(blockWidth);
-	blockPurple->setHeight(blockHeight);
-	blockRed->setWidth(blockWidth);
-	blockRed->setHeight(blockHeight);
-	blockBlue->setWidth(blockWidth);
-	blockBlue->setHeight(blockHeight);
-	blockBlank->setWidth(DESIRED_WINDOW_WIDTH);
-	blockBlank->setHeight(DESIRED_WINDOW_HEIGHT);
-	
-	gridOutline->setLocationX((DESIRED_WINDOW_WIDTH * 2 - DESIRED_WINDOW_HEIGHT) / 4);
-	gridOutline->setLocationY(0);
-	gridOutline->setWidth(DESIRED_WINDOW_WIDTH / 2);
-	gridOutline->setHeight(DESIRED_WINDOW_HEIGHT);
 }
