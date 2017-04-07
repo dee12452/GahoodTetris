@@ -79,3 +79,10 @@ void Sprite::setRGBColor(Uint8 r, Uint8 g, Uint8 b) {
 void Sprite::setAlpha(Uint8 alpha) {
 	SDL_SetTextureAlphaMod(spriteSheet, alpha);
 }
+
+void Sprite::setDimensions(const SDL_Rect &dest) {
+	setLocationX(dest.x);
+	setLocationY(dest.y);
+	setWidth(dest.w);
+	setHeight(dest.h);
+}

@@ -35,6 +35,7 @@ public:
 	void setUsingWholeTexture(bool);
 	void setRGBColor(Uint8, Uint8, Uint8);
 	void setAlpha(Uint8);	
+	void setDimensions(const SDL_Rect &);
 
 private:
 	int locationX = 0;
