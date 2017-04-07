@@ -4,6 +4,8 @@
 #include "SpriteUtil.hpp"
 #include "Player.hpp"
 
+const int TetrisGrid::NEXT_PIECE_X = 16, TetrisGrid::NEXT_PIECE_Y = 3;
+
 TetrisGrid::TetrisGrid(int x, int y) {
 	gridX = x;
 	gridY = y;
@@ -14,7 +16,13 @@ TetrisGrid::TetrisGrid(int x, int y) {
 			grid[i][j] = 0;
 		}
 	}
+
+	nextPiece = new TetrisPiece(static_cast<PieceTypes> (Util::getRandomNumber(0, 6)),
+		NEXT_PIECE_X,
+		NEXT_PIECE_Y);
+	currentPiece = NULL;
 	createRandomPiece();
+
     tickTimer = new Timer(STARTING_BOARD_DELAY_TIME, false);
 	updating = false;
 }
@@ -24,6 +32,10 @@ TetrisGrid::~TetrisGrid() {
         delete currentPiece;
         currentPiece = NULL;
     }
+	if (nextPiece != NULL) {
+		delete nextPiece;
+		nextPiece = NULL;
+	}
 	if (grid != NULL) {
 		for (int i = 0; i < GRID_ROWS; i++) {
 			if (grid[i] != NULL) {
@@ -41,8 +53,14 @@ TetrisGrid::~TetrisGrid() {
 }
 
 void TetrisGrid::createRandomPiece() {
-	int nextPiece = Util::getRandomNumber(0, 6);
-	currentPiece = new TetrisPiece(static_cast<PieceTypes> (nextPiece), GRID_ROWS / 2, 0);
+	PieceTypes nextPieceType = static_cast<PieceTypes> (Util::getRandomNumber(0, 6));
+	if(currentPiece != NULL)
+		delete currentPiece;
+	currentPiece = new TetrisPiece(nextPiece->getPieceType(), GRID_ROWS / 2, 0);
+	delete nextPiece;
+	nextPiece = new TetrisPiece(nextPieceType, 
+		NEXT_PIECE_X,
+		NEXT_PIECE_Y);
 }
 
 void TetrisGrid::draw(SDL_Renderer *renderer) {
@@ -50,6 +68,7 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_BLANK_BLOCK)->draw(renderer);
 	//
 
+	//Draw the grid
 	int locX = gridX;
     for (int i = 0; i < GRID_ROWS; i++, locX += BLOCK_WIDTH) {
 		int locY = gridY;
@@ -89,6 +108,8 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 			}
 		}
 	}
+
+	//Draw the current piece
 	locX = (currentPiece->getX() * BLOCK_WIDTH) + gridX;
 	if (currentPiece != NULL) {
 		for (int i = 0; i < currentPiece->getRows(); i++, locX += BLOCK_WIDTH) {
@@ -130,7 +151,52 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 			}
 		}
 	}
+
+	//Draw next piece
+	locX = (nextPiece->getX() * BLOCK_WIDTH);
+	if (nextPiece != NULL) {
+		for (int i = 0; i < nextPiece->getRows(); i++, locX += BLOCK_WIDTH) {
+			int locY = (nextPiece->getY() * BLOCK_HEIGHT);
+			for (int j = 0; j < nextPiece->getColumns(); j++, locY += BLOCK_HEIGHT) {
+				if ((nextPiece->getBlocks())[i][j] == 1) {
+					Sprite *currBlock;
+					switch (static_cast<int> (nextPiece->getPieceType())) {
+					case I:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_BLUE_BLOCK);
+						break;
+					case T:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_GREEN_BLOCK);
+						break;
+					case Z:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_PURPLE_BLOCK);
+						break;
+					case S:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_ORANGE_BLOCK);
+						break;
+					case O:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_YELLOW_BLOCK);
+						break;
+					case J:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_RED_BLOCK);
+						break;
+					case L:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_GREY_BLOCK);
+						break;
+					default:
+						std::cout << (int)grid[i][j] - 1 << std::endl;
+						Util::fatalError("Error: current block's sprite was not set to anything when drawing the current piece!");
+					}
+					currBlock->setLocationX(locX);
+					currBlock->setLocationY(locY + 10);
+					currBlock->draw(renderer);
+					currBlock = NULL;
+				}
+			}
+		}
+	}
+
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_GRID_BORDER)->draw(renderer);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_NEXT_PIECE_BORDER)->draw(renderer);
 }
 
 GameState TetrisGrid::update(Player *player) {
@@ -138,7 +204,7 @@ GameState TetrisGrid::update(Player *player) {
 		if (!currentPiece->moveDown(grid)) {
 
 			if (currentPiece->getY() == 0)
-				return EXIT;
+				return MENU;
 
 			player->addPoints(currentPiece->getPieceType());
 
@@ -152,7 +218,6 @@ GameState TetrisGrid::update(Player *player) {
 
 			player->addPoints(clearRows() * static_cast<int> (currentPiece->getPieceType()));
 			
-			delete currentPiece;
 			createRandomPiece();
 		}
     }
@@ -224,4 +289,13 @@ TetrisPiece * TetrisGrid::getCurrentPiece() const {
 
 Uint8 ** TetrisGrid::getGrid() const {
     return grid;
+}
+
+void TetrisGrid::reset() {
+	for (int i = 0; i < GRID_ROWS; i++) {
+		for (int j = 0; j < GRID_COLUMNS; j++) {
+			grid[i][j] = 0;
+		}
+	}
+	createRandomPiece();
 }

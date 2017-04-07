@@ -32,6 +32,7 @@ public:
 	const static int SPRITE_EXIT_BUTTON;
 	const static int SPRITE_SELECTOR;
 	const static int SPRITE_MENU_BG;
+	const static int SPRITE_NEXT_PIECE_BORDER;
 };
 
 #endif

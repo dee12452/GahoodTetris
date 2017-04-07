@@ -14,6 +14,7 @@ public:
 	~TetrisGrid();
 
 	void draw(SDL_Renderer *);
+	void reset();
     GameState update(Player *);
     void setUpdateTime(int) const;
 	
@@ -22,10 +23,11 @@ public:
 
 private:
     Timer *tickTimer;
-    TetrisPiece *currentPiece;
+    TetrisPiece *currentPiece, *nextPiece;
 
 	Uint8 **grid;
 	int gridX, gridY;
+	static const int NEXT_PIECE_X, NEXT_PIECE_Y;
 	bool updating;
 
 	int clearRows();

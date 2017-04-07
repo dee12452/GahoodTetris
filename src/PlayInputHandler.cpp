@@ -6,23 +6,39 @@ PlayInputHandler::PlayInputHandler(Game *g) : BaseInputHandler(g) {
 }
 
 void PlayInputHandler::onKeyDown(SDL_Scancode key) {
-	if (getCurrentGameDrawables().size() == 0) return;
-	TetrisGrid *tGrid = static_cast<TetrisGrid *> (getCurrentGameDrawables()[VECTOR_PLAY_GRID]);
+	TetrisGrid *tGrid;
     switch(key) {
         case SDL_SCANCODE_LEFT:
-			tGrid->getCurrentPiece()->moveLeft(tGrid->getGrid());
+			if (getCurrentGameDrawables().size() != 0) {
+				tGrid = static_cast<TetrisGrid *> (getCurrentGameDrawables()[VECTOR_PLAY_GRID]);
+				tGrid->getCurrentPiece()->moveLeft(tGrid->getGrid());
+			}
             break;
         case SDL_SCANCODE_RIGHT:
-			tGrid->getCurrentPiece()->moveRight(tGrid->getGrid());
+			if (getCurrentGameDrawables().size() != 0) {
+				tGrid = static_cast<TetrisGrid *> (getCurrentGameDrawables()[VECTOR_PLAY_GRID]);
+				tGrid->getCurrentPiece()->moveRight(tGrid->getGrid());
+			}
             break;
         case SDL_SCANCODE_DOWN:
-			tGrid->getCurrentPiece()->moveDown(tGrid->getGrid());
+			if (getCurrentGameDrawables().size() != 0) {
+				tGrid = static_cast<TetrisGrid *> (getCurrentGameDrawables()[VECTOR_PLAY_GRID]);
+				tGrid->getCurrentPiece()->moveDown(tGrid->getGrid());
+			}
             break;
 		case SDL_SCANCODE_SPACE:
-			tGrid->getCurrentPiece()->rotate(tGrid->getGrid(), true);
+			if (getCurrentGameDrawables().size() != 0) {
+				tGrid = static_cast<TetrisGrid *> (getCurrentGameDrawables()[VECTOR_PLAY_GRID]);
+				tGrid->getCurrentPiece()->rotate(tGrid->getGrid(), true);
+			}
+			break;
+		case SDL_SCANCODE_ESCAPE:
+			getGame()->setGameState(MENU);
+			break;
         default:
             break;
     }
+	tGrid = NULL;
 }
 
 void PlayInputHandler::onKeyHeld(SDL_Scancode key) {

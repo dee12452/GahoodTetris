@@ -45,16 +45,25 @@ GameState Game::getGameState() const {
 }
 
 void Game::setGameState(GameState state) {
-    gameState = state;
-	if (state == EXIT)
-		return;
-	window->setInputHandler(inputHandlers[static_cast<int> (gameState)]);
+	if (gameState != state) {
+		gameState = state;
+		if (state == EXIT)
+			return;
+
+		if (gameDrawables.size() != 0) {
+			static_cast<TetrisGrid *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_GRID])->reset();
+			static_cast<Player *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_PLAYER])->resetPoints();
+		}
+		window->setInputHandler(inputHandlers[static_cast<int> (gameState)]);
+	}
 }
 
 void Game::run() {
 	setGameState(MENU);
 	window->start();
 	while (window->isRendering()) {
+		SDL_Delay(CPU_USAGE_LOGIC_DELAY);
+
 		//perform logic here
 		//SDL_Delay for the CPU usage issue
 		if (gameDrawables.size() == 0) {
@@ -72,13 +81,15 @@ void Game::run() {
 			case PLAY:
 				if (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_GRID] != NULL) {
 					TetrisGrid *tGrid = static_cast<TetrisGrid *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_GRID]);
-					gameState = tGrid->update(static_cast<Player *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_PLAYER]));
+					GameState newState;
+					newState = tGrid->update(static_cast<Player *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_PLAYER]));
+					if (newState != PLAY)
+						setGameState(newState);
 				}
 				break;
 			case EXIT:
 				break;
 		}
-        SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 	}
 }
 

@@ -53,6 +53,7 @@ const char * const SPRITE_MENU_BG_FILE_LOCATION = "../res/menu_bg.png";
 const char * const SPRITE_PLAY_BUTTON_FILE_LOCATION = "../res/play_button.png";
 const char * const SPRITE_EXIT_BUTTON_FILE_LOCATION = "../res/exit_button.png";
 const char * const SPRITE_SELECTOR_FILE_LOCATION = "../res/selector.png";
+const char * const SPRITE_NEXT_BORDER_FILE_LOCATION = "../res/next_border.png";
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////

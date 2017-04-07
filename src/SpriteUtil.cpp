@@ -15,6 +15,7 @@ const int SpriteUtil::SPRITE_PLAY_BUTTON = 10;
 const int SpriteUtil::SPRITE_EXIT_BUTTON = 11;
 const int SpriteUtil::SPRITE_SELECTOR = 12;
 const int SpriteUtil::SPRITE_MENU_BG = 13;
+const int SpriteUtil::SPRITE_NEXT_PIECE_BORDER = 14;
 
 std::vector<Sprite *> SpriteUtil::gameSprites;
 
@@ -65,6 +66,9 @@ void SpriteUtil::createSprites(SDL_Renderer *renderer) {
 	gameSprites.push_back(new Sprite(renderer,
 		SPRITE_MENU_BG_FILE_LOCATION,
 		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_NEXT_BORDER_FILE_LOCATION,
+		true));
 	initSpriteDimensions();
 }
 
@@ -112,4 +116,9 @@ void SpriteUtil::initSpriteDimensions() {
 	gameSprites[SPRITE_GRID_BORDER]->setLocationY(0);
 	gameSprites[SPRITE_GRID_BORDER]->setWidth(DESIRED_WINDOW_WIDTH / 2);
 	gameSprites[SPRITE_GRID_BORDER]->setHeight(DESIRED_WINDOW_HEIGHT);
+
+	gameSprites[SPRITE_NEXT_PIECE_BORDER]->setWidth(BLOCK_WIDTH * 5);
+	gameSprites[SPRITE_NEXT_PIECE_BORDER]->setHeight(BLOCK_HEIGHT * 5);
+	gameSprites[SPRITE_NEXT_PIECE_BORDER]->setLocationX(DESIRED_WINDOW_WIDTH - (BLOCK_WIDTH * 5));
+	gameSprites[SPRITE_NEXT_PIECE_BORDER]->setLocationY((BLOCK_WIDTH * 3) - 30);
 }
