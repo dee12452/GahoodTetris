@@ -82,7 +82,7 @@ void SpriteUtil::deleteSprites() {
 }
 
 Sprite * SpriteUtil::getSprite(int desiredSprite) {
-	if (desiredSprite >= static_cast<int> (gameSprites.size()))
+	if (desiredSprite >= static_cast<int> (gameSprites.size()) || desiredSprite < 0)
 		return NULL;
 	return gameSprites[desiredSprite];
 }

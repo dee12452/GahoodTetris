@@ -19,7 +19,6 @@ public:
 	GameState selectItem() const;
 
 private:
-
 	static const int BUTTON_Y;
 	static const int BUTTON_X;
 	static const int BUTTON_WIDTH;
@@ -30,6 +29,13 @@ private:
 	bool selectorMoveLeft;
 
 	void moveSelectorOnUpdate();
+
+	Sprite *blockRed,
+		*blockYellow,
+		*blockBlue,
+		*blockPurple,
+		*blockOrange,
+		*blockGrey;
 };
 
 #endif 

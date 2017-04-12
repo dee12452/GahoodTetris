@@ -3,6 +3,7 @@
 #include "DisplayUtil.hpp"
 #include "BaseInputHandler.hpp"
 #include "SpriteUtil.hpp"
+#include "AnimatorHelper.hpp"
 
 Window::Window() {
 	windowWidth = DESIRED_WINDOW_WIDTH;
@@ -67,6 +68,7 @@ void Window::renderToScreen() {
 	for (size_t i = 0; i < eventHandler->getCurrentGameDrawables().size(); i++) {
 		eventHandler->getCurrentGameDrawables()[i]->draw(windowRenderer);
 	}
+	AnimatorHelper::getInstance()->draw(windowRenderer);
 	SDL_SetRenderTarget(windowRenderer, NULL);
 	SDL_RenderPresent(windowRenderer);
 }
@@ -102,7 +104,7 @@ void Window::init() {
 		Util::fatalSDLError("Failed to create window texture");
 
 	eventHandler->createGameDrawables();
-    renderToScreen();
+	renderToScreen();
 }
 
 void Window::close() {

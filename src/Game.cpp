@@ -5,6 +5,7 @@
 #include "TetrisGrid.hpp"
 #include "MainMenu.hpp"
 #include "Player.hpp"
+#include "AnimatorHelper.hpp"
 
 Game::Game() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -36,6 +37,7 @@ Game::~Game() {
 			}
 		}
 	}
+	AnimatorHelper::deleteInstance();
 	IMG_Quit();
 	SDL_Quit();
 }

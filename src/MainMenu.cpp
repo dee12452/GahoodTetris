@@ -1,5 +1,6 @@
 #include "MainMenu.hpp"
 #include "SpriteUtil.hpp"
+#include "AnimatorHelper.hpp"
 
 const int MainMenu::BUTTON_Y = 350, MainMenu::BUTTON_X = 115, MainMenu::BUTTON_WIDTH = 70, MainMenu::BUTTON_HEIGHT = 35;
 
@@ -29,6 +30,12 @@ MainMenu::MainMenu() {
 }
 
 MainMenu::~MainMenu() {
+	blockRed = NULL,
+	blockYellow = NULL,
+	blockBlue = NULL,
+	blockPurple = NULL,
+	blockOrange = NULL,
+	blockGrey = NULL;
 }
 
 void MainMenu::draw(SDL_Renderer *renderer) {

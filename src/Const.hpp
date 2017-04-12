@@ -65,6 +65,9 @@ const int CPU_USAGE_LOGIC_DELAY = 20;
 
 //Delays the window thread, not the game loop thread
 const int CPU_USAGE_EVENT_DELAY = 20;
+
+//Delays the animation thread, not the game loop thread
+const int CPU_USAGE_ANIMATION_DELAY = 5;
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
