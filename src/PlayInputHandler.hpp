@@ -4,10 +4,12 @@
 #include "Const.hpp"
 #include "BaseInputHandler.hpp"
 
+class BaseDrawable;
+
 class PlayInputHandler : public BaseInputHandler {
 public:
 	PlayInputHandler(Game *);
-	~PlayInputHandler() {}
+	~PlayInputHandler();
 
 	void onDraw(SDL_Renderer *);
 	void onUpdate();
@@ -17,6 +19,9 @@ protected:
 	void onKeyDown(SDL_Scancode);
 	void onKeyHeld(SDL_Scancode);
 	void onKeyUp(SDL_Scancode);
+
+private:
+	BaseDrawable *tetrisGrid;
 };
 
 #endif

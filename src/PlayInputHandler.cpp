@@ -1,18 +1,34 @@
 #include "PlayInputHandler.hpp"
 #include "TetrisGrid.hpp"
 #include "TetrisPiece.hpp"
+#include "Player.hpp"
 
-PlayInputHandler::PlayInputHandler(Game *g) : BaseInputHandler(g) {}
+PlayInputHandler::PlayInputHandler(Game *g) : BaseInputHandler(g) {
+	tetrisGrid = new TetrisGrid(((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4, 0);
+}
+
+PlayInputHandler::~PlayInputHandler() {
+	if (tetrisGrid != NULL) {
+		delete tetrisGrid;
+		tetrisGrid = NULL;
+	}
+}
 
 void PlayInputHandler::onKeyDown(SDL_Scancode key) {
-    switch(key) {
+	TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
+
+	switch(key) {
         case SDL_SCANCODE_LEFT:
+			grid->getCurrentPiece()->moveLeft(grid->getGrid());
             break;
         case SDL_SCANCODE_RIGHT:
+			grid->getCurrentPiece()->moveRight(grid->getGrid());
             break;
         case SDL_SCANCODE_DOWN:
+			grid->getCurrentPiece()->moveDown(grid->getGrid());
             break;
 		case SDL_SCANCODE_SPACE:
+			grid->getCurrentPiece()->rotate(grid->getGrid(), true);
 			break;
 		case SDL_SCANCODE_ESCAPE:
 			getGame()->setGameState(MAIN_MENU);
@@ -26,8 +42,12 @@ void PlayInputHandler::onKeyHeld(SDL_Scancode key) {}
 
 void PlayInputHandler::onKeyUp(SDL_Scancode key) {}
 
-void PlayInputHandler::onDraw(SDL_Renderer *) {}
+void PlayInputHandler::onDraw(SDL_Renderer *renderer) {
+	tetrisGrid->draw(renderer);
+}
 
-void PlayInputHandler::onUpdate() {}
+void PlayInputHandler::onUpdate() {
+	static_cast<TetrisGrid *> (tetrisGrid)->update(static_cast<Player *> (getGame()->getPlayer()));
+}
 
 void PlayInputHandler::onReset() {}

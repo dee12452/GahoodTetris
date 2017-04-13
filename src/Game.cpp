@@ -12,10 +12,10 @@ Game::Game() {
 	if (IMG_Init(IMG_INIT_PNG) < 0) {
 		Util::fatalSDLError("Failed to init sdl img library");
 	}
+	player = new Player();
 	window = new Window();
 	currentHandler = NULL;
-	playHandler = NULL;
-	mainMenuHandler = NULL;
+	stateChanged = false;
 }
 
 Game::~Game() {
@@ -23,14 +23,13 @@ Game::~Game() {
 		delete window;
 		window = NULL;
 	}
-	currentHandler = NULL;
-	if (playHandler != NULL) {
-		delete playHandler;
-		playHandler = NULL;
+	if (currentHandler != NULL) {
+		delete currentHandler;
+		currentHandler = NULL;
 	}
-	if (mainMenuHandler != NULL) {
-		delete mainMenuHandler;
-		mainMenuHandler = NULL;
+	if (player != NULL) {
+		delete player;
+		player = NULL;
 	}
 	AnimatorHelper::deleteInstance();
 	IMG_Quit();
@@ -44,18 +43,22 @@ GameState Game::getGameState() const {
 void Game::setGameState(GameState state) {
 	if (gameState != state) {
 		gameState = state;
-		changeEventHandler();
+		stateChanged = true;
 	}
 }
 
 void Game::run() {
 	window->start();
-	initEventHandlers();
 	setGameState(MAIN_MENU);
 	while (window->isRendering()) {
 		SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 
-		currentHandler->onUpdate();
+		if(currentHandler != NULL)
+			currentHandler->onUpdate();
+
+		if (stateChanged) {
+			changeEventHandler();
+		}
 
 		switch (gameState) {
 			case MAIN_MENU:
@@ -68,24 +71,35 @@ void Game::run() {
 	}
 }
 
-void Game::initEventHandlers() {
-	playHandler = new PlayInputHandler(this);
-	mainMenuHandler = new MenuInputHandler(this);
-}
-
 void Game::changeEventHandler() {
+	BaseInputHandler *temp = NULL;
 	switch (gameState) {
 	case PLAY:
-		currentHandler = playHandler;
-		currentHandler->onReset();
+		temp = currentHandler;
+		currentHandler = new PlayInputHandler(this);
 		window->setInputHandler(currentHandler);
+		if (temp != NULL) {
+			delete temp;
+			temp = NULL;
+		}
+		window->releaseHandlerLock();
 		break;
 	case MAIN_MENU:
-		currentHandler = mainMenuHandler;
-		currentHandler->onReset();
+		temp = currentHandler;
+		currentHandler = new MenuInputHandler(this);
 		window->setInputHandler(currentHandler);
+		if (temp != NULL) {
+			delete temp;
+			temp = NULL;
+		}
+		window->releaseHandlerLock();
 		break;
 	default:
 		break;
 	}	
+	stateChanged = false;
+}
+
+BaseDrawable * Game::getPlayer() const {
+	return player;
 }

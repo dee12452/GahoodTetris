@@ -2,10 +2,10 @@
 #define GAME_HPP
 
 #include "Util.hpp"
-#include "BaseDrawable.hpp"
 
 class Window;
 class BaseInputHandler;
+class BaseDrawable;
 
 class Game {
 public:
@@ -14,17 +14,17 @@ public:
 
 	void run();
     GameState getGameState() const;
+	BaseDrawable * getPlayer() const;
     void setGameState(GameState);
 
 private:
 	Window *window;
 	BaseInputHandler *currentHandler;
-	BaseInputHandler *playHandler;
-	BaseInputHandler *mainMenuHandler;
+	BaseDrawable *player;
     GameState gameState;
 
-	void initEventHandlers();
 	void changeEventHandler();
+	bool stateChanged;
 };
 
 #endif

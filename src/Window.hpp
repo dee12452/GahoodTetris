@@ -17,6 +17,7 @@ public:
 	int getWindowWidth() const;
 	int getWindowHeight() const;
 	void setInputHandler(BaseInputHandler *);
+	void releaseHandlerLock();
 
 private:
 	int windowWidth;
@@ -33,7 +34,7 @@ private:
 	void init();
 	void close();
 	void render();
-	bool rendering;
+	bool rendering, changeHandler, allowChangeHandler;
 	BaseInputHandler *eventHandler;
 
 	//For fps handling

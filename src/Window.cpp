@@ -9,7 +9,7 @@ Window::Window() {
 	windowWidth = DESIRED_WINDOW_WIDTH;
 	windowHeight = DESIRED_WINDOW_HEIGHT;
 	DisplayUtil::initScreen(windowWidth, windowHeight);
-	rendering = false;
+	rendering = false, changeHandler = false, allowChangeHandler = false;
 	eventHandler = NULL;
 	fps = DEFAULT_FPS;
 	timer = new Timer(fps, true);
@@ -43,6 +43,12 @@ void Window::render() {
 				if (timer->check()) {
 					renderToScreen();
 				}
+		}
+		
+		//Wait for the handler to change
+		if (changeHandler) {
+			allowChangeHandler = true;
+			while (changeHandler) { SDL_Delay(CPU_USAGE_LOGIC_DELAY); }
 		}
 	}
 	close();
@@ -119,5 +125,14 @@ void Window::close() {
 }
 
 void Window::setInputHandler(BaseInputHandler *input) {
+	//Request the lock, then wait for the lock to allow the change
+	changeHandler = true;
+	while (!allowChangeHandler) { SDL_Delay(CPU_USAGE_LOGIC_DELAY); }
 	eventHandler = input;
+}
+
+void Window::releaseHandlerLock() {
+	//Release the lock
+	allowChangeHandler = false;
+	changeHandler = false;
 }
