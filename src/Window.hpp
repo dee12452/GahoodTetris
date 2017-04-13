@@ -13,7 +13,7 @@ public:
 	Window(int);
 	~Window();
 	void start();
-	bool isRendering();
+	bool isRendering() const;
 	int getWindowWidth() const;
 	int getWindowHeight() const;
 	void setInputHandler(BaseInputHandler *);

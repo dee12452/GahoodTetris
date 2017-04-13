@@ -16,17 +16,15 @@ public:
     GameState getGameState() const;
     void setGameState(GameState);
 
-	void createGameDrawables();
-	std::vector<std::vector<BaseDrawable *>> getGameDrawables() const;
-	std::vector<BaseInputHandler *> getInputHandlers() const;
-
 private:
 	Window *window;
+	BaseInputHandler *currentHandler;
+	BaseInputHandler *playHandler;
+	BaseInputHandler *mainMenuHandler;
     GameState gameState;
 
-	void createInputHandlers();
-	std::vector<std::vector<BaseDrawable *>> gameDrawables;
-	std::vector<BaseInputHandler *> inputHandlers;
+	void initEventHandlers();
+	void changeEventHandler();
 };
 
 #endif

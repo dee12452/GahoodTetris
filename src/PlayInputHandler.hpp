@@ -9,11 +9,14 @@ public:
 	PlayInputHandler(Game *);
 	~PlayInputHandler() {}
 
+	void onDraw(SDL_Renderer *);
+	void onUpdate();
+	void onReset();
+
 protected:
 	void onKeyDown(SDL_Scancode);
 	void onKeyHeld(SDL_Scancode);
 	void onKeyUp(SDL_Scancode);
-	void onQuitGame();
 };
 
 #endif

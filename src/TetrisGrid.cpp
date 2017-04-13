@@ -204,7 +204,7 @@ GameState TetrisGrid::update(Player *player) {
 		if (!currentPiece->moveDown(grid)) {
 
 			if (currentPiece->getY() == 0)
-				return MENU;
+				return MAIN_MENU;
 
 			player->addPoints(currentPiece->getPieceType());
 

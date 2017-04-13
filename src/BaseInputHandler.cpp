@@ -35,18 +35,10 @@ GameState BaseInputHandler::getCurrentGameState() const {
 	return game->getGameState();
 }
 
-std::vector<BaseDrawable *> BaseInputHandler::getCurrentGameDrawables() const {
-	return game->getGameDrawables()[static_cast<int> (getCurrentGameState())];
-}
-
 void BaseInputHandler::setGameState(GameState gs) const {
 	game->setGameState(gs);
 }
 
 void BaseInputHandler::onQuitGame() {
 	game->setGameState(EXIT);
-}
-
-void BaseInputHandler::createGameDrawables() const {
-	game->createGameDrawables();
 }

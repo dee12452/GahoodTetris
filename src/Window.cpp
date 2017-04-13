@@ -9,7 +9,7 @@ Window::Window() {
 	windowWidth = DESIRED_WINDOW_WIDTH;
 	windowHeight = DESIRED_WINDOW_HEIGHT;
 	DisplayUtil::initScreen(windowWidth, windowHeight);
-	rendering = true;
+	rendering = false;
 	eventHandler = NULL;
 	fps = DEFAULT_FPS;
 	timer = new Timer(fps, true);
@@ -22,7 +22,7 @@ Window::Window(int targetFPS) : Window() {
 
 Window::~Window() {
 	thread.join();
-	eventHandler = NULL;
+	SpriteUtil::deleteSprites();
 	if (timer != NULL) {
 		delete timer;
 		timer = NULL;
@@ -31,22 +31,18 @@ Window::~Window() {
 
 void Window::render() {
 	init();
-	bool isRendering = true;
-	while (isRendering) {
+	bool windowRunning = true;
+	rendering = true;
+	while (windowRunning) {
 		SDL_Delay(CPU_USAGE_EVENT_DELAY);
 		if (eventHandler != NULL) {
 			eventHandler->pollEvents(DEFAULT_SCAN_KEYS, DEFAULT_SCAN_KEYS_SIZE);
-			switch (eventHandler->getCurrentGameState())
-			{
-			case EXIT:
-				isRendering = false;
-				break;
-			default:
+			if (eventHandler->getCurrentGameState() == EXIT)
+				windowRunning = false;
+			else
 				if (timer->check()) {
 					renderToScreen();
 				}
-				break;
-			}
 		}
 	}
 	close();
@@ -55,9 +51,14 @@ void Window::render() {
 
 void Window::start() {
 	thread = std::thread(&Window::render, this);
+	
+	//Wait for the window to initialize so it can load the sprites
+	Util::print("Loading window...");
+	while (!rendering) { SDL_Delay(CPU_USAGE_LOGIC_DELAY); }
+	Util::print("Done loading window!");
 }
 
-bool Window::isRendering() {
+bool Window::isRendering() const {
 	return rendering;
 }
 
@@ -65,9 +66,7 @@ void Window::renderToScreen() {
     SDL_RenderClear(windowRenderer);
 	SDL_RenderCopy(windowRenderer, windowTexture, NULL, NULL);
 	SDL_SetRenderTarget(windowRenderer, windowTexture);
-	for (size_t i = 0; i < eventHandler->getCurrentGameDrawables().size(); i++) {
-		eventHandler->getCurrentGameDrawables()[i]->draw(windowRenderer);
-	}
+	eventHandler->onDraw(windowRenderer);
 	AnimatorHelper::getInstance()->draw(windowRenderer);
 	SDL_SetRenderTarget(windowRenderer, NULL);
 	SDL_RenderPresent(windowRenderer);
@@ -102,9 +101,6 @@ void Window::init() {
 		windowHeight);
 	if (windowTexture == NULL)
 		Util::fatalSDLError("Failed to create window texture");
-
-	eventHandler->createGameDrawables();
-	renderToScreen();
 }
 
 void Window::close() {
@@ -120,7 +116,6 @@ void Window::close() {
 		SDL_DestroyWindow(window);
 		window = NULL;
 	}
-	SpriteUtil::deleteSprites();
 }
 
 void Window::setInputHandler(BaseInputHandler *input) {

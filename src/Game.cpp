@@ -1,10 +1,8 @@
 #include "Game.hpp"
 #include "Window.hpp"
+#include "Player.hpp"
 #include "PlayInputHandler.hpp"
 #include "MenuInputHandler.hpp"
-#include "TetrisGrid.hpp"
-#include "MainMenu.hpp"
-#include "Player.hpp"
 #include "AnimatorHelper.hpp"
 
 Game::Game() {
@@ -15,7 +13,9 @@ Game::Game() {
 		Util::fatalSDLError("Failed to init sdl img library");
 	}
 	window = new Window();
-	createInputHandlers();
+	currentHandler = NULL;
+	playHandler = NULL;
+	mainMenuHandler = NULL;
 }
 
 Game::~Game() {
@@ -23,19 +23,14 @@ Game::~Game() {
 		delete window;
 		window = NULL;
 	}
-	for (size_t i = 0; i < inputHandlers.size(); i++) {
-		if (inputHandlers[i] != NULL) {
-			delete inputHandlers[i];
-			inputHandlers[i] = NULL;
-		}
+	currentHandler = NULL;
+	if (playHandler != NULL) {
+		delete playHandler;
+		playHandler = NULL;
 	}
-	for (size_t i = 0; i < gameDrawables.size(); i++) {
-		for (size_t j = 0; j < gameDrawables[i].size(); j++) {
-			if (gameDrawables[i][j] != NULL) {
-				delete gameDrawables[i][j];
-				gameDrawables[i][j] = NULL;
-			}
-		}
+	if (mainMenuHandler != NULL) {
+		delete mainMenuHandler;
+		mainMenuHandler = NULL;
 	}
 	AnimatorHelper::deleteInstance();
 	IMG_Quit();
@@ -49,45 +44,23 @@ GameState Game::getGameState() const {
 void Game::setGameState(GameState state) {
 	if (gameState != state) {
 		gameState = state;
-		if (state == EXIT)
-			return;
-
-		if (gameDrawables.size() != 0) {
-			static_cast<TetrisGrid *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_GRID])->reset();
-			static_cast<Player *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_PLAYER])->resetPoints();
-		}
-		window->setInputHandler(inputHandlers[static_cast<int> (gameState)]);
+		changeEventHandler();
 	}
 }
 
 void Game::run() {
-	setGameState(MENU);
 	window->start();
+	initEventHandlers();
+	setGameState(MAIN_MENU);
 	while (window->isRendering()) {
 		SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 
-		//perform logic here
-		//SDL_Delay for the CPU usage issue
-		if (gameDrawables.size() == 0) {
-			SDL_Delay(CPU_USAGE_LOGIC_DELAY);
-			continue;
-		}
+		currentHandler->onUpdate();
 
 		switch (gameState) {
-			case MENU:
-				if (gameDrawables[VECTOR_MENU][VECTOR_MENU_MAIN] != NULL) {
-					MainMenu *menu = static_cast<MainMenu *> (gameDrawables[VECTOR_MENU][VECTOR_MENU_MAIN]);
-					menu->update();
-				}
+			case MAIN_MENU:
 				break;
 			case PLAY:
-				if (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_GRID] != NULL) {
-					TetrisGrid *tGrid = static_cast<TetrisGrid *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_GRID]);
-					GameState newState;
-					newState = tGrid->update(static_cast<Player *> (gameDrawables[VECTOR_PLAY][VECTOR_PLAY_PLAYER]));
-					if (newState != PLAY)
-						setGameState(newState);
-				}
 				break;
 			case EXIT:
 				break;
@@ -95,35 +68,24 @@ void Game::run() {
 	}
 }
 
-std::vector<std::vector<BaseDrawable *>> Game::getGameDrawables() const {
-	return gameDrawables;
+void Game::initEventHandlers() {
+	playHandler = new PlayInputHandler(this);
+	mainMenuHandler = new MenuInputHandler(this);
 }
 
-void Game::createGameDrawables() {
-	
-	//Create menu drawables
-	std::vector<BaseDrawable *> menu;
-	menu.push_back(new MainMenu());
-
-	//Create play drawables
-	std::vector<BaseDrawable *> play;
-	play.push_back(new TetrisGrid(((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4,
-		0));
-	play.push_back(new Player());
-
-	//Push back those game vectors
-	gameDrawables.push_back(menu);
-	gameDrawables.push_back(play);
-}
-
-void Game::createInputHandlers() {
-	//menu input handler
-	inputHandlers.push_back(new MenuInputHandler(this));
-
-	//play input handler
-	inputHandlers.push_back(new PlayInputHandler(this));
-}
-
-std::vector<BaseInputHandler *> Game::getInputHandlers() const {
-	return inputHandlers;
+void Game::changeEventHandler() {
+	switch (gameState) {
+	case PLAY:
+		currentHandler = playHandler;
+		currentHandler->onReset();
+		window->setInputHandler(currentHandler);
+		break;
+	case MAIN_MENU:
+		currentHandler = mainMenuHandler;
+		currentHandler->onReset();
+		window->setInputHandler(currentHandler);
+		break;
+	default:
+		break;
+	}	
 }

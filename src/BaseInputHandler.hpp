@@ -3,6 +3,7 @@
 
 #include "Util.hpp"
 #include "Game.hpp"
+#include "SpriteUtil.hpp"
 
 class BaseDrawable;
 
@@ -12,11 +13,12 @@ public:
 	virtual ~BaseInputHandler();
 
 	virtual void pollEvents(const SDL_Scancode *desiredScanCodes, int scanCodesLength);
+	virtual void onDraw(SDL_Renderer *) = 0;
+	virtual void onUpdate() = 0;
+	virtual void onReset() = 0;
 
 	GameState getCurrentGameState() const;
-	std::vector<BaseDrawable *> getCurrentGameDrawables() const;
 	void setGameState(GameState) const;
-	void createGameDrawables() const;
 
 protected:
 	virtual void onKeyDown(SDL_Scancode) = 0;
