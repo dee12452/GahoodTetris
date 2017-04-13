@@ -15,7 +15,7 @@ public:
 
 	void draw(SDL_Renderer *);
 	void reset();
-    GameState update(Player *);
+    void update(Player *, GameState &);
     void setUpdateTime(int) const;
 	
     TetrisPiece * getCurrentPiece() const;

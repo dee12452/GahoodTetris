@@ -44,10 +44,18 @@ void PlayInputHandler::onKeyUp(SDL_Scancode key) {}
 
 void PlayInputHandler::onDraw(SDL_Renderer *renderer) {
 	tetrisGrid->draw(renderer);
+	getGame()->getPlayer()->draw(renderer);
 }
 
 void PlayInputHandler::onUpdate() {
-	static_cast<TetrisGrid *> (tetrisGrid)->update(static_cast<Player *> (getGame()->getPlayer()));
+	Player *player = static_cast<Player *> (getGame()->getPlayer());
+	GameState state = getGame()->getGameState();
+	static_cast<TetrisGrid *> (tetrisGrid)->update(player, state);
+	if (state != getGame()->getGameState()) {
+		player->resetPoints();
+		getGame()->setGameState(state);
+	}
+	player = NULL;
 }
 
 void PlayInputHandler::onReset() {}

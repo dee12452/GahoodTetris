@@ -24,7 +24,7 @@ TetrisGrid::TetrisGrid(int x, int y) {
 	createRandomPiece();
 
     tickTimer = new Timer(STARTING_BOARD_DELAY_TIME, false);
-	updating = false;
+	updating = true;
 }
 
 TetrisGrid::~TetrisGrid() {
@@ -199,12 +199,9 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_NEXT_PIECE_BORDER)->draw(renderer);
 }
 
-GameState TetrisGrid::update(Player *player) {
-    if(tickTimer->check() && currentPiece != NULL) {
+void TetrisGrid::update(Player *player, GameState &state) {
+    if(tickTimer->check() && currentPiece != NULL && updating) {
 		if (!currentPiece->moveDown(grid)) {
-
-			if (currentPiece->getY() == 0)
-				return MAIN_MENU;
 
 			player->addPoints(currentPiece->getPieceType());
 
@@ -218,16 +215,18 @@ GameState TetrisGrid::update(Player *player) {
 
 			player->addPoints(clearRows() * static_cast<int> (currentPiece->getPieceType()));
 			
-			createRandomPiece();
+			if (currentPiece->getY() <= 0) {
+				updating = false;
+				state = MAIN_MENU;
+			}
+			else {
+				createRandomPiece();
+			}
 		}
     }
-	return PLAY;
 }
 
 int TetrisGrid::clearRows() {
-	/* Columns == currRow, Rows = currCols? :( WHY!?
-		^^^ that really threw me off, knowledge is power */
-
 	//clearing the rows
 	//store the rows in a vector
 	std::vector<int> rowsCleared;
