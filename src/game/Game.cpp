@@ -1,9 +1,9 @@
-#include "Game.hpp"
-#include "Window.hpp"
-#include "Player.hpp"
-#include "PlayInputHandler.hpp"
-#include "MenuInputHandler.hpp"
-#include "AnimatorHelper.hpp"
+#include "../headers/Game.hpp"
+#include "../headers/Window.hpp"
+#include "../headers/Player.hpp"
+#include "../headers/PlayInputHandler.hpp"
+#include "../headers/MenuInputHandler.hpp"
+#include "../headers/AnimatorHelper.hpp"
 
 Game::Game() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {

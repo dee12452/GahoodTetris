@@ -1,5 +1,4 @@
-#include "Game.hpp"
-#include "Timer.hpp"
+#include "headers/Game.hpp"
 
 int main(int argc, char *argv[]) {
 	Game game;

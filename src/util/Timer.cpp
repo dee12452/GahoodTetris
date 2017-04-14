@@ -1,4 +1,4 @@
-#include "Timer.hpp"
+#include "../headers/Timer.hpp"
 
 Timer::Timer(int targetTime, bool isFPS) {
 	init(targetTime, isFPS);

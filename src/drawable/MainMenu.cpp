@@ -1,6 +1,6 @@
-#include "MainMenu.hpp"
-#include "SpriteUtil.hpp"
-#include "AnimatorHelper.hpp"
+#include "../headers/MainMenu.hpp"
+#include "../headers/SpriteUtil.hpp"
+#include "../headers/AnimatorHelper.hpp"
 
 const int MainMenu::BUTTON_Y = 350, MainMenu::BUTTON_X = 115, MainMenu::BUTTON_WIDTH = 70, MainMenu::BUTTON_HEIGHT = 35;
 

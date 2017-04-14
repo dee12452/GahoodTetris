@@ -37,6 +37,7 @@ private:
 		Sprite *sprite;
 		Timer *timerX;
 		Timer *timerY;
+		Timer *timerStart;
 	} Animation;
 
 	std::vector<Animation *> animations;

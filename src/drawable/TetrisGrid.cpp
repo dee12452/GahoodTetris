@@ -1,8 +1,8 @@
-#include "TetrisGrid.hpp"
-#include "Timer.hpp"
-#include "TetrisPiece.hpp"
-#include "SpriteUtil.hpp"
-#include "Player.hpp"
+#include "../headers/TetrisGrid.hpp"
+#include "../headers/Timer.hpp"
+#include "../headers/TetrisPiece.hpp"
+#include "../headers/SpriteUtil.hpp"
+#include "../headers/Player.hpp"
 
 const int TetrisGrid::NEXT_PIECE_X = 16, TetrisGrid::NEXT_PIECE_Y = 3;
 

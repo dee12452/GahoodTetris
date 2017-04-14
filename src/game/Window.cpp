@@ -1,9 +1,9 @@
-#include "Window.hpp"
-#include "Timer.hpp"
-#include "DisplayUtil.hpp"
-#include "BaseInputHandler.hpp"
-#include "SpriteUtil.hpp"
-#include "AnimatorHelper.hpp"
+#include "../headers/Window.hpp"
+#include "../headers/Timer.hpp"
+#include "../headers/DisplayUtil.hpp"
+#include "../headers/BaseInputHandler.hpp"
+#include "../headers/SpriteUtil.hpp"
+#include "../headers/AnimatorHelper.hpp"
 
 Window::Window() {
 	windowWidth = DESIRED_WINDOW_WIDTH;

@@ -1,5 +1,5 @@
-#include "MenuInputHandler.hpp"
-#include "MainMenu.hpp"
+#include "../headers/MenuInputHandler.hpp"
+#include "../headers/MainMenu.hpp"
 
 MenuInputHandler::MenuInputHandler(Game *g) : BaseInputHandler(g) {
 	menu = new MainMenu();

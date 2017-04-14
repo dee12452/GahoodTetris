@@ -1,4 +1,4 @@
-#include "TetrisPiece.hpp"
+#include "../headers/TetrisPiece.hpp"
 
 TetrisPiece::TetrisPiece(PieceTypes type, int x, int y) {
     this->x = x;

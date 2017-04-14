@@ -1,5 +1,5 @@
-#include "Sprite.hpp"
-#include "Timer.hpp"
+#include "../headers/Sprite.hpp"
+#include "../headers/Timer.hpp"
 
 Sprite::Sprite(SDL_Renderer *renderer,
 	const char *file,

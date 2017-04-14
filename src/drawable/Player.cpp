@@ -1,5 +1,5 @@
-#include "Player.hpp"
-#include "SpriteUtil.hpp"
+#include "../headers/Player.hpp"
+#include "../headers/SpriteUtil.hpp"
 
 Player::Player() {
 	resetPoints();

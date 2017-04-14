@@ -1,5 +1,5 @@
-#include "DisplayUtil.hpp"
-#include "Window.hpp"
+#include "../headers/DisplayUtil.hpp"
+#include "../headers/Window.hpp"
 
 int DisplayUtil::screenWidth;
 int DisplayUtil::screenHeight;

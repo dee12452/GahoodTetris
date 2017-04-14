@@ -1,4 +1,4 @@
-#include "BaseInputHandler.hpp"
+#include "../headers/BaseInputHandler.hpp"
 
 BaseInputHandler::BaseInputHandler(Game *g) { this->game = g; gameCreated = false; }
 

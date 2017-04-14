@@ -1,5 +1,5 @@
-#include "SpriteUtil.hpp"
-#include "Sprite.hpp"
+#include "../headers/SpriteUtil.hpp"
+#include "../headers/Sprite.hpp"
 
 const int SpriteUtil::SPRITE_YELLOW_BLOCK = 0;
 const int SpriteUtil::SPRITE_GREEN_BLOCK = 1;

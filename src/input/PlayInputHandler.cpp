@@ -1,7 +1,7 @@
-#include "PlayInputHandler.hpp"
-#include "TetrisGrid.hpp"
-#include "TetrisPiece.hpp"
-#include "Player.hpp"
+#include "../headers/PlayInputHandler.hpp"
+#include "../headers/TetrisGrid.hpp"
+#include "../headers/TetrisPiece.hpp"
+#include "../headers/Player.hpp"
 
 PlayInputHandler::PlayInputHandler(Game *g) : BaseInputHandler(g) {
 	tetrisGrid = new TetrisGrid(((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4, 0);
