@@ -11,14 +11,14 @@ public:
 	MenuInputHandler(Game *);
 	~MenuInputHandler();
 	 
-	void onDraw(SDL_Renderer *);
-	void onUpdate();
-	void onReset();
+	void onDraw(SDL_Renderer *) override;
+	void onUpdate() override;
+	void onReset() override;
 
 protected:
-	void onKeyDown(SDL_Scancode);
-	void onKeyHeld(SDL_Scancode);
-	void onKeyUp(SDL_Scancode);
+	void onKeyDown(SDL_Scancode) override;
+	void onKeyHeld(SDL_Scancode) override;
+	void onKeyUp(SDL_Scancode) override;
 
 private:
 	MainMenu *menu;

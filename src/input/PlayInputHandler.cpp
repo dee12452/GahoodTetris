@@ -31,6 +31,7 @@ void PlayInputHandler::onKeyDown(SDL_Scancode key) {
 			grid->getCurrentPiece()->rotate(grid->getGrid(), true);
 			break;
 		case SDL_SCANCODE_ESCAPE:
+			static_cast<Player *> (getGame()->getPlayer())->resetPoints();
 			getGame()->setGameState(MAIN_MENU);
 			break;
         default:

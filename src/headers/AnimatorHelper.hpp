@@ -2,53 +2,29 @@
 #define ANIMATOR_HELPER_HPP
 
 #include "BaseDrawable.hpp"
-class Timer;
-class Sprite;
+
+class BaseAnimation;
 
 class AnimatorHelper : public BaseDrawable {
 private:
 	AnimatorHelper();
 	~AnimatorHelper();
-	static AnimatorHelper *helper;
+	std::thread animationThread;
 	bool animating;
-	bool continueAnimating;
-	bool parseLine(const std::string &);
-	std::thread thread;
-	std::string currentAnimationFile;
-	void beginAnimation();
-	int determineTimer(int, int);
-	
-	enum AnimationType {
-		MOVE,
-		ROTATE
-	};
-	
-	typedef struct Animation {
-		int startX;
-		int startY;
-		int offsetX;
-		int offsetY;
-		int targetX;
-		int targetY;
-		int timeStart;
-		int duration;
-		bool done;
-		AnimationType type;
-		Sprite *sprite;
-		Timer *timerX;
-		Timer *timerY;
-		Timer *timerStart;
-	} Animation;
-
-	std::vector<Animation *> animations;
+	static AnimatorHelper *helper;
+	std::vector<BaseAnimation *> animations;
+	void parseAnimationFile(const std::string &);
 
 public:
 	static AnimatorHelper * getInstance();
 	static void deleteInstance();
 
+	void draw(SDL_Renderer *) override;
 	void startAnimation(const std::string &);
 	void stopAnimation();
-	void draw(SDL_Renderer *);
+	void animate();
+
+	bool isAnimating() const;
 };
 
 #endif

@@ -19,7 +19,7 @@ public:
 	Sprite(SDL_Renderer *, const char *, bool);
 	~Sprite();
 
-	virtual void draw(SDL_Renderer *);
+	virtual void draw(SDL_Renderer *) override;
 	virtual void draw(SDL_Renderer *, const SDL_Rect &);
 
 	int getLocationX() const;

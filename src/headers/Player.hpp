@@ -20,7 +20,7 @@ public:
 	std::string getPointsAsString() const;
 	std::string getName() const;
 
-	void draw(SDL_Renderer *);
+	void draw(SDL_Renderer *) override;
 
 private:
 	int points;

@@ -11,7 +11,7 @@ public:
 	MainMenu();
 	~MainMenu();
 
-	void draw(SDL_Renderer *);
+	void draw(SDL_Renderer *) override;
 	void update();
 
 	void nextSelection();

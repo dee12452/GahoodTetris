@@ -13,7 +13,7 @@ public:
 	TetrisGrid(int, int);
 	~TetrisGrid();
 
-	void draw(SDL_Renderer *);
+	void draw(SDL_Renderer *) override;
 	void reset();
     void update(Player *, GameState &);
     void setUpdateTime(int) const;
