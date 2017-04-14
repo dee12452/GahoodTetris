@@ -104,6 +104,8 @@ bool TetrisPiece::canMoveLeft(Uint8 **grid) const {
     else {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
+				if (y + j < 0)
+					continue;
 				if (blocks[i][j] == 1 && grid[x + i - 1][y + j] >= 1)
 					return false;
 			}
@@ -117,6 +119,8 @@ bool TetrisPiece::canMoveRight(Uint8 **grid) const {
     else {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
+				if (y + j < 0)
+					continue;
 				if (blocks[i][j] == 1 && grid[x + i + 1][y + j] >= 1)
 					return false;
 			}
@@ -130,6 +134,8 @@ bool TetrisPiece::canMoveDown(Uint8 **grid) const {
     else {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
+				if (y + j + 1 < 0)
+					continue;
 				if (blocks[i][j] == 1 && grid[x + i][y + j + 1] >= 1)
 					return false;
 			}
@@ -182,6 +188,8 @@ void TetrisPiece::rotateClockwise(Uint8 **grid) {
 	if (!preventRotate) {
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
+				if (y + j < 0)
+					continue;
 				if (newBlocks[i][j] == 1 && grid[x + i][y + j] >= 1) {
 					preventRotate = true;
 				}

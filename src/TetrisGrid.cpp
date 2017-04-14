@@ -56,7 +56,7 @@ void TetrisGrid::createRandomPiece() {
 	PieceTypes nextPieceType = static_cast<PieceTypes> (Util::getRandomNumber(0, 6));
 	if(currentPiece != NULL)
 		delete currentPiece;
-	currentPiece = new TetrisPiece(nextPiece->getPieceType(), GRID_ROWS / 2, 0);
+	currentPiece = new TetrisPiece(nextPiece->getPieceType(), GRID_ROWS / 2 - nextPiece->getRows() / 2, 0 - nextPiece->getColumns());
 	delete nextPiece;
 	nextPiece = new TetrisPiece(nextPieceType, 
 		NEXT_PIECE_X,
@@ -115,7 +115,7 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 		for (int i = 0; i < currentPiece->getRows(); i++, locX += BLOCK_WIDTH) {
 			int locY = (currentPiece->getY() * BLOCK_HEIGHT) + gridY;
 			for (int j = 0; j < currentPiece->getColumns(); j++, locY += BLOCK_HEIGHT) {
-				if ((currentPiece->getBlocks())[i][j] == 1) {
+				if ((currentPiece->getBlocks())[i][j] == 1 && locY >= 0) {
 					Sprite *currBlock;
 					switch (static_cast<int> (currentPiece->getPieceType())) {
 					case I:
@@ -205,6 +205,12 @@ void TetrisGrid::update(Player *player, GameState &state) {
 
 			player->addPoints(currentPiece->getPieceType());
 
+			if (currentPiece->getY() <= 0) {
+				updating = false;
+				state = MAIN_MENU;
+				return;
+			}
+
 			for (int i = 0; i < currentPiece->getRows(); i++) {
 				for (int j = 0; j < currentPiece->getColumns(); j++) {
 					if ((currentPiece->getBlocks())[i][j] == 1) {
@@ -214,14 +220,7 @@ void TetrisGrid::update(Player *player, GameState &state) {
 			}
 
 			player->addPoints(clearRows() * static_cast<int> (currentPiece->getPieceType()));
-			
-			if (currentPiece->getY() <= 0) {
-				updating = false;
-				state = MAIN_MENU;
-			}
-			else {
-				createRandomPiece();
-			}
+			createRandomPiece();
 		}
     }
 }
