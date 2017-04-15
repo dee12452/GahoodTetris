@@ -14,6 +14,7 @@ private:
 	static AnimatorHelper *helper;
 	std::vector<BaseAnimation *> animations;
 	void parseAnimationFile(const std::string &);
+	void animate();
 
 public:
 	static AnimatorHelper * getInstance();
@@ -22,7 +23,6 @@ public:
 	void draw(SDL_Renderer *) override;
 	void startAnimation(const std::string &);
 	void stopAnimation();
-	void animate();
 
 	bool isAnimating() const;
 };

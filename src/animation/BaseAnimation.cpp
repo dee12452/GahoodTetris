@@ -3,7 +3,7 @@
 
 BaseAnimation::BaseAnimation(int delayMs) {
 	timerDelay = new Timer(delayMs, false);
-	canAnimate = false;
+	canUpdate = false;
 }
 
 BaseAnimation::~BaseAnimation() {
@@ -13,15 +13,27 @@ BaseAnimation::~BaseAnimation() {
 	}
 }
 
-void BaseAnimation::animate() {
-	if (timerDelay != NULL && timerDelay->check()) {
-		canAnimate = true;
-		Timer *temp = timerDelay;
-		timerDelay = NULL;
-		delete temp;
-		temp = NULL;
+//Drawing
+void BaseAnimation::animate(SDL_Renderer *renderer) {
+	onAnimate(renderer);
+}
+
+//Updating
+void BaseAnimation::update() {
+	if (timerDelay->check()) {
+		canUpdate = true;
 	}
-	if (canAnimate) {
-		onAnimate();
+	if (canUpdate) {
+		onUpdate();
 	}
+}
+
+//Can start animating
+bool BaseAnimation::isUpdating() const {
+	return canUpdate;
+}
+
+void BaseAnimation::reset() {
+	timerDelay->reset();
+	canUpdate = false;
 }

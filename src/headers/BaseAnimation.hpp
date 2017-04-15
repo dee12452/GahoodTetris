@@ -9,18 +9,23 @@ class BaseAnimation {
 public:
 	BaseAnimation(int);
 	virtual ~BaseAnimation();
-	void animate();
-	virtual void parseAnimation(const std::string &) = 0;
+	void animate(SDL_Renderer *);
+	void update();
+	bool isUpdating() const;
+	virtual bool isAnimating() const = 0;
 
 protected:
-	virtual void onAnimate() = 0;
+	virtual void onAnimate(SDL_Renderer *) = 0;
+	virtual void onUpdate() = 0;
+	virtual void parseAnimation(const std::string &) = 0;
+	void reset();
 
 private:
 	//Used for a delay of when the animation starts
 	Timer *timerDelay;
 
 	//If the delay timer allows, the animation can now animatee
-	bool canAnimate;
+	bool canUpdate;
 };
 
 #endif

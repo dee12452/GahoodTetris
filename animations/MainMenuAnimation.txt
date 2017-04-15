@@ -1,0 +1,7 @@
+//This is a comment!
+MOVE 0 1 0 0 400 200 1000 0
+MOVE 1000 2 100 50 475 30 1000 0
+MOVE 6000 3 500 100 40 64 1000 0
+MOVE 3000 4 333 222 111 0 1000 0
+//Guess who?? That's right, another comment ;)
+MOVE 4000 5 251 0 231 450 1000 0

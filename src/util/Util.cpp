@@ -1,5 +1,6 @@
 #include "../headers/Util.hpp"
 #include <random>
+#include <sstream>
 
 const std::string Util::TAG = "Gahood Tetris : ";
 const int Util::PIECE_ROWS = 3;
@@ -89,4 +90,26 @@ int Util::getRandomNumber(int min, int max) {
 	rng.seed(std::random_device()());
 	std::uniform_int_distribution<std::mt19937::result_type> distribution(min, max);
 	return distribution(rng);
+}
+
+bool Util::parseLineForAnimationInformation(const std::string &line, std::vector<int *> &information) {
+	int substrStart = 0;
+	int count = 0;
+	for (size_t i = 0; i < line.length(); i++) {
+		if (line[i] == ' ') {
+			count++;
+		}
+		if (count == 2) {
+			substrStart = static_cast<int> (i) + 1;
+			break;
+		}
+	}
+	std::string substring = line.substr(substrStart);
+	std::istringstream stream(substring);
+
+	for (size_t i = 0; i < information.size(); i++) {
+		if (!(stream >> *information[i]))
+			return false;
+	}
+	return true;
 }

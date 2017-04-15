@@ -23,6 +23,8 @@ public:
 	static void destroyTetrisPiece(Uint8 **&);
 	static void rotateTetrisPiece(Direction, Uint8 **&);
 
+	static bool parseLineForAnimationInformation(const std::string &, std::vector<int *> &);
+
 	static int getRandomNumber(int, int);
 };
 
