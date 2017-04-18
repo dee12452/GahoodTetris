@@ -33,7 +33,7 @@ void Window::render() {
 	init();
 	bool windowRunning = true;
 	rendering = true;
-	while (windowRunning) {
+    while (windowRunning) {
 		SDL_Delay(CPU_USAGE_EVENT_DELAY);
 		if (eventHandler != NULL) {
 			eventHandler->pollEvents(DEFAULT_SCAN_KEYS, DEFAULT_SCAN_KEYS_SIZE);
@@ -56,8 +56,8 @@ void Window::render() {
 }
 
 void Window::start() {
-	thread = std::thread(&Window::render, this);
-	
+    thread = std::thread(&Window::render, this);
+
 	//Wait for the window to initialize so it can load the sprites
 	Util::print("Loading window...");
 	while (!rendering) { SDL_Delay(CPU_USAGE_LOGIC_DELAY); }

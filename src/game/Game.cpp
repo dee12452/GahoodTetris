@@ -12,9 +12,10 @@ Game::Game() {
 	if (IMG_Init(IMG_INIT_PNG) < 0) {
 		Util::fatalSDLError("Failed to init sdl img library");
 	}
-	player = new Player();
+	player = (BaseDrawable *) new Player();
 	window = new Window();
 	currentHandler = NULL;
+    gameState = START;
 	stateChanged = false;
 }
 
@@ -53,8 +54,9 @@ void Game::run() {
 	while (window->isRendering()) {
 		SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 
-		if(currentHandler != NULL)
+		if(currentHandler != NULL) {
 			currentHandler->onUpdate();
+        }
 
 		if (stateChanged) {
 			changeEventHandler();
@@ -65,7 +67,7 @@ void Game::run() {
 				break;
 			case PLAY:
 				break;
-			case EXIT:
+		    default:
 				break;
 		}
 	}
@@ -73,7 +75,7 @@ void Game::run() {
 
 void Game::changeEventHandler() {
 	BaseInputHandler *temp = NULL;
-	switch (gameState) {
+    switch (gameState) {
 	case PLAY:
 		temp = currentHandler;
 		currentHandler = new PlayInputHandler(this);

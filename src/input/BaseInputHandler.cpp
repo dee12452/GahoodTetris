@@ -5,7 +5,7 @@ BaseInputHandler::BaseInputHandler(Game *g) { this->game = g; gameCreated = fals
 BaseInputHandler::~BaseInputHandler() {}
 
 void BaseInputHandler::pollEvents(const SDL_Scancode *desiredScanCodes, int scanCodesLength) {
-	SDL_Event e;
+    SDL_Event e;
 	const Uint8 *keyboardState = SDL_GetKeyboardState(NULL);
 	while (SDL_PollEvent(&e)) {
 		switch (e.type) {
