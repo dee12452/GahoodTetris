@@ -70,7 +70,7 @@ std::string Player::getPointsAsString() const {
 }
 
 void Player::draw(SDL_Renderer *renderer) {
-	//Draw Points
+    //Draw Points
     std::string pointsStr = getPointsAsString();
 	int numbersSheetWidth = 690, numbersSheetHeight = 338;
 	Sprite *numbers = SpriteUtil::getSprite(SpriteUtil::SPRITE_NUMBERS_SHEET);
@@ -100,7 +100,7 @@ void Player::draw(SDL_Renderer *renderer) {
 		destinationRect.w = numbersRect.w / 8;
 		destinationRect.h = numbersRect.h / 8;
 		destinationRect.x = PLAYER_SCORE_X + (i * destinationRect.w);
-		destinationRect.y = PLAYER_SCORE_Y;
+		destinationRect.y = PLAYER_SCORE_Y + (destinationRect.h);
 		numbers->setRect(destinationRect);
 
 		numbers->draw(renderer, numbersRect);
@@ -134,10 +134,19 @@ void Player::draw(SDL_Renderer *renderer) {
 		destinationRect.w = numbersRect.w / 8;
 		destinationRect.h = numbersRect.h / 8;
 		destinationRect.x = PLAYER_SCORE_X + (i * destinationRect.w);
-		destinationRect.y = PLAYER_SCORE_Y + (2 * destinationRect.h);
+		destinationRect.y = PLAYER_SCORE_Y + (4 * destinationRect.h);
 		numbers->setRect(destinationRect);
 
 		numbers->draw(renderer, numbersRect);
     }
 	numbers = NULL;
+    
+    //Draw text
+    SDL_Rect ptsRect, lvlRect;
+    ptsRect.x = 0; ptsRect.y = 0;
+    ptsRect.w = numbersSheetWidth / 40; ptsRect.h = numbersSheetHeight / 16;
+    lvlRect.w = numbersSheetWidth / 40; lvlRect.h = numbersSheetHeight / 16;
+    lvlRect.x = 0; lvlRect.y = lvlRect.h * 3;
+    SpriteUtil::drawText(renderer, "Points", ptsRect);
+    SpriteUtil::drawText(renderer, "Level", lvlRect);
 }
