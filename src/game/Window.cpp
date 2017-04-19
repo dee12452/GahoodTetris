@@ -87,7 +87,7 @@ void Window::init() {
 		DisplayUtil::getScreenHeight() / 2 - windowHeight / 2,
 		windowWidth,
 		windowHeight,
-		SDL_WINDOW_OPENGL | SDL_WINDOW_RESIZABLE);
+		SDL_WINDOW_OPENGL/* | SDL_WINDOW_RESIZABLE*/);
 	if (window == NULL)
 		Util::fatalSDLError("Failed to create the window");
 

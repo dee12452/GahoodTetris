@@ -54,6 +54,32 @@ const char * const SPRITE_PLAY_BUTTON_FILE_LOCATION = "../res/play_button.png";
 const char * const SPRITE_EXIT_BUTTON_FILE_LOCATION = "../res/exit_button.png";
 const char * const SPRITE_SELECTOR_FILE_LOCATION = "../res/selector.png";
 const char * const SPRITE_NEXT_BORDER_FILE_LOCATION = "../res/next_border.png";
+const char * const SPRITE_A_FILE_LOCATION = "../res/A.png";
+const char * const SPRITE_B_FILE_LOCATION = "../res/B.png";
+const char * const SPRITE_C_FILE_LOCATION = "../res/C.png";
+const char * const SPRITE_D_FILE_LOCATION = "../res/D.png";
+const char * const SPRITE_E_FILE_LOCATION = "../res/E.png";
+const char * const SPRITE_F_FILE_LOCATION = "../res/F.png";
+const char * const SPRITE_G_FILE_LOCATION = "../res/G.png";
+const char * const SPRITE_H_FILE_LOCATION = "../res/H.png";
+const char * const SPRITE_I_FILE_LOCATION = "../res/I.png";
+const char * const SPRITE_J_FILE_LOCATION = "../res/J.png";
+const char * const SPRITE_K_FILE_LOCATION = "../res/K.png";
+const char * const SPRITE_L_FILE_LOCATION = "../res/L.png";
+const char * const SPRITE_M_FILE_LOCATION = "../res/M.png";
+const char * const SPRITE_N_FILE_LOCATION = "../res/N.png";
+const char * const SPRITE_O_FILE_LOCATION = "../res/O.png";
+const char * const SPRITE_P_FILE_LOCATION = "../res/P.png";
+const char * const SPRITE_Q_FILE_LOCATION = "../res/Q.png";
+const char * const SPRITE_R_FILE_LOCATION = "../res/R.png";
+const char * const SPRITE_S_FILE_LOCATION = "../res/S.png";
+const char * const SPRITE_T_FILE_LOCATION = "../res/T.png";
+const char * const SPRITE_U_FILE_LOCATION = "../res/U.png";
+const char * const SPRITE_V_FILE_LOCATION = "../res/V.png";
+const char * const SPRITE_W_FILE_LOCATION = "../res/W.png";
+const char * const SPRITE_X_FILE_LOCATION = "../res/X.png";
+const char * const SPRITE_Y_FILE_LOCATION = "../res/Y.png";
+const char * const SPRITE_Z_FILE_LOCATION = "../res/Z.png";
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
@@ -177,6 +203,22 @@ const Uint8 FULL_ALPHA_VALUE = 255;
 const Uint8 NO_ALPHA_VALUE = 0;
 const int RGB_VARIANTS = 3;
 enum RGB_VALUES { RED, GREEN, BLUE, NONE };
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//Tetris Piece Starting Place Timer
+const int TETRIS_PIECE_DEFAULT_TIMER = 2000;
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
+//Tetris Grid Points and Level Constants
+//
+//The number of points to get to the next level
+const int TARGET_POINTS_FACTOR = 100;
+//The factor by which the update time is reduced (updateTime -= (currentLevel * factor))
+const int UPDATE_TIME_FACTOR = 50;
+//The minimum possible update time
+const int UPDATE_TIME_MINIMUM = 50;
 ////////////////////////////////////////////////////////////////////
 
 #endif

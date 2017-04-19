@@ -27,7 +27,8 @@ private:
 
 	Uint8 **grid;
 	int gridX, gridY;
-	static const int NEXT_PIECE_X, NEXT_PIECE_Y;
+    int currentLevel, currentUpdateTime, targetPoints;
+    static const int NEXT_PIECE_X, NEXT_PIECE_Y;
 	bool updating;
 
 	int clearRows();

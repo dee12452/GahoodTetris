@@ -1,4 +1,5 @@
 #include "../headers/TetrisPiece.hpp"
+#include "../headers/Timer.hpp"
 
 TetrisPiece::TetrisPiece(PieceTypes type, int x, int y) {
     this->x = x;
@@ -54,6 +55,7 @@ TetrisPiece::TetrisPiece(PieceTypes type, int x, int y) {
 			blocks[1][2] = 1;
 			break;
     }
+    placeTimer = new Timer(TETRIS_PIECE_DEFAULT_TIMER, false);
 }
 
 TetrisPiece::~TetrisPiece() {
@@ -65,6 +67,10 @@ TetrisPiece::~TetrisPiece() {
         }
         delete[] blocks;
         blocks = NULL;
+    }
+    if(placeTimer != NULL) {
+        delete placeTimer;
+        placeTimer = NULL;
     }
 }
 
@@ -214,6 +220,23 @@ void TetrisPiece::rotateClockwise(Uint8 **grid) {
 	}
 }
 
-void TetrisPiece::rotateCounterclockwise(Uint8 **grid) {}
+bool TetrisPiece::shouldPlace(Uint8 **grid) {
+    if(!canMoveDown(grid)) {
+        if(placeTimer->check())
+            return true;
+        else
+            return false;
+    }
+    else {
+        placeTimer->reset();
+        return false;
+    }
+}
+
+void TetrisPiece::updatePlacementTimer(int timeMs) const {
+    placeTimer->setTargetMilliseconds(timeMs, false);
+} 
+
+void TetrisPiece::rotateCounterclockwise(Uint8 **) {}
 
 PieceTypes TetrisPiece::getPieceType() const { return type; }

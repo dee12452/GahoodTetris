@@ -16,6 +16,32 @@ const int SpriteUtil::SPRITE_EXIT_BUTTON = 11;
 const int SpriteUtil::SPRITE_SELECTOR = 12;
 const int SpriteUtil::SPRITE_MENU_BG = 13;
 const int SpriteUtil::SPRITE_NEXT_PIECE_BORDER = 14;
+const int SpriteUtil::SPRITE_A = 15;
+const int SpriteUtil::SPRITE_B = 16;
+const int SpriteUtil::SPRITE_C = 17;
+const int SpriteUtil::SPRITE_D = 18;
+const int SpriteUtil::SPRITE_E = 19;
+const int SpriteUtil::SPRITE_F = 20;
+const int SpriteUtil::SPRITE_G = 21;
+const int SpriteUtil::SPRITE_H = 22;
+const int SpriteUtil::SPRITE_I = 23;
+const int SpriteUtil::SPRITE_J = 24;
+const int SpriteUtil::SPRITE_K = 25;
+const int SpriteUtil::SPRITE_L = 26;
+const int SpriteUtil::SPRITE_M = 27;
+const int SpriteUtil::SPRITE_N = 28;
+const int SpriteUtil::SPRITE_O = 29;
+const int SpriteUtil::SPRITE_P = 30;
+const int SpriteUtil::SPRITE_Q = 31;
+const int SpriteUtil::SPRITE_R = 32;
+const int SpriteUtil::SPRITE_S = 33;
+const int SpriteUtil::SPRITE_T = 34;
+const int SpriteUtil::SPRITE_U = 35;
+const int SpriteUtil::SPRITE_V = 36;
+const int SpriteUtil::SPRITE_W = 37;
+const int SpriteUtil::SPRITE_X = 38;
+const int SpriteUtil::SPRITE_Y = 39;
+const int SpriteUtil::SPRITE_Z = 40;
 
 std::vector<Sprite *> SpriteUtil::gameSprites;
 
@@ -69,6 +95,84 @@ void SpriteUtil::createSprites(SDL_Renderer *renderer) {
 	gameSprites.push_back(new Sprite(renderer,
 		SPRITE_NEXT_BORDER_FILE_LOCATION,
 		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_A_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_B_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_C_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_D_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_E_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_F_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_G_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_H_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_I_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_J_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_K_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_L_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_M_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_N_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_O_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_P_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_Q_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_R_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_S_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_T_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_U_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_V_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_W_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_X_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_Y_FILE_LOCATION,
+		true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_Z_FILE_LOCATION,
+        true));
 	initSpriteDimensions();
 }
 
@@ -88,26 +192,11 @@ Sprite * SpriteUtil::getSprite(int desiredSprite) {
 }
 
 void SpriteUtil::initSpriteDimensions() {
-	gameSprites[SPRITE_YELLOW_BLOCK]->setWidth(BLOCK_WIDTH);
-	gameSprites[SPRITE_YELLOW_BLOCK]->setHeight(BLOCK_HEIGHT);
-
-	gameSprites[SPRITE_GREEN_BLOCK]->setWidth(BLOCK_WIDTH);
-	gameSprites[SPRITE_GREEN_BLOCK]->setHeight(BLOCK_HEIGHT);
-
-	gameSprites[SPRITE_GREY_BLOCK]->setWidth(BLOCK_WIDTH);
-	gameSprites[SPRITE_GREY_BLOCK]->setHeight(BLOCK_HEIGHT);
-
-	gameSprites[SPRITE_ORANGE_BLOCK]->setWidth(BLOCK_WIDTH);
-	gameSprites[SPRITE_ORANGE_BLOCK]->setHeight(BLOCK_HEIGHT);
-
-	gameSprites[SPRITE_PURPLE_BLOCK]->setWidth(BLOCK_WIDTH);
-	gameSprites[SPRITE_PURPLE_BLOCK]->setHeight(BLOCK_HEIGHT);
-
-	gameSprites[SPRITE_RED_BLOCK]->setWidth(BLOCK_WIDTH);
-	gameSprites[SPRITE_RED_BLOCK]->setHeight(BLOCK_HEIGHT);
-
-	gameSprites[SPRITE_BLUE_BLOCK]->setWidth(BLOCK_WIDTH);
-	gameSprites[SPRITE_BLUE_BLOCK]->setHeight(BLOCK_HEIGHT);
+    //Set dimensions for each block
+    for(int i = 0; i < 7; i++) {
+        gameSprites[i]->setWidth(BLOCK_WIDTH);
+        gameSprites[i]->setHeight(BLOCK_HEIGHT);
+    }
 
 	gameSprites[SPRITE_BLANK_BLOCK]->setWidth(DESIRED_WINDOW_WIDTH);
 	gameSprites[SPRITE_BLANK_BLOCK]->setHeight(DESIRED_WINDOW_HEIGHT);
@@ -121,4 +210,10 @@ void SpriteUtil::initSpriteDimensions() {
 	gameSprites[SPRITE_NEXT_PIECE_BORDER]->setHeight(BLOCK_HEIGHT * 5);
 	gameSprites[SPRITE_NEXT_PIECE_BORDER]->setLocationX(DESIRED_WINDOW_WIDTH - (BLOCK_WIDTH * 5));
 	gameSprites[SPRITE_NEXT_PIECE_BORDER]->setLocationY((BLOCK_WIDTH * 3) - 30);
+
+    //Set dimensions for the font sprites (A - Z)
+    for(int i = 15; i <= 40; i++) {
+        gameSprites[i]->setWidth(BLOCK_WIDTH * 2);
+        gameSprites[i]->setHeight(BLOCK_HEIGHT * 2);
+    }
 }

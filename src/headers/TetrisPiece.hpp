@@ -3,6 +3,8 @@
 
 #include "Util.hpp"
 
+class Timer;
+
 class TetrisPiece {
 public:
     TetrisPiece(PieceTypes, int, int);
@@ -18,8 +20,10 @@ public:
     bool moveLeft(Uint8 **);
     bool moveRight(Uint8 **);
     bool moveDown(Uint8 **);
+    bool shouldPlace(Uint8 **);
 
 	void rotate(Uint8 **, bool);
+    void updatePlacementTimer(int) const;
 
 	Uint8 ** getBlocks() const;
 	PieceTypes getPieceType() const;
@@ -39,6 +43,7 @@ private:
 	int rows;
 	int columns;
     Uint8 **blocks;
+    Timer *placeTimer;
 };
 
 #endif

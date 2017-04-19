@@ -33,6 +33,32 @@ public:
 	const static int SPRITE_SELECTOR;
 	const static int SPRITE_MENU_BG;
 	const static int SPRITE_NEXT_PIECE_BORDER;
+    const static int SPRITE_A; 
+    const static int SPRITE_B; 
+    const static int SPRITE_C; 
+    const static int SPRITE_D; 
+    const static int SPRITE_E; 
+    const static int SPRITE_F; 
+    const static int SPRITE_G; 
+    const static int SPRITE_H; 
+    const static int SPRITE_I; 
+    const static int SPRITE_J; 
+    const static int SPRITE_K; 
+    const static int SPRITE_L; 
+    const static int SPRITE_M; 
+    const static int SPRITE_N; 
+    const static int SPRITE_O; 
+    const static int SPRITE_P; 
+    const static int SPRITE_Q; 
+    const static int SPRITE_R; 
+    const static int SPRITE_S; 
+    const static int SPRITE_T; 
+    const static int SPRITE_U;
+    const static int SPRITE_V;
+    const static int SPRITE_W;
+    const static int SPRITE_X;
+    const static int SPRITE_Y;
+    const static int SPRITE_Z;
 };
 
 #endif

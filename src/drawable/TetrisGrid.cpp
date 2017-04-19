@@ -16,15 +16,17 @@ TetrisGrid::TetrisGrid(int x, int y) {
 			grid[i][j] = 0;
 		}
 	}
-
+    tickTimer = new Timer(STARTING_BOARD_DELAY_TIME, false);
+	updating = true;
+    currentUpdateTime = STARTING_BOARD_DELAY_TIME;
+    currentLevel = 1;
+    targetPoints = TARGET_POINTS_FACTOR;
 	nextPiece = new TetrisPiece(static_cast<PieceTypes> (Util::getRandomNumber(0, 6)),
 		NEXT_PIECE_X,
 		NEXT_PIECE_Y);
 	currentPiece = NULL;
 	createRandomPiece();
-
-    tickTimer = new Timer(STARTING_BOARD_DELAY_TIME, false);
-	updating = true;
+    Util::print("Next Level: " + std::to_string(currentLevel));
 }
 
 TetrisGrid::~TetrisGrid() {
@@ -57,6 +59,7 @@ void TetrisGrid::createRandomPiece() {
 	if(currentPiece != NULL)
 		delete currentPiece;
 	currentPiece = new TetrisPiece(nextPiece->getPieceType(), GRID_ROWS / 2 - nextPiece->getRows() / 2, 0 - nextPiece->getColumns());
+    currentPiece->updatePlacementTimer(currentUpdateTime);
 	delete nextPiece;
 	nextPiece = new TetrisPiece(nextPieceType, 
 		NEXT_PIECE_X,
@@ -74,7 +77,7 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 		int locY = gridY;
 		for (int j = 0; j < GRID_COLUMNS; j++, locY += BLOCK_HEIGHT) {
 			if (grid[i][j] >= 1) {
-				Sprite *currBlock;
+				Sprite *currBlock = NULL;
 				switch (grid[i][j] - 1) {
 				case I:
 					currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_BLUE_BLOCK);
@@ -116,7 +119,7 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 			int locY = (currentPiece->getY() * BLOCK_HEIGHT) + gridY;
 			for (int j = 0; j < currentPiece->getColumns(); j++, locY += BLOCK_HEIGHT) {
 				if ((currentPiece->getBlocks())[i][j] == 1 && locY >= 0) {
-					Sprite *currBlock;
+					Sprite *currBlock = NULL;
 					switch (static_cast<int> (currentPiece->getPieceType())) {
 					case I:
 						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_BLUE_BLOCK);
@@ -159,7 +162,7 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 			int locY = (nextPiece->getY() * BLOCK_HEIGHT);
 			for (int j = 0; j < nextPiece->getColumns(); j++, locY += BLOCK_HEIGHT) {
 				if ((nextPiece->getBlocks())[i][j] == 1) {
-					Sprite *currBlock;
+					Sprite *currBlock = NULL;
 					switch (static_cast<int> (nextPiece->getPieceType())) {
 					case I:
 						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_BLUE_BLOCK);
@@ -200,9 +203,8 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 }
 
 void TetrisGrid::update(Player *player, GameState &state) {
-    if(tickTimer->check() && currentPiece != NULL && updating) {
-		if (!currentPiece->moveDown(grid)) {
-
+    if(updating && currentPiece != NULL) {
+        if(currentPiece->shouldPlace(grid)) {
 			player->addPoints(currentPiece->getPieceType());
 
 			if (currentPiece->getY() <= 0) {
@@ -220,8 +222,22 @@ void TetrisGrid::update(Player *player, GameState &state) {
 			}
 
 			player->addPoints(clearRows() * static_cast<int> (currentPiece->getPieceType()));
+
+            if(player->getPoints() >= targetPoints) {
+                targetPoints += TARGET_POINTS_FACTOR;
+                currentLevel++;
+                Util::print("Next Level: " + std::to_string(currentLevel));
+                currentUpdateTime = STARTING_BOARD_DELAY_TIME - (currentLevel * UPDATE_TIME_FACTOR);
+                currentUpdateTime = std::max(UPDATE_TIME_MINIMUM, currentUpdateTime);
+                Util::print("New Update Time: " + std::to_string(currentUpdateTime));
+                tickTimer->setTargetMilliseconds(currentUpdateTime, false);
+            }
 			createRandomPiece();
-		}
+        }
+        else {
+            if(tickTimer->check())
+                currentPiece->moveDown(grid);
+        }
     }
 }
 
@@ -256,7 +272,7 @@ int TetrisGrid::clearRows() {
 
 		//Copy to new grid, exclude rows that we know are cleared
 		for (size_t i = 0, k = rowsCleared.size(), index = 0; i < GRID_COLUMNS; i++) {
-			if (index < rowsCleared.size() && i == rowsCleared[index]) {
+			if (index < rowsCleared.size() && i == static_cast<unsigned int> (rowsCleared[index])) {
 				index++;
 				continue;
 			}
