@@ -3,6 +3,7 @@
 #include "../headers/TetrisPiece.hpp"
 #include "../headers/SpriteUtil.hpp"
 #include "../headers/Player.hpp"
+#include <algorithm>
 
 const int TetrisGrid::NEXT_PIECE_X = 16, TetrisGrid::NEXT_PIECE_Y = 3;
 
