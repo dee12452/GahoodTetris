@@ -55,6 +55,7 @@ TetrisPiece::TetrisPiece(PieceTypes type, int x, int y) {
 			blocks[1][2] = 1;
 			break;
     }
+    forcePlacement = false;
     placeTimer = new Timer(TETRIS_PIECE_DEFAULT_TIMER, false);
 }
 
@@ -221,6 +222,8 @@ void TetrisPiece::rotateClockwise(Uint8 **grid) {
 }
 
 bool TetrisPiece::shouldPlace(Uint8 **grid) {
+    if(forcePlacement)
+        return true;
     if(!canMoveDown(grid)) {
         if(placeTimer->check())
             return true;
@@ -231,6 +234,11 @@ bool TetrisPiece::shouldPlace(Uint8 **grid) {
         placeTimer->reset();
         return false;
     }
+}
+
+void TetrisPiece::forcePlace(Uint8 **grid) {
+    while(moveDown(grid)) { continue; }
+    forcePlacement = true;
 }
 
 void TetrisPiece::updatePlacementTimer(int timeMs) const {

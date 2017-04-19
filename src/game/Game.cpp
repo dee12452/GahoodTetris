@@ -52,7 +52,7 @@ void Game::run() {
 	window->start();
 	setGameState(MAIN_MENU);
 	while (window->isRendering()) {
-		SDL_Delay(CPU_USAGE_LOGIC_DELAY);
+        SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 
 		if(currentHandler != NULL) {
 			currentHandler->onUpdate();

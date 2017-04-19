@@ -17,7 +17,8 @@ public:
 	void reset();
     void update(Player *, GameState &);
     void setUpdateTime(int) const;
-	
+	void placePiece(Player *, GameState &);
+
     TetrisPiece * getCurrentPiece() const;
     Uint8 ** getGrid() const;
 
@@ -29,7 +30,7 @@ private:
 	int gridX, gridY;
     int currentUpdateTime, targetPoints;
     static const int NEXT_PIECE_X, NEXT_PIECE_Y;
-	bool updating;
+	bool updating, needsNewPiece;
 
 	int clearRows();
 	void createRandomPiece();

@@ -34,7 +34,7 @@ void Window::render() {
 	bool windowRunning = true;
 	rendering = true;
     while (windowRunning) {
-		SDL_Delay(CPU_USAGE_EVENT_DELAY);
+        SDL_Delay(CPU_USAGE_EVENT_DELAY);
 		if (eventHandler != NULL) {
 			eventHandler->pollEvents(DEFAULT_SCAN_KEYS, DEFAULT_SCAN_KEYS_SIZE);
 			if (eventHandler->getCurrentGameState() == EXIT)

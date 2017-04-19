@@ -40,7 +40,7 @@ void MenuInputHandler::onDraw(SDL_Renderer *renderer) {
 }
 
 void MenuInputHandler::onUpdate() {
-	menu->update();
+    menu->update();
 }
 
 void MenuInputHandler::onReset() {}

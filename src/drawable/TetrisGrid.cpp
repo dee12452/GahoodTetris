@@ -25,7 +25,7 @@ TetrisGrid::TetrisGrid(int x, int y) {
 		NEXT_PIECE_X,
 		NEXT_PIECE_Y);
 	currentPiece = NULL;
-	createRandomPiece();
+    needsNewPiece = true;
 }
 
 TetrisGrid::~TetrisGrid() {
@@ -54,19 +54,29 @@ TetrisGrid::~TetrisGrid() {
 }
 
 void TetrisGrid::createRandomPiece() {
-	PieceTypes nextPieceType = static_cast<PieceTypes> (Util::getRandomNumber(0, 6));
-	if(currentPiece != NULL)
+    PieceTypes nextPieceType = static_cast<PieceTypes> (Util::getRandomNumber(0, 6));
+    if(currentPiece != NULL) {
 		delete currentPiece;
+        currentPiece = NULL;
+    }
 	currentPiece = new TetrisPiece(nextPiece->getPieceType(), GRID_ROWS / 2 - nextPiece->getRows() / 2, 0 - nextPiece->getColumns());
     currentPiece->updatePlacementTimer(currentUpdateTime);
-	delete nextPiece;
+	if(nextPiece != NULL) {
+        delete nextPiece;
+        nextPiece = NULL;
+    }
 	nextPiece = new TetrisPiece(nextPieceType, 
 		NEXT_PIECE_X,
 		NEXT_PIECE_Y);
 }
 
 void TetrisGrid::draw(SDL_Renderer *renderer) {
-	//Need the below to clear the screen
+    if(needsNewPiece) {
+        needsNewPiece = false;
+        createRandomPiece();
+    }
+    
+    //Need the below to clear the screen
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_BLANK_BLOCK)->draw(renderer);
 	//
 
@@ -236,7 +246,7 @@ void TetrisGrid::update(Player *player, GameState &state) {
                 Util::print("New Update Time: " + std::to_string(currentUpdateTime));
                 tickTimer->setTargetMilliseconds(currentUpdateTime, false);
             }
-			createRandomPiece();
+			needsNewPiece = true;
         }
         else {
             if(tickTimer->check())
@@ -315,5 +325,12 @@ void TetrisGrid::reset() {
 			grid[i][j] = 0;
 		}
 	}
-	createRandomPiece();
+	needsNewPiece = true;
+}
+
+void TetrisGrid::placePiece(Player *player, GameState &gameState) {
+    if(currentPiece == NULL)
+        return;
+    currentPiece->forcePlace(grid);
+    update(player, gameState);
 }

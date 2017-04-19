@@ -21,6 +21,7 @@ public:
     bool moveRight(Uint8 **);
     bool moveDown(Uint8 **);
     bool shouldPlace(Uint8 **);
+    void forcePlace(Uint8 **);
 
 	void rotate(Uint8 **, bool);
     void updatePlacementTimer(int) const;
@@ -44,6 +45,7 @@ private:
 	int columns;
     Uint8 **blocks;
     Timer *placeTimer;
+    bool forcePlacement;
 };
 
 #endif
