@@ -14,16 +14,18 @@ public:
 	void addPoints(int);
 	
 	void resetPoints();
+    void setLevel(int);
 	void setName(const std::string &);
 
 	int getPoints() const;
+    int getLevel() const;
 	std::string getPointsAsString() const;
 	std::string getName() const;
 
 	void draw(SDL_Renderer *) override;
 
 private:
-	int points;
+	int points, level;
 	std::string name;
 };
 

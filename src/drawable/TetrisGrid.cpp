@@ -20,14 +20,12 @@ TetrisGrid::TetrisGrid(int x, int y) {
     tickTimer = new Timer(STARTING_BOARD_DELAY_TIME, false);
 	updating = true;
     currentUpdateTime = STARTING_BOARD_DELAY_TIME;
-    currentLevel = 1;
     targetPoints = TARGET_POINTS_FACTOR;
 	nextPiece = new TetrisPiece(static_cast<PieceTypes> (Util::getRandomNumber(0, 6)),
 		NEXT_PIECE_X,
 		NEXT_PIECE_Y);
 	currentPiece = NULL;
 	createRandomPiece();
-    Util::print("Next Level: " + std::to_string(currentLevel));
 }
 
 TetrisGrid::~TetrisGrid() {
@@ -222,13 +220,18 @@ void TetrisGrid::update(Player *player, GameState &state) {
 				}
 			}
 
-			player->addPoints(clearRows() * static_cast<int> (currentPiece->getPieceType()));
+            int rowsCleared = clearRows();
+            if(rowsCleared == 1) {
+                player->addPoints(2 * static_cast<int> (currentPiece->getPieceType()));
+            }
+            else {
+			    player->addPoints(std::pow(static_cast<int> (currentPiece->getPieceType()), rowsCleared));
+            }
 
             if(player->getPoints() >= targetPoints) {
                 targetPoints += TARGET_POINTS_FACTOR;
-                currentLevel++;
-                Util::print("Next Level: " + std::to_string(currentLevel));
-                currentUpdateTime = STARTING_BOARD_DELAY_TIME - (currentLevel * UPDATE_TIME_FACTOR);
+                player->setLevel(player->getLevel() + 1);
+                currentUpdateTime = STARTING_BOARD_DELAY_TIME - (player->getLevel() * UPDATE_TIME_FACTOR);
                 currentUpdateTime = std::max(UPDATE_TIME_MINIMUM, currentUpdateTime);
                 Util::print("New Update Time: " + std::to_string(currentUpdateTime));
                 tickTimer->setTargetMilliseconds(currentUpdateTime, false);

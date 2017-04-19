@@ -214,7 +214,7 @@ const int TETRIS_PIECE_DEFAULT_TIMER = 2000;
 //Tetris Grid Points and Level Constants
 //
 //The number of points to get to the next level
-const int TARGET_POINTS_FACTOR = 100;
+const int TARGET_POINTS_FACTOR = 50;
 //The factor by which the update time is reduced (updateTime -= (currentLevel * factor))
 const int UPDATE_TIME_FACTOR = 50;
 //The minimum possible update time

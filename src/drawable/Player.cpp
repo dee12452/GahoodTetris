@@ -14,6 +14,7 @@ Player::~Player() {
 }
 
 void Player::addPoints(int p) { points += p; }
+void Player::setLevel(int l) { level = l; Util::print("Current Level: " + std::to_string(level)); }
 
 void Player::addPoints(PieceTypes type) {
 	switch (type)
@@ -45,10 +46,11 @@ void Player::addPoints(PieceTypes type) {
 	}
 }
 
-void Player::resetPoints() { points = 0; }
+void Player::resetPoints() { points = 0; level = 0; }
 void Player::setName(const std::string &n) { name = n; }
 
 int Player::getPoints() const { return points; }
+int Player::getLevel() const { return level; }
 std::string Player::getName() const { return name; }
 
 std::string Player::getPointsAsString() const {
@@ -68,7 +70,8 @@ std::string Player::getPointsAsString() const {
 }
 
 void Player::draw(SDL_Renderer *renderer) {
-	std::string pointsStr = getPointsAsString();
+	//Draw Points
+    std::string pointsStr = getPointsAsString();
 	int numbersSheetWidth = 690, numbersSheetHeight = 338;
 	Sprite *numbers = SpriteUtil::getSprite(SpriteUtil::SPRITE_NUMBERS_SHEET);
 	for (size_t i = 0; i < pointsStr.length(); i++) {
@@ -102,5 +105,39 @@ void Player::draw(SDL_Renderer *renderer) {
 
 		numbers->draw(renderer, numbersRect);
 	}
+
+    //Draw Level
+    std::string levelStr = std::to_string(level);
+    for(unsigned int i = 0; i < levelStr.length(); i++) {
+        int numChar = (int) levelStr[i] - '0';
+		SDL_Rect numbersRect;
+
+		//5 numbers per row
+		numbersRect.w = numbersSheetWidth / 5;
+		
+		//2 columns 
+		numbersRect.h = numbersSheetHeight / 2;
+		
+		//4 is the largest number on 1st row
+		if (numChar > 4) {
+			numChar -= 5;
+			numbersRect.y = numbersSheetHeight / 2;
+		}
+		else {
+			numbersRect.y = 0;
+		}
+		numbersRect.x = numChar * numbersRect.w;
+
+		SDL_Rect destinationRect;
+
+		//Scale down the image, too big for 500 x 500
+		destinationRect.w = numbersRect.w / 8;
+		destinationRect.h = numbersRect.h / 8;
+		destinationRect.x = PLAYER_SCORE_X + (i * destinationRect.w);
+		destinationRect.y = PLAYER_SCORE_Y + (2 * destinationRect.h);
+		numbers->setDimensions(destinationRect);
+
+		numbers->draw(renderer, numbersRect);
+    }
 	numbers = NULL;
 }

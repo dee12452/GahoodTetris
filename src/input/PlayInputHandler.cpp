@@ -39,9 +39,9 @@ void PlayInputHandler::onKeyDown(SDL_Scancode key) {
     }
 }
 
-void PlayInputHandler::onKeyHeld(SDL_Scancode key) {}
+void PlayInputHandler::onKeyHeld(SDL_Scancode) {}
 
-void PlayInputHandler::onKeyUp(SDL_Scancode key) {}
+void PlayInputHandler::onKeyUp(SDL_Scancode) {}
 
 void PlayInputHandler::onDraw(SDL_Renderer *renderer) {
 	tetrisGrid->draw(renderer);
