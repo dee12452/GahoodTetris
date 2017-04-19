@@ -15,6 +15,8 @@ public:
 	static void createSprites(SDL_Renderer *);
 	static void initSpriteDimensions();
 	static void deleteSprites();
+    static void drawText(SDL_Renderer *, const std::string &, int, int);
+    static void drawText(SDL_Renderer *, const std::string &, const SDL_Rect &);
 
 	static Sprite * getSprite(int);
 

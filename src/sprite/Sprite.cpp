@@ -60,6 +60,15 @@ int Sprite::getWidth() const { return width; }
 
 int Sprite::getHeight() const { return height; }
 
+SDL_Rect Sprite::getRect() const {
+    SDL_Rect rect;
+    rect.x = locationX;
+    rect.y = locationY;
+    rect.w = width;
+    rect.h = height;
+    return rect;
+}
+
 bool Sprite::isUsingWholeTexture() const { return usingWholeTexture; }
 
 void Sprite::setLocationX(int x) { locationX = x; }
@@ -80,7 +89,7 @@ void Sprite::setAlpha(Uint8 alpha) {
 	SDL_SetTextureAlphaMod(spriteSheet, alpha);
 }
 
-void Sprite::setDimensions(const SDL_Rect &dest) {
+void Sprite::setRect(const SDL_Rect &dest) {
 	setLocationX(dest.x);
 	setLocationY(dest.y);
 	setWidth(dest.w);

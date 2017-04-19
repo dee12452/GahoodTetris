@@ -45,6 +45,8 @@ void MainMenu::draw(SDL_Renderer *renderer) {
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON)->draw(renderer);
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON)->draw(renderer);
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->draw(renderer);
+    SDL_Rect r; r.x = 50; r.y = 200; r.w = 30; r.h = 30;
+    SpriteUtil::drawText(renderer, "Gahood Tetris", r);
 }
 
 void MainMenu::update() {

@@ -217,3 +217,30 @@ void SpriteUtil::initSpriteDimensions() {
         gameSprites[i]->setHeight(BLOCK_HEIGHT * 2);
     }
 }
+
+void SpriteUtil::drawText(SDL_Renderer *renderer, const std::string &s, int x, int y) {
+    SDL_Rect r;
+    r.x = x; r.y = y;
+    r.w = BLOCK_WIDTH * 2; r.h = BLOCK_HEIGHT * 2;
+    drawText(renderer, s, r);
+}
+
+void SpriteUtil::drawText(SDL_Renderer *renderer, const std::string &s, const SDL_Rect &r) {
+    for(unsigned int i = 0; i < s.length(); i++) {
+        int sprId = ((int) s[i] - 'A') + 15;
+        if(sprId < 0 || sprId > 40) {
+            sprId = ((int) s[i] - 'a') + 15;
+            if(sprId < 0 || sprId > 40) {
+                continue; 
+            }
+        }
+        Sprite *spr = getSprite(sprId);
+        SDL_Rect originalRect = spr->getRect();
+        spr->setLocationX(r.x + (i * r.w));
+        spr->setLocationY(r.y);
+        spr->setWidth(r.w);
+        spr->setHeight(r.h);
+        spr->draw(renderer);
+        spr->setRect(originalRect);
+    }
+}

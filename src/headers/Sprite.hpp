@@ -26,16 +26,17 @@ public:
 	int getLocationY() const;
 	int getWidth() const;
 	int getHeight() const;
-	bool isUsingWholeTexture() const;
+	SDL_Rect getRect() const;
+    bool isUsingWholeTexture() const;
 
 	void setLocationX(int);
 	void setLocationY(int);
 	void setWidth(int);
 	void setHeight(int);
+    void setRect(const SDL_Rect &);
 	void setUsingWholeTexture(bool);
 	void setRGBColor(Uint8, Uint8, Uint8);
 	void setAlpha(Uint8);	
-	void setDimensions(const SDL_Rect &);
 
 private:
 	int locationX = 0;

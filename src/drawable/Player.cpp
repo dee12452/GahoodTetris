@@ -101,7 +101,7 @@ void Player::draw(SDL_Renderer *renderer) {
 		destinationRect.h = numbersRect.h / 8;
 		destinationRect.x = PLAYER_SCORE_X + (i * destinationRect.w);
 		destinationRect.y = PLAYER_SCORE_Y;
-		numbers->setDimensions(destinationRect);
+		numbers->setRect(destinationRect);
 
 		numbers->draw(renderer, numbersRect);
 	}
@@ -135,7 +135,7 @@ void Player::draw(SDL_Renderer *renderer) {
 		destinationRect.h = numbersRect.h / 8;
 		destinationRect.x = PLAYER_SCORE_X + (i * destinationRect.w);
 		destinationRect.y = PLAYER_SCORE_Y + (2 * destinationRect.h);
-		numbers->setDimensions(destinationRect);
+		numbers->setRect(destinationRect);
 
 		numbers->draw(renderer, numbersRect);
     }
