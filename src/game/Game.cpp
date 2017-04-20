@@ -33,7 +33,7 @@ Game::~Game() {
 		player = NULL;
 	}
 	AnimatorHelper::deleteInstance();
-	IMG_Quit();
+    IMG_Quit();
 	SDL_Quit();
 }
 

@@ -16,7 +16,8 @@ protected:
 
 private:
     SDL_Rect blockInfo;
-    Uint8 currentAlpha, rows;
+    Uint8 currentAlpha;
+    int rows;
 };
 
 #endif

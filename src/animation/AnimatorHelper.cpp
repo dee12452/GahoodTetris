@@ -105,7 +105,7 @@ void AnimatorHelper::parseAnimationFile(const std::string &file) {
             }
             SDL_Rect info;
             info.x = x; info.y = y;
-            info.w = BLOCK_WIDTH; info.y = BLOCK_HEIGHT;
+            info.w = BLOCK_WIDTH; info.h = BLOCK_HEIGHT;
             animations.push_back(new RowCompleteAnimation(delay, info, rows));
             deleteFile = true;
             break;
@@ -134,7 +134,8 @@ bool AnimatorHelper::isAnimating() const {
 }
 
 void AnimatorHelper::createClearAnimationFile(int x, int y, int rows) {
-    std::ofstream out("../animations/ClearRowAnimation.txt");
+    std::remove(ANIMATION_CLEAR_ROW);
+    std::ofstream out(ANIMATION_CLEAR_ROW);
     out << "CLEAR 0 " << x << " " << y << " " << rows;
     out.close();
 }

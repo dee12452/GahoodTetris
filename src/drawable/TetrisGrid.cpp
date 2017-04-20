@@ -52,6 +52,7 @@ TetrisGrid::~TetrisGrid() {
         delete tickTimer;
         tickTimer = NULL;
     }
+    AnimatorHelper::getInstance()->stopAnimation();
 }
 
 void TetrisGrid::createRandomPiece() {
@@ -273,7 +274,7 @@ int TetrisGrid::clearRows() {
 			}
 		}
 		if (clearRow) {
-			rowsCleared.push_back(currCol);
+            rowsCleared.push_back(currCol);
 		}
 	}
 
@@ -312,13 +313,12 @@ int TetrisGrid::clearRows() {
     //Animate the row thats cleared
     //TODO: Need to update X and Y and fix visual bugs
     //TODO: Animation file might not get deleted, and will make bugs
-    /*
     if(rowsCleared.size() > 0) {
-        AnimatorHelper::createClearAnimationFile(0, 0, rowsCleared.size());
+        std::cout << rowsCleared[0] << std::endl;
+        AnimatorHelper::createClearAnimationFile(gridX, rowsCleared[0], rowsCleared.size());
         AnimatorHelper::getInstance()->stopAnimation();
         AnimatorHelper::getInstance()->startAnimation(ANIMATION_CLEAR_ROW);
     }
-    */
 
 	return rowsCleared.size();
 }

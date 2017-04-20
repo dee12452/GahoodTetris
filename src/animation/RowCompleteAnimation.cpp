@@ -24,14 +24,15 @@ void RowCompleteAnimation::onAnimate(SDL_Renderer *renderer) {
     block.w = BLOCK_WIDTH; block.h = BLOCK_HEIGHT;
     whiteBlock->setAlpha(currentAlpha);
     whiteBlock->setRect(block); emptyBlock->setRect(block);
-    for(unsigned int row = 0; row < rows; row++) {
-        whiteBlock->setLocationY(block.y + (row * BLOCK_HEIGHT));
-        emptyBlock->setLocationY(block.y + (row * BLOCK_HEIGHT));
+    for(int row = 0; row < rows; row++) {
+        whiteBlock->setLocationY((block.y + row) * BLOCK_HEIGHT);
+        emptyBlock->setLocationY((block.y + row) * BLOCK_HEIGHT);
         for(int i = 0; i < GRID_ROWS; i++) {
-            whiteBlock->setLocationX(block.x + (i * BLOCK_WIDTH));
             emptyBlock->setLocationX(block.x + (i * BLOCK_WIDTH));
+            //For now
+            //emptyBlock->draw(renderer);
+            whiteBlock->setLocationX(block.x + (i * BLOCK_WIDTH));
             whiteBlock->draw(renderer);
-            emptyBlock->draw(renderer);
         }
     }
     whiteBlock->setRect(whiteRect);
@@ -41,8 +42,7 @@ void RowCompleteAnimation::onAnimate(SDL_Renderer *renderer) {
 }
 
 void RowCompleteAnimation::onUpdate() {
-    currentAlpha = std::max(currentAlpha - 1, 0);
-
+    currentAlpha = std::max(currentAlpha - 5, 0);
 }
 
 void RowCompleteAnimation::parseAnimation(const std::string &) {}
