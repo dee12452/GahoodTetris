@@ -3,6 +3,7 @@
 #include "../headers/TetrisPiece.hpp"
 #include "../headers/SpriteUtil.hpp"
 #include "../headers/Player.hpp"
+#include "../headers/AnimatorHelper.hpp"
 #include <algorithm>
 
 const int TetrisGrid::NEXT_PIECE_X = 16, TetrisGrid::NEXT_PIECE_Y = 3;
@@ -75,7 +76,11 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
         needsNewPiece = false;
         createRandomPiece();
     }
-    
+
+    if(!AnimatorHelper::getInstance()->isAnimating()) {
+        AnimatorHelper::getInstance()->stopAnimation();
+    }
+
     //Need the below to clear the screen
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_BLANK_BLOCK)->draw(renderer);
 	//
@@ -303,7 +308,18 @@ int TetrisGrid::clearRows() {
 		delete[] grid;
 		grid = newGrid;
 	}
-	
+
+    //Animate the row thats cleared
+    //TODO: Need to update X and Y and fix visual bugs
+    //TODO: Animation file might not get deleted, and will make bugs
+    /*
+    if(rowsCleared.size() > 0) {
+        AnimatorHelper::createClearAnimationFile(0, 0, rowsCleared.size());
+        AnimatorHelper::getInstance()->stopAnimation();
+        AnimatorHelper::getInstance()->startAnimation(ANIMATION_CLEAR_ROW);
+    }
+    */
+
 	return rowsCleared.size();
 }
 

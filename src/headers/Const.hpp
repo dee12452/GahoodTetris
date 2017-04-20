@@ -46,6 +46,7 @@ const char * const BLOCK_ORANGE_SPRITE_FILE_LOCATION = "../res/tetris_block_oran
 const char * const BLOCK_PURPLE_SPRITE_FILE_LOCATION = "../res/tetris_block_purple.png";
 const char * const BLOCK_RED_SPRITE_FILE_LOCATION = "../res/tetris_block_red.png";
 const char * const BLOCK_BLUE_SPRITE_FILE_LOCATION = "../res/tetris_block_blue.png";
+const char * const SPRITE_WHITE_BLOCK_FILE_LOCATION = "../res/tetris_block_white.png";
 const char * const BLOCK_BLANK_SPRITE_FILE_LOCATION = "../res/tetris_block_empty.png";
 const char * const GRID_SPRITE_FILE_LOCATION = "../res/tetris_border.png";
 const char * const NUMBERS_SPRITE_SHEET_FILE_LOCATION = "../res/numbers.png";
@@ -85,6 +86,7 @@ const char * const SPRITE_Z_FILE_LOCATION = "../res/Z.png";
 ////////////////////////////////////////////////////////////////////
 //Animation File Locations
 const char * const ANIMATION_MAIN_MENU = "../animations/MainMenuAnimation.txt";
+const char * const ANIMATION_CLEAR_ROW = "../animations/ClearRowAnimation.txt";
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////

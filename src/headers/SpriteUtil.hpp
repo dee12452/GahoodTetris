@@ -27,7 +27,8 @@ public:
 	const static int SPRITE_PURPLE_BLOCK;
 	const static int SPRITE_BLUE_BLOCK;
 	const static int SPRITE_ORANGE_BLOCK;
-	const static int SPRITE_BLANK_BLOCK;
+	const static int SPRITE_WHITE_BLOCK;
+    const static int SPRITE_BLANK_BLOCK;
 	const static int SPRITE_GRID_BORDER;
 	const static int SPRITE_NUMBERS_SHEET;
 	const static int SPRITE_PLAY_BUTTON;

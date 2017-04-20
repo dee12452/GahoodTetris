@@ -18,7 +18,8 @@ private:
 
 public:
 	static AnimatorHelper * getInstance();
-	static void deleteInstance();
+	static void createClearAnimationFile(int, int, int);
+    static void deleteInstance();
 
 	void draw(SDL_Renderer *) override;
 	void startAnimation(const std::string &);

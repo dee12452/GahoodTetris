@@ -42,6 +42,7 @@ const int SpriteUtil::SPRITE_W = 37;
 const int SpriteUtil::SPRITE_X = 38;
 const int SpriteUtil::SPRITE_Y = 39;
 const int SpriteUtil::SPRITE_Z = 40;
+const int SpriteUtil::SPRITE_WHITE_BLOCK = 41;
 
 std::vector<Sprite *> SpriteUtil::gameSprites;
 
@@ -173,6 +174,9 @@ void SpriteUtil::createSprites(SDL_Renderer *renderer) {
 	gameSprites.push_back(new Sprite(renderer,
 		SPRITE_Z_FILE_LOCATION,
         true));
+    gameSprites.push_back(new Sprite(renderer,
+        SPRITE_WHITE_BLOCK_FILE_LOCATION,
+        true));
 	initSpriteDimensions();
 }
 
@@ -197,6 +201,8 @@ void SpriteUtil::initSpriteDimensions() {
         gameSprites[i]->setWidth(BLOCK_WIDTH);
         gameSprites[i]->setHeight(BLOCK_HEIGHT);
     }
+	gameSprites[SPRITE_WHITE_BLOCK]->setWidth(DESIRED_WINDOW_WIDTH);
+	gameSprites[SPRITE_WHITE_BLOCK]->setHeight(DESIRED_WINDOW_HEIGHT);
 
 	gameSprites[SPRITE_BLANK_BLOCK]->setWidth(DESIRED_WINDOW_WIDTH);
 	gameSprites[SPRITE_BLANK_BLOCK]->setHeight(DESIRED_WINDOW_HEIGHT);

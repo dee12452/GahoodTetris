@@ -1,5 +1,6 @@
 #include "../headers/AnimatorHelper.hpp"
 #include "../headers/MoveAnimation.hpp"
+#include "../headers/RowCompleteAnimation.hpp"
 #include <fstream>
 #include <sstream>
 
@@ -50,7 +51,7 @@ void AnimatorHelper::stopAnimation() {
 	if (animating) {
 		animating = false;
 		animationThread.join();
-		for (size_t i = 0; i < animations.size(); i++) {
+        for (size_t i = 0; i < animations.size(); i++) {
 			delete animations[i];
 			animations[i] = 0;
 		}
@@ -68,10 +69,11 @@ void AnimatorHelper::animate() {
 }
 
 void AnimatorHelper::parseAnimationFile(const std::string &file) {
-	std::ifstream in(file);
+    std::ifstream in(file);
 	if (!in.good()) {
 		Util::fatalError("Error: could not find animation file: " + file);
 	}
+    bool deleteFile = false;
 	std::string line;
 	while (std::getline(in, line)) {
 		std::istringstream stream(line);
@@ -94,15 +96,45 @@ void AnimatorHelper::parseAnimationFile(const std::string &file) {
 		}
 		
 		if (command == "MOVE") {
-			MoveAnimation *anim = new MoveAnimation(delay, line);
-			animations.push_back(anim);
+			animations.push_back(new MoveAnimation(delay, line));
 		}
+        else if(command == "CLEAR") {
+            int x, y, rows;
+            if(!(stream >> x >> y >> rows)) {
+                Util::fatalError("Error: animation file not correct format: " + file);
+            }
+            SDL_Rect info;
+            info.x = x; info.y = y;
+            info.w = BLOCK_WIDTH; info.y = BLOCK_HEIGHT;
+            animations.push_back(new RowCompleteAnimation(delay, info, rows));
+            deleteFile = true;
+            break;
+        }
 		else {
 			Util::fatalError("Error: animation file not correct format (incorrect command): " + file);
 		}
 	}
+    in.close();
+    if(deleteFile) {
+        std::remove(file.c_str());
+    }
 }
 
 bool AnimatorHelper::isAnimating() const {
-	return animating;
+    if(animating) {
+        bool continueAnimating = false;
+		for (size_t i = 0; i < animations.size(); i++) {
+			if(animations[i]->isAnimating())
+                continueAnimating = true;
+		}
+        return continueAnimating;
+    }
+    else
+        return false;
+}
+
+void AnimatorHelper::createClearAnimationFile(int x, int y, int rows) {
+    std::ofstream out("../animations/ClearRowAnimation.txt");
+    out << "CLEAR 0 " << x << " " << y << " " << rows;
+    out.close();
 }
