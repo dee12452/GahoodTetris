@@ -17,18 +17,25 @@ PlayInputHandler::~PlayInputHandler() {
 void PlayInputHandler::onKeyDown(SDL_Scancode key) {
 	TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
     GameState state = getGame()->getGameState();
-
 	switch(key) {
         case SDL_SCANCODE_LEFT:
+            if(grid == NULL || grid->getCurrentPiece() == NULL)
+                break;
 			grid->getCurrentPiece()->moveLeft(grid->getGrid());
             break;
         case SDL_SCANCODE_RIGHT:
+            if(grid == NULL || grid->getCurrentPiece() == NULL)
+                break;
 			grid->getCurrentPiece()->moveRight(grid->getGrid());
             break;
         case SDL_SCANCODE_DOWN:
+            if(grid == NULL || grid->getCurrentPiece() == NULL)
+                break;
 			grid->getCurrentPiece()->moveDown(grid->getGrid());
             break;
 		case SDL_SCANCODE_SPACE:
+            if(grid == NULL || grid->getCurrentPiece() == NULL)
+                break;
 			grid->getCurrentPiece()->rotate(grid->getGrid(), true);
 			break;
 		case SDL_SCANCODE_ESCAPE:
@@ -36,6 +43,8 @@ void PlayInputHandler::onKeyDown(SDL_Scancode key) {
 			getGame()->setGameState(MAIN_MENU);
 			break;
         case SDL_SCANCODE_RETURN:
+            if(grid == NULL || grid->getCurrentPiece() == NULL)
+                break;
             grid->placePiece(static_cast<Player *>(getGame()->getPlayer()), state);
             if(state != getGame()->getGameState()) {
                 static_cast<Player *> (getGame()->getPlayer())->resetPoints();
