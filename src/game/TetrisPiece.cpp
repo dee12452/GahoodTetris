@@ -222,8 +222,10 @@ void TetrisPiece::rotateClockwise(Uint8 **grid) {
 }
 
 bool TetrisPiece::shouldPlace(Uint8 **grid) {
-    if(forcePlacement)
+    if(forcePlacement) {
+        forcePlacement = false;
         return true;
+    }
     if(!canMoveDown(grid)) {
         if(placeTimer->check())
             return true;

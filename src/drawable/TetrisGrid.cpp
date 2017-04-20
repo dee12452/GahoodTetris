@@ -221,8 +221,8 @@ void TetrisGrid::update(Player *player, GameState &state) {
 				state = MAIN_MENU;
 				return;
 			}
-
-			for (int i = 0; i < currentPiece->getRows(); i++) {
+			
+            for (int i = 0; i < currentPiece->getRows(); i++) {
 				for (int j = 0; j < currentPiece->getColumns(); j++) {
 					if ((currentPiece->getBlocks())[i][j] == 1) {
 						grid[i + currentPiece->getX()][j + currentPiece->getY()] = static_cast<int> (currentPiece->getPieceType()) + 1;
@@ -262,7 +262,7 @@ int TetrisGrid::clearRows() {
 	for (int currCol = 0; currCol < GRID_COLUMNS; currCol++) {
 		bool clearRow = true;
 		for (int currRow = 0; currRow < GRID_ROWS; currRow++) {
-			if (grid[currRow][currCol] == 0) {
+            if (grid[currRow][currCol] == 0) {
 				clearRow = false;
 				break;
 			}
@@ -328,9 +328,9 @@ void TetrisGrid::reset() {
 	needsNewPiece = true;
 }
 
-void TetrisGrid::placePiece(Player *player, GameState &gameState) {
+void TetrisGrid::placePiece(Player *, GameState &) {
     if(currentPiece == NULL)
         return;
     currentPiece->forcePlace(grid);
-    update(player, gameState);
+    //update(player, gameState);
 }
