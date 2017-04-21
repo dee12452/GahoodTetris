@@ -122,7 +122,7 @@ const int DEFAULT_SCAN_KEYS_SIZE = 6;
 const int DEFAULT_FPS = 30;
 //
 //Starting Board Update Timer
-const int STARTING_BOARD_DELAY_TIME = 2000;
+const int STARTING_BOARD_DELAY_TIME = 1000;
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
@@ -216,9 +216,9 @@ const int TETRIS_PIECE_DEFAULT_TIMER = 2000;
 //Tetris Grid Points and Level Constants
 //
 //The number of points to get to the next level
-const int TARGET_POINTS_FACTOR = 50;
+const int TARGET_POINTS_FACTOR = 100;
 //The factor by which the update time is reduced (updateTime -= (currentLevel * factor))
-const int UPDATE_TIME_FACTOR = 50;
+const int UPDATE_TIME_FACTOR = 10;
 //The minimum possible update time
 const int UPDATE_TIME_MINIMUM = 50;
 ////////////////////////////////////////////////////////////////////

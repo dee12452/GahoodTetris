@@ -31,7 +31,9 @@ void PlayInputHandler::onKeyDown(SDL_Scancode key) {
         case SDL_SCANCODE_DOWN:
             if(grid == NULL || grid->getCurrentPiece() == NULL)
                 break;
-			grid->getCurrentPiece()->moveDown(grid->getGrid());
+            if(!grid->getCurrentPiece()->moveDown(grid->getGrid())) {
+                grid->placePiece(static_cast<Player *>(getGame()->getPlayer()), state);
+            }
             break;
 		case SDL_SCANCODE_SPACE:
             if(grid == NULL || grid->getCurrentPiece() == NULL)
