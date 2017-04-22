@@ -12,10 +12,12 @@ void Util::androidPrint(const std::string &s) {
 
 void Util::print(const std::string &s) {
 	std::cout << s << std::endl;
+    androidPrint(s);
 }
 
 void Util::printError(const std::string &s) {
 	std::cerr << s << std::endl;
+    androidPrint(s);
 }
 
 void Util::fatalError(const std::string &s) {

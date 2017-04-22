@@ -25,7 +25,7 @@ MainMenu::MainMenu() {
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setHeight(BUTTON_HEIGHT);
 	selectorLocationX = BUTTON_X - BUTTON_WIDTH;
 
-	AnimatorHelper::getInstance()->startAnimation(ANIMATION_MAIN_MENU);
+    //AnimatorHelper::getInstance()->startAnimation(ANIMATION_MAIN_MENU);
 	shouldExit = false;
 	selectorMoveLeft = true;
 }
