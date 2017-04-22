@@ -51,7 +51,7 @@ void Game::setGameState(GameState state) {
 void Game::run() {
 	window->start();
 	setGameState(MAIN_MENU);
-	while (window->isRendering()) {
+    while (window->isRendering()) {
         SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 
 		if(currentHandler != NULL) {
@@ -75,6 +75,9 @@ void Game::run() {
 
 void Game::changeEventHandler() {
 	BaseInputHandler *temp = NULL;
+    Util::androidPrint("############### GOT HERE 1? ###############");
+    Util::androidPrint("############### GOT HERE 1? ###############");
+    Util::androidPrint("############### GOT HERE 1? ###############");
     switch (gameState) {
 	case PLAY:
 		temp = currentHandler;
@@ -99,6 +102,9 @@ void Game::changeEventHandler() {
 	default:
 		break;
 	}	
+    Util::androidPrint("############### GOT HERE 2? ###############");
+    Util::androidPrint("############### GOT HERE 2? ###############");
+    Util::androidPrint("############### GOT HERE 2? ###############");
 	stateChanged = false;
 }
 

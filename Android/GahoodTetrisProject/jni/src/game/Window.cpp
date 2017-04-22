@@ -30,7 +30,7 @@ Window::~Window() {
 }
 
 void Window::render() {
-	init();
+    init();
 	bool windowRunning = true;
 	rendering = true;
     while (windowRunning) {
@@ -62,6 +62,9 @@ void Window::start() {
 	Util::print("Loading window...");
 	while (!rendering) { SDL_Delay(CPU_USAGE_LOGIC_DELAY); }
 	Util::print("Done loading window!");
+    Util::androidPrint("############ WINDOW LOADED ############");
+    Util::androidPrint("############ WINDOW LOADED ############");
+    Util::androidPrint("############ WINDOW LOADED ############");
 }
 
 bool Window::isRendering() const {

@@ -6,6 +6,10 @@ const std::string Util::TAG = "Gahood Tetris : ";
 const int Util::PIECE_ROWS = 3;
 const int Util::PIECE_COLUMNS = 3;
 
+void Util::androidPrint(const std::string &s) {
+    __android_log_print(ANDROID_LOG_VERBOSE, APP_NAME, "%s\n", s.c_str());
+}
+
 void Util::print(const std::string &s) {
 	std::cout << s << std::endl;
 }

@@ -1,3 +1,6 @@
 make/
 .vscode/
 *.apk
+Android/GahoodTetrisProject/libs
+Android/GahoodTetrisProject/gen
+Android/GahoodTetrisProject/obj
