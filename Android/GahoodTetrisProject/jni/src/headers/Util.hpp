@@ -2,6 +2,9 @@
 #define UTIL_HPP
 
 #include "Const.hpp"
+#include <android/log.h>
+
+#define APP_NAME "Gahood Tetris"
 
 class Sprite;
 
@@ -14,7 +17,8 @@ private:
 	const static int PIECE_COLUMNS;
 
 public:
-	static void print(const std::string &);
+	static void androidPrint(const std::string &);
+    static void print(const std::string &);
 	static void printError(const std::string &);
 	static void fatalError(const std::string &);
 	static void fatalSDLError(const std::string &);
