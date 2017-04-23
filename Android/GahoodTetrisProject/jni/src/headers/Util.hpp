@@ -13,6 +13,7 @@ private:
 	Util() {}
 	~Util() {}
 	const static std::string TAG;
+    static std::string assetsFolder;
 	const static int PIECE_ROWS;
 	const static int PIECE_COLUMNS;
 
@@ -30,6 +31,7 @@ public:
 	static bool parseLineForAnimationInformation(const std::string &, std::vector<int *> &);
 
 	static int getRandomNumber(int, int);
+    static void loadAndroidAssetFolder(const std::string &);
 };
 
 #endif

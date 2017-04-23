@@ -2,6 +2,7 @@
 #include <random>
 #include <sstream>
 
+std::string Util::assetsFolder = "";
 const std::string Util::TAG = "Gahood Tetris : ";
 const int Util::PIECE_ROWS = 3;
 const int Util::PIECE_COLUMNS = 3;
@@ -118,4 +119,8 @@ bool Util::parseLineForAnimationInformation(const std::string &line, std::vector
 			return false;
 	}
 	return true;
+}
+
+void Util::loadAndroidAssetFolder(const std::string &s) {
+    assetsFolder = s;
 }

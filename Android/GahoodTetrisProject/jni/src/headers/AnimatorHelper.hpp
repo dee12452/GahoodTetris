@@ -2,6 +2,7 @@
 #define ANIMATOR_HELPER_HPP
 
 #include "BaseDrawable.hpp"
+#include "AndroidUtil.hpp"
 
 class BaseAnimation;
 

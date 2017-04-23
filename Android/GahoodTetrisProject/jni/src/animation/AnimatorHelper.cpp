@@ -1,8 +1,8 @@
 #include "../headers/AnimatorHelper.hpp"
 #include "../headers/MoveAnimation.hpp"
 #include "../headers/RowCompleteAnimation.hpp"
-#include <fstream>
 #include <sstream>
+#include <fstream>
 
 AnimatorHelper * AnimatorHelper::helper = NULL;
 
@@ -69,14 +69,9 @@ void AnimatorHelper::animate() {
 }
 
 void AnimatorHelper::parseAnimationFile(const std::string &file) {
-    std::ifstream in(file);
-	if (!in.good()) {
-		Util::fatalError("Error: could not find animation file: " + file);
-	}
-    bool deleteFile = false;
-	std::string line;
-	while (std::getline(in, line)) {
-		std::istringstream stream(line);
+    std::vector<std::string> commands = AndroidUtil::getAndroidTextFile(file);
+	for(size_t i = 0; i < commands.size(); i++) {
+		std::istringstream stream(commands[i]);
 		std::string command;
 		int delay;
 		
@@ -96,7 +91,7 @@ void AnimatorHelper::parseAnimationFile(const std::string &file) {
 		}
 		
 		if (command == "MOVE") {
-			animations.push_back(new MoveAnimation(delay, line));
+			animations.push_back(new MoveAnimation(delay, commands[i]));
 		}
         else if(command == "CLEAR") {
             int x, y, rows;
@@ -107,17 +102,12 @@ void AnimatorHelper::parseAnimationFile(const std::string &file) {
             info.x = x; info.y = y;
             info.w = BLOCK_WIDTH; info.h = BLOCK_HEIGHT;
             animations.push_back(new RowCompleteAnimation(delay, info, rows));
-            deleteFile = true;
             break;
         }
 		else {
 			Util::fatalError("Error: animation file not correct format (incorrect command): " + file);
 		}
 	}
-    in.close();
-    if(deleteFile) {
-        std::remove(file.c_str());
-    }
 }
 
 bool AnimatorHelper::isAnimating() const {
