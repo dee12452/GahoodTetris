@@ -1,4 +1,6 @@
 #include "../headers/AndroidUtil.hpp"
+#include <sstream>
+#include <string>
 
 AndroidUtil::AndroidUtil() {}
 
@@ -6,6 +8,11 @@ AndroidUtil::~AndroidUtil() {}
 
 std::vector<std::string> AndroidUtil::getAndroidTextFile(const std::string &fileName) {
     std::vector<std::string> strings;
+    if(fileName.substr(0, 5) == "CLEAR") {
+        Util::print("Setting up a clear animation...");
+        strings.push_back(fileName);
+        return strings;
+    }
     SDL_RWops *in;
     in = SDL_RWFromFile(fileName.c_str(), "rt");
     if(in == NULL) {
@@ -29,3 +36,12 @@ std::vector<std::string> AndroidUtil::getAndroidTextFile(const std::string &file
     SDL_RWclose(in);
     return strings;
 }
+
+template<typename T>
+std::string AndroidUtil::toString(T val) {
+    std::ostringstream os;
+    os << val;
+    return os.str();
+}
+
+template std::string AndroidUtil::toString<int>(int);

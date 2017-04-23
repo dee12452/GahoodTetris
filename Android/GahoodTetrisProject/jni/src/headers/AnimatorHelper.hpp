@@ -11,7 +11,7 @@ private:
 	AnimatorHelper();
 	~AnimatorHelper();
 	std::thread animationThread;
-	bool animating;
+	bool animating, updating;
 	static AnimatorHelper *helper;
 	std::vector<BaseAnimation *> animations;
 	void parseAnimationFile(const std::string &);
@@ -19,12 +19,14 @@ private:
 
 public:
 	static AnimatorHelper * getInstance();
-	static void createClearAnimationFile(int, int, int);
+	static std::string createClearAnimation(int, int, int);
     static void deleteInstance();
 
 	void draw(SDL_Renderer *) override;
 	void startAnimation(const std::string &);
-	void stopAnimation();
+	void pauseAnimation();
+	void resumeAnimation();
+    void stopAnimation();
 
 	bool isAnimating() const;
 };

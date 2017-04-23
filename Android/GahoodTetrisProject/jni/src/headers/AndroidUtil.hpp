@@ -7,6 +7,9 @@
 class AndroidUtil {
 public:
     static std::vector<std::string> getAndroidTextFile(const std::string &);
+
+    template<typename T>
+    static std::string toString(T);
 private:
     AndroidUtil();
     ~AndroidUtil();

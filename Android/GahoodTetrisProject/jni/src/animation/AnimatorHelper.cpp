@@ -8,6 +8,7 @@ AnimatorHelper * AnimatorHelper::helper = NULL;
 
 AnimatorHelper::AnimatorHelper() { 
 	animating = false;
+    updating = true;
 }
 
 AnimatorHelper::~AnimatorHelper() {}
@@ -47,6 +48,14 @@ void AnimatorHelper::startAnimation(const std::string &file) {
 	}
 }
 
+void AnimatorHelper::pauseAnimation() {
+    updating = false;
+}
+
+void AnimatorHelper::resumeAnimation() {
+    updating = true;
+}
+
 void AnimatorHelper::stopAnimation() {
 	if (animating) {
 		animating = false;
@@ -62,6 +71,7 @@ void AnimatorHelper::stopAnimation() {
 void AnimatorHelper::animate() {
 	while (animating) {
 		SDL_Delay(CPU_USAGE_ANIMATION_DELAY);
+        if(!updating) continue;
 		for (size_t i = 0; i < animations.size(); i++) {
 			animations[i]->update();
 		}
@@ -123,9 +133,12 @@ bool AnimatorHelper::isAnimating() const {
         return false;
 }
 
-void AnimatorHelper::createClearAnimationFile(int x, int y, int rows) {
-    std::remove(ANIMATION_CLEAR_ROW);
-    std::ofstream out(ANIMATION_CLEAR_ROW);
-    out << "CLEAR 0 " << x << " " << y << " " << rows;
-    out.close();
+std::string AnimatorHelper::createClearAnimation(int x, int y, int rows) {
+    std::string ret = "CLEAR 0 ";
+    ret += x;
+    ret += " ";
+    ret += y;
+    ret += " ";
+    ret += rows;
+    return ret;
 }

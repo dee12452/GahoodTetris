@@ -3,7 +3,6 @@
 #include "../headers/DisplayUtil.hpp"
 #include "../headers/BaseInputHandler.hpp"
 #include "../headers/SpriteUtil.hpp"
-#include "../headers/AnimatorHelper.hpp"
 
 Window::Window() {
 	windowWidth = DESIRED_WINDOW_WIDTH;
@@ -36,7 +35,7 @@ void Window::render() {
     while (windowRunning) {
         SDL_Delay(CPU_USAGE_EVENT_DELAY);
 		if (eventHandler != NULL) {
-			eventHandler->pollEvents(DEFAULT_SCAN_KEYS, DEFAULT_SCAN_KEYS_SIZE);
+			eventHandler->pollEvents();
 			if (eventHandler->getCurrentGameState() == EXIT)
 				windowRunning = false;
 			else
@@ -72,8 +71,7 @@ void Window::renderToScreen() {
     SDL_RenderClear(windowRenderer);
 	SDL_RenderCopy(windowRenderer, windowTexture, NULL, NULL);
 	SDL_SetRenderTarget(windowRenderer, windowTexture);
-	eventHandler->onDraw(windowRenderer);
-	AnimatorHelper::getInstance()->draw(windowRenderer);
+	eventHandler->draw(windowRenderer);
 	SDL_SetRenderTarget(windowRenderer, NULL);
 	SDL_RenderPresent(windowRenderer);
 }
@@ -83,9 +81,9 @@ int Window::getWindowHeight() const { return windowHeight; }
 
 void Window::init() {
 	window = SDL_CreateWindow(GAME_NAME,
-		DisplayUtil::getScreenWidth() / 2 - windowWidth / 2,
-		DisplayUtil::getScreenHeight() / 2 - windowHeight / 2,
-		windowWidth,
+		SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+	    windowWidth,
 		windowHeight,
 		SDL_WINDOW_OPENGL/* | SDL_WINDOW_RESIZABLE*/);
 	if (window == NULL)
@@ -96,7 +94,8 @@ void Window::init() {
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	if (windowRenderer == NULL)
 		Util::fatalSDLError("Failed to create window renderer");
-	SDL_SetRenderDrawColor(windowRenderer, 0, 0, 0, 255);
+	SDL_RenderSetLogicalSize(windowRenderer, windowWidth, windowHeight);
+    SDL_SetRenderDrawColor(windowRenderer, 0, 0, 0, 255);
 
 	SpriteUtil::createSprites(windowRenderer);
 

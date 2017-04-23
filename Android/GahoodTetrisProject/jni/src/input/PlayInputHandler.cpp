@@ -14,6 +14,37 @@ PlayInputHandler::~PlayInputHandler() {
 	}
 }
 
+void PlayInputHandler::onDraw(SDL_Renderer *renderer) {
+    tetrisGrid->draw(renderer);
+	getGame()->getPlayer()->draw(renderer);
+}
+
+void PlayInputHandler::onUpdate() {
+	Player *player = static_cast<Player *> (getGame()->getPlayer());
+	GameState state = getGame()->getGameState();
+    static_cast<TetrisGrid *> (tetrisGrid)->update(player, state);
+	if (state != getGame()->getGameState()) {
+		player->resetPoints();
+		getGame()->setGameState(state);
+	}
+	player = NULL;
+}
+
+void PlayInputHandler::onReset() {}
+
+void PlayInputHandler::onTouch(int, int) {}
+
+void PlayInputHandler::onTouchAndHold(int, int) {}
+
+void PlayInputHandler::onSwipe() {}
+
+void PlayInputHandler::onPause() {}
+
+void PlayInputHandler::onResume() {}
+
+void PlayInputHandler::onDestroy() {}
+
+/*
 void PlayInputHandler::onKeyDown(SDL_Scancode key) {
 	TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
     GameState state = getGame()->getGameState();
@@ -57,25 +88,4 @@ void PlayInputHandler::onKeyDown(SDL_Scancode key) {
             break;
     }
 }
-
-void PlayInputHandler::onKeyHeld(SDL_Scancode) {}
-
-void PlayInputHandler::onKeyUp(SDL_Scancode) {}
-
-void PlayInputHandler::onDraw(SDL_Renderer *renderer) {
-	tetrisGrid->draw(renderer);
-	getGame()->getPlayer()->draw(renderer);
-}
-
-void PlayInputHandler::onUpdate() {
-	Player *player = static_cast<Player *> (getGame()->getPlayer());
-	GameState state = getGame()->getGameState();
-    static_cast<TetrisGrid *> (tetrisGrid)->update(player, state);
-	if (state != getGame()->getGameState()) {
-		player->resetPoints();
-		getGame()->setGameState(state);
-	}
-	player = NULL;
-}
-
-void PlayInputHandler::onReset() {}
+*/

@@ -16,9 +16,12 @@ public:
 	void onReset() override;
 
 protected:
-	void onKeyDown(SDL_Scancode) override;
-	void onKeyHeld(SDL_Scancode) override;
-	void onKeyUp(SDL_Scancode) override;
+    void onTouch(int, int) override;
+    void onSwipe() override;
+    void onTouchAndHold(int, int) override;
+    void onPause() override;
+    void onResume() override;
+    void onDestroy() override;
 
 private:
 	MainMenu *menu;

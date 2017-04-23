@@ -12,24 +12,30 @@ public:
 	BaseInputHandler(Game *);
 	virtual ~BaseInputHandler();
 
-	virtual void pollEvents(const SDL_Scancode *desiredScanCodes, int scanCodesLength);
-	virtual void onDraw(SDL_Renderer *) = 0;
-	virtual void onUpdate() = 0;
+    void update();
+    void draw(SDL_Renderer *);
+	virtual void pollEvents();
 	virtual void onReset() = 0;
 
 	GameState getCurrentGameState() const;
 	void setGameState(GameState) const;
 
 protected:
-	virtual void onKeyDown(SDL_Scancode) = 0;
-	virtual void onKeyHeld(SDL_Scancode) = 0;
-	virtual void onKeyUp(SDL_Scancode) = 0;
-	virtual void onQuitGame();
+	virtual void onDraw(SDL_Renderer *) = 0;
+	virtual void onUpdate() = 0;
+    virtual void onTouch(int, int) = 0;
+    virtual void onSwipe() = 0;
+    virtual void onTouchAndHold(int, int) = 0;
+	virtual void onPause() = 0;
+    virtual void onResume() = 0;
+    virtual void onDestroy() = 0;
+    virtual void onQuitGame();
 	Game * getGame() const;
 
 private:
 	Game *game;
 	bool gameCreated;
+    bool isPaused;
 };
 
 #endif

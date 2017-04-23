@@ -53,19 +53,21 @@ void Game::run() {
 	setGameState(MAIN_MENU);
     while (window->isRendering()) {
         SDL_Delay(CPU_USAGE_LOGIC_DELAY);
-
-		if(currentHandler != NULL) {
-			currentHandler->onUpdate();
-        }
-
+		
 		if (stateChanged) {
 			changeEventHandler();
 		}
-
-		switch (gameState) {
+        
+        switch (gameState) {
 			case MAIN_MENU:
+                if(currentHandler != NULL) {
+                    currentHandler->update();
+                }
 				break;
 			case PLAY:
+                if(currentHandler != NULL) {
+                    currentHandler->update();
+                }
 				break;
 		    default:
 				break;
