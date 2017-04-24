@@ -6,6 +6,7 @@
 #include "SpriteUtil.hpp"
 
 class BaseDrawable;
+class Timer;
 
 class BaseInputHandler {
 public:
@@ -24,7 +25,7 @@ protected:
 	virtual void onDraw(SDL_Renderer *) = 0;
 	virtual void onUpdate() = 0;
     virtual void onBackPressed() = 0;
-    virtual void onTouch(int, int) = 0;
+    virtual void onTap(int, int) = 0;
     virtual void onSwipe(Direction) = 0;
     virtual void onTouchAndHold(int, int) = 0;
 	virtual void onPause() = 0;
@@ -35,8 +36,10 @@ protected:
 
 private:
 	Game *game;
-	bool gameCreated;
+	Timer *touchTimer;
+    bool gameCreated;
     bool isPaused;
+    bool swiped, isSwiping;
 };
 
 #endif

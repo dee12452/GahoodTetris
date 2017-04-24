@@ -2,11 +2,24 @@
 #include "../headers/DisplayUtil.hpp"
 #include "../headers/AndroidUtil.hpp"
 #include "../headers/AnimatorHelper.hpp"
+#include "../headers/Timer.hpp"
 #include <algorithm>
 
-BaseInputHandler::BaseInputHandler(Game *g) { this->game = g; gameCreated = false; isPaused = false; }
 
-BaseInputHandler::~BaseInputHandler() {}
+BaseInputHandler::BaseInputHandler(Game *g) { 
+    this->game = g; 
+    gameCreated = false; 
+    isPaused = false;
+    swiped = false, isSwiping = false;
+    touchTimer = new Timer(TOUCH_TIMER_TIME, false);
+}
+
+BaseInputHandler::~BaseInputHandler() {
+    if(touchTimer != NULL) {
+        delete touchTimer;
+        touchTimer = NULL;
+    }
+}
 
 void BaseInputHandler::update() {
     if(!isPaused) {
@@ -48,48 +61,77 @@ void BaseInputHandler::pollEvents() {
             onResume();
             break;
         case SDL_FINGERDOWN: {
-            int touchX = e.tfinger.x * screenWidth;
-            int touchY = e.tfinger.y * screenHeight;
-            onTouch(touchX, touchY);
+            isSwiping = false;
+            swiped = false;
+            touchTimer->reset();
             break;
         }
-        case SDL_FINGERUP:
+        case SDL_FINGERUP: {
+            if(!swiped) {
+                int touchX = e.tfinger.x * screenWidth;
+                int touchY = e.tfinger.y * screenHeight;
+                onTap(touchX, touchY);
+            }
             break;
+        }
         case SDL_FINGERMOTION:
         {
+            if(swiped)
+                break;
+            if(touchTimer->check()) {
+                isSwiping = true;
+            }
+            if(!isSwiping) {
+                break;
+            }
             float changeX = e.tfinger.dx;
             float changeY = e.tfinger.dy; 
+            float swipeHorThreshold = 0.008f;
+            float swipeVertThreshold = 0.001f;
             //Swiped Right
-            if(changeX > 0) {
+            if(changeX > 0.0f) {
                 if(std::abs(changeX) > std::abs(changeY)) {
-                    onSwipe(RIGHT);
+                    if(std::abs(changeX) > swipeHorThreshold)
+                        onSwipe(RIGHT);
+                        swiped = true;
                 }
 
-                //Swiped Up
-                if(changeY > 0) {
-                    onSwipe(DOWN);
-                }
+                else if(std::abs(changeY) > swipeVertThreshold) {
+                    //Swiped Up
+                    if(changeY > 0.0f) {
+                        onSwipe(DOWN);
+                        swiped = true;
+                    }
 
-                //Swiped Down
-                else {
-                    onSwipe(UP);
+                    //Swiped Down
+                    else {
+                        onSwipe(UP);
+                        swiped = true;
+                    }
                 }
             }
 
             //Swiped Left
             else {
                 if(std::abs(changeX) > std::abs(changeY)) {
-                    onSwipe(LEFT);
+                    if(std::abs(changeX) > swipeHorThreshold) {
+                        onSwipe(LEFT);
+                        swiped = true;
+                    }
                 }
 
-                //Swiped Up
-                if(changeY > 0) {
-                    onSwipe(DOWN);
-                }
+                else if(std::abs(changeY) > swipeVertThreshold) {
+                    //Swiped Up
+                    if(changeY > 0.0f) {
+                        onSwipe(DOWN);
+                        swiped = true;
+                    }
 
-                //Swiped Down
-                else {
-                    onSwipe(UP);
+                    //Swiped Down
+                    else {
+                        onSwipe(UP);
+                        swiped = true;
+                    }
                 }
             }
             onSwipe(NO_DIRECTION);

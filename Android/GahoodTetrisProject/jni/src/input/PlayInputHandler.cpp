@@ -33,7 +33,7 @@ void PlayInputHandler::onUpdate() {
 
 void PlayInputHandler::onReset() {}
 
-void PlayInputHandler::onTouch(int x, int y) {
+void PlayInputHandler::onTap(int x, int y) {
 	TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
     if(AndroidUtil::didTouchSprite(SpriteUtil::getSprite(SpriteUtil::SPRITE_GRID_BORDER), x, y)) {
         if(grid != NULL && grid->getCurrentPiece() != NULL) {
@@ -51,11 +51,7 @@ void PlayInputHandler::onSwipe(Direction d) {
         case DOWN:
             if(grid == NULL || grid->getCurrentPiece() == NULL)
                 break;
-            grid->placePiece(static_cast<Player *>(getGame()->getPlayer()), state);
-            if(state != getGame()->getGameState()) {
-                static_cast<Player *> (getGame()->getPlayer())->resetPoints();
-                getGame()->setGameState(state);
-            }
+            grid->getCurrentPiece()->moveDown(grid->getGrid());
             break;
         case LEFT:
             if(grid == NULL || grid->getCurrentPiece() == NULL)
@@ -66,6 +62,15 @@ void PlayInputHandler::onSwipe(Direction d) {
             if(grid == NULL || grid->getCurrentPiece() == NULL)
                 break;
 			grid->getCurrentPiece()->moveRight(grid->getGrid());
+            break;
+        case UP:
+            if(grid == NULL || grid->getCurrentPiece() == NULL)
+                break;
+            grid->placePiece(static_cast<Player *>(getGame()->getPlayer()), state);
+            if(state != getGame()->getGameState()) {
+                static_cast<Player *> (getGame()->getPlayer())->resetPoints();
+                getGame()->setGameState(state);
+            }
             break;
         default:
             break;

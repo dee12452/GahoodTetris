@@ -23,7 +23,7 @@ void MenuInputHandler::onUpdate() {
 
 void MenuInputHandler::onReset() {}
 
-void MenuInputHandler::onTouch(int x, int y) {
+void MenuInputHandler::onTap(int x, int y) {
     Sprite *playBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON);
     Sprite *exitBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON);
     if(AndroidUtil::didTouchSprite(playBtn, x, y)) { 

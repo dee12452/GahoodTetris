@@ -151,10 +151,10 @@ bool AnimatorHelper::isAnimating() const {
 
 std::string AnimatorHelper::createClearAnimation(int x, int y, int rows) {
     std::string ret = "CLEAR 0 ";
-    ret += x;
+    ret += AndroidUtil::toString(x);
     ret += " ";
-    ret += y;
+    ret += AndroidUtil::toString(y);
     ret += " ";
-    ret += rows;
+    ret += AndroidUtil::toString(rows);
     return ret;
 }
