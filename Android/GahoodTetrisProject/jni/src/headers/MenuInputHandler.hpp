@@ -16,8 +16,9 @@ public:
 	void onReset() override;
 
 protected:
+    void onBackPressed() override;
     void onTouch(int, int) override;
-    void onSwipe() override;
+    void onSwipe(Direction) override;
     void onTouchAndHold(int, int) override;
     void onPause() override;
     void onResume() override;

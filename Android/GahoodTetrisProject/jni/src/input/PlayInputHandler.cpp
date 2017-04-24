@@ -2,6 +2,7 @@
 #include "../headers/TetrisGrid.hpp"
 #include "../headers/TetrisPiece.hpp"
 #include "../headers/Player.hpp"
+#include "../headers/AndroidUtil.hpp"
 
 PlayInputHandler::PlayInputHandler(Game *g) : BaseInputHandler(g) {
 	tetrisGrid = new TetrisGrid(((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4, 0);
@@ -32,11 +33,46 @@ void PlayInputHandler::onUpdate() {
 
 void PlayInputHandler::onReset() {}
 
-void PlayInputHandler::onTouch(int, int) {}
+void PlayInputHandler::onTouch(int x, int y) {
+	TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
+    if(AndroidUtil::didTouchSprite(SpriteUtil::getSprite(SpriteUtil::SPRITE_GRID_BORDER), x, y)) {
+        if(grid != NULL && grid->getCurrentPiece() != NULL) {
+            grid->getCurrentPiece()->rotate(grid->getGrid(), true);
+        }
+    }
+}
 
 void PlayInputHandler::onTouchAndHold(int, int) {}
 
-void PlayInputHandler::onSwipe() {}
+void PlayInputHandler::onSwipe(Direction d) {
+	TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
+    GameState state = getGame()->getGameState();
+    switch(d) {
+        case DOWN:
+            if(grid == NULL || grid->getCurrentPiece() == NULL)
+                break;
+            grid->placePiece(static_cast<Player *>(getGame()->getPlayer()), state);
+            if(state != getGame()->getGameState()) {
+                static_cast<Player *> (getGame()->getPlayer())->resetPoints();
+                getGame()->setGameState(state);
+            }
+            break;
+        case LEFT:
+            if(grid == NULL || grid->getCurrentPiece() == NULL)
+                break;
+			grid->getCurrentPiece()->moveLeft(grid->getGrid());
+            break;
+        case RIGHT:
+            if(grid == NULL || grid->getCurrentPiece() == NULL)
+                break;
+			grid->getCurrentPiece()->moveRight(grid->getGrid());
+            break;
+        default:
+            break;
+    }
+}
+
+void PlayInputHandler::onBackPressed() { getGame()->setGameState(MAIN_MENU); }
 
 void PlayInputHandler::onPause() {}
 

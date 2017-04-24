@@ -1,6 +1,5 @@
 #include "../headers/MainMenu.hpp"
 #include "../headers/SpriteUtil.hpp"
-#include "../headers/AnimatorHelper.hpp"
 
 const int MainMenu::BUTTON_Y = 350, MainMenu::BUTTON_X = 115, MainMenu::BUTTON_WIDTH = 70, MainMenu::BUTTON_HEIGHT = 35;
 
@@ -25,13 +24,11 @@ MainMenu::MainMenu() {
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setHeight(BUTTON_HEIGHT);
 	selectorLocationX = BUTTON_X - BUTTON_WIDTH;
 
-    AnimatorHelper::getInstance()->startAnimation(ANIMATION_MAIN_MENU);
 	shouldExit = false;
 	selectorMoveLeft = true;
 }
 
 MainMenu::~MainMenu() {
-	AnimatorHelper::getInstance()->stopAnimation();
 	blockRed = NULL,
 	blockYellow = NULL,
 	blockBlue = NULL,

@@ -87,7 +87,8 @@ void Game::changeEventHandler() {
 			temp = NULL;
 		}
 		window->releaseHandlerLock();
-		break;
+        AnimatorHelper::getInstance()->stopAnimation();
+        break;
 	case MAIN_MENU:
 		temp = currentHandler;
 		currentHandler = new MenuInputHandler(this);
@@ -97,8 +98,10 @@ void Game::changeEventHandler() {
 			temp = NULL;
 		}
 		window->releaseHandlerLock();
-		break;
+        AnimatorHelper::getInstance()->startAnimation(ANIMATION_MAIN_MENU);
+        break;
 	default:
+        AnimatorHelper::getInstance()->stopAnimation();
 		break;
 	}	
 	stateChanged = false;

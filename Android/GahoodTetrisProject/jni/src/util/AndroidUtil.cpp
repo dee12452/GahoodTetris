@@ -1,4 +1,6 @@
 #include "../headers/AndroidUtil.hpp"
+#include "../headers/DisplayUtil.hpp"
+#include "../headers/Sprite.hpp"
 #include <sstream>
 #include <string>
 
@@ -42,6 +44,31 @@ std::string AndroidUtil::toString(T val) {
     std::ostringstream os;
     os << val;
     return os.str();
+}
+
+int AndroidUtil::getScreenStartX() { return 0; }
+
+int AndroidUtil::getScreenStartY() {
+    return (DisplayUtil::getScreenHeight() / 2 - DisplayUtil::getScreenWidth() / 2);
+}
+
+SDL_Rect AndroidUtil::getSpriteTouchRect(Sprite *spr) {
+    SDL_Rect touchArea = spr->getRect();
+    touchArea.x = AndroidUtil::getScreenStartX() + (touchArea.x * DisplayUtil::getScreenWidth()) / DESIRED_WINDOW_WIDTH;
+    touchArea.y = AndroidUtil::getScreenStartY() + (touchArea.y * DisplayUtil::getScreenWidth()) / DESIRED_WINDOW_WIDTH;
+    touchArea.w = (touchArea.w * DisplayUtil::getScreenWidth()) / DESIRED_WINDOW_WIDTH;
+    touchArea.h = (touchArea.h * DisplayUtil::getScreenWidth()) / DESIRED_WINDOW_HEIGHT;
+    return touchArea;
+}
+
+bool AndroidUtil::didTouchSprite(Sprite *spr, int touchX, int touchY) {
+    SDL_Rect touchArea = AndroidUtil::getSpriteTouchRect(spr);
+    if(touchX >= touchArea.x && touchX <= touchArea.x + touchArea.w) {
+        if(touchY >= touchArea.y && touchY <= touchArea.y + touchArea.h) {
+            return true;
+        }
+    }
+    return false;
 }
 
 template std::string AndroidUtil::toString<int>(int);

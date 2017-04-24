@@ -2,7 +2,8 @@
 #define ANDROID_UTIL_HPP
 
 #include "Util.hpp"
-#include <istream>
+
+class Sprite;
 
 class AndroidUtil {
 public:
@@ -10,7 +11,12 @@ public:
 
     template<typename T>
     static std::string toString(T);
+    static int getScreenStartX();
+    static int getScreenStartY();
+    static bool didTouchSprite(Sprite *, int, int);
+
 private:
+    static SDL_Rect getSpriteTouchRect(Sprite *);
     AndroidUtil();
     ~AndroidUtil();
 };

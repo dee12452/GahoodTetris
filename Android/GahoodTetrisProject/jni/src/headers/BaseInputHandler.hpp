@@ -23,8 +23,9 @@ public:
 protected:
 	virtual void onDraw(SDL_Renderer *) = 0;
 	virtual void onUpdate() = 0;
+    virtual void onBackPressed() = 0;
     virtual void onTouch(int, int) = 0;
-    virtual void onSwipe() = 0;
+    virtual void onSwipe(Direction) = 0;
     virtual void onTouchAndHold(int, int) = 0;
 	virtual void onPause() = 0;
     virtual void onResume() = 0;

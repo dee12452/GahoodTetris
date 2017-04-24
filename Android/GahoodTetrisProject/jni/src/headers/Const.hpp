@@ -152,7 +152,7 @@ const int BLOCK_HEIGHT = DESIRED_WINDOW_HEIGHT / GRID_COLUMNS;
 ////////////////////////////////////////////////////////////////////
 //Direction enum
 //Left = Counterclockwise, Right = Clockwise
-enum Direction { UP, DOWN, LEFT, RIGHT };
+enum Direction { UP, DOWN, LEFT, RIGHT, NO_DIRECTION };
 
 ////////////////////////////////////////////////////////////////////
 

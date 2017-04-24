@@ -2,6 +2,7 @@
 #include "../headers/DisplayUtil.hpp"
 #include "../headers/AndroidUtil.hpp"
 #include "../headers/AnimatorHelper.hpp"
+#include <algorithm>
 
 BaseInputHandler::BaseInputHandler(Game *g) { this->game = g; gameCreated = false; isPaused = false; }
 
@@ -29,6 +30,10 @@ void BaseInputHandler::pollEvents() {
 		case SDL_QUIT:
 			onQuitGame();
 			break;
+        case SDL_KEYDOWN:
+            if(e.key.keysym.sym == SDLK_AC_BACK)
+                onBackPressed();
+            break;
         case SDL_APP_TERMINATING:
             onDestroy();
             break;
@@ -51,8 +56,45 @@ void BaseInputHandler::pollEvents() {
         case SDL_FINGERUP:
             break;
         case SDL_FINGERMOTION:
-            onSwipe();
+        {
+            float changeX = e.tfinger.dx;
+            float changeY = e.tfinger.dy; 
+            //Swiped Right
+            if(changeX > 0) {
+                if(std::abs(changeX) > std::abs(changeY)) {
+                    onSwipe(RIGHT);
+                }
+
+                //Swiped Up
+                if(changeY > 0) {
+                    onSwipe(DOWN);
+                }
+
+                //Swiped Down
+                else {
+                    onSwipe(UP);
+                }
+            }
+
+            //Swiped Left
+            else {
+                if(std::abs(changeX) > std::abs(changeY)) {
+                    onSwipe(LEFT);
+                }
+
+                //Swiped Up
+                if(changeY > 0) {
+                    onSwipe(DOWN);
+                }
+
+                //Swiped Down
+                else {
+                    onSwipe(UP);
+                }
+            }
+            onSwipe(NO_DIRECTION);
             break;
+        }
         default:
 			break;
 		}
