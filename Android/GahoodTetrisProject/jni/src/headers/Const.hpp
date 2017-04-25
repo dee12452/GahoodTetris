@@ -225,7 +225,8 @@ const int UPDATE_TIME_MINIMUM = 50;
 
 ////////////////////////////////////////////////////////////////////
 //Touch Timer Tap Time (To tell if the user tapped or swipe)
-const int TOUCH_TIMER_TIME = 95;
+const int TOUCH_TIMER_TIME = 90;
+const int SWIPE_THRESHOLD = 80;
 ////////////////////////////////////////////////////////////////////
 
 #endif

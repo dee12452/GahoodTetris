@@ -25,10 +25,10 @@ protected:
 	virtual void onDraw(SDL_Renderer *) = 0;
 	virtual void onUpdate() = 0;
     virtual void onBackPressed() = 0;
-    virtual void onTap(int, int) = 0;
-    virtual void onSwipe(Direction) = 0;
-    virtual void onTouchAndHold(int, int) = 0;
-	virtual void onPause() = 0;
+	virtual void onTouch(const SDL_TouchFingerEvent &) = 0;
+    virtual void onTouchUp(const SDL_TouchFingerEvent &) = 0;
+    virtual void onFingerMotion(const SDL_TouchFingerEvent &) = 0;
+    virtual void onPause() = 0;
     virtual void onResume() = 0;
     virtual void onDestroy() = 0;
     virtual void onQuitGame();
@@ -36,10 +36,8 @@ protected:
 
 private:
 	Game *game;
-	Timer *touchTimer;
     bool gameCreated;
     bool isPaused;
-    bool swiped, isSwiping;
 };
 
 #endif

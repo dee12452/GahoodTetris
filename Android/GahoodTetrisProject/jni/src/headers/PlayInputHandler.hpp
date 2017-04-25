@@ -4,6 +4,7 @@
 #include "Const.hpp"
 #include "BaseInputHandler.hpp"
 
+class Timer;
 class BaseDrawable;
 
 class PlayInputHandler : public BaseInputHandler {
@@ -17,15 +18,17 @@ public:
 
 protected:
     void onBackPressed() override;
-    void onTap(int, int) override;
-    void onTouchAndHold(int, int) override;
-    void onSwipe(Direction) override;
+    void onTouch(const SDL_TouchFingerEvent &) override;
+    void onTouchUp(const SDL_TouchFingerEvent &) override;
+    void onFingerMotion(const SDL_TouchFingerEvent &) override;
     void onPause() override;
     void onResume() override;
     void onDestroy() override;
 
 private:
 	BaseDrawable *tetrisGrid;
+    Timer *touchTimer;
+    bool swiped;
 };
 
 #endif

@@ -17,9 +17,9 @@ public:
 
 protected:
     void onBackPressed() override;
-    void onTap(int, int) override;
-    void onSwipe(Direction) override;
-    void onTouchAndHold(int, int) override;
+    void onTouch(const SDL_TouchFingerEvent &) override;
+    void onTouchUp(const SDL_TouchFingerEvent &) override;
+    void onFingerMotion(const SDL_TouchFingerEvent &) override;
     void onPause() override;
     void onResume() override;
     void onDestroy() override;

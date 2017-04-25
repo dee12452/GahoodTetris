@@ -17,7 +17,7 @@ public:
 	void reset();
     void update(Player *, GameState &);
     void setUpdateTime(int) const;
-	void placePiece(Player *, GameState &);
+	void placePiece();
 
     TetrisPiece * getCurrentPiece() const;
     Uint8 ** getGrid() const;

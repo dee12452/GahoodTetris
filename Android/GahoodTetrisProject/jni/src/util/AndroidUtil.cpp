@@ -72,3 +72,4 @@ bool AndroidUtil::didTouchSprite(Sprite *spr, int touchX, int touchY) {
 }
 
 template std::string AndroidUtil::toString<int>(int);
+template std::string AndroidUtil::toString<float>(float);

@@ -341,9 +341,8 @@ void TetrisGrid::reset() {
 	needsNewPiece = true;
 }
 
-void TetrisGrid::placePiece(Player *, GameState &) {
+void TetrisGrid::placePiece() {
     if(currentPiece == NULL)
         return;
     currentPiece->forcePlace(grid);
-    //update(player, gameState);
 }

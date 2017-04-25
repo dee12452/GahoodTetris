@@ -1,6 +1,7 @@
 #include "../headers/MenuInputHandler.hpp"
 #include "../headers/MainMenu.hpp"
 #include "../headers/AnimatorHelper.hpp"
+#include "../headers/DisplayUtil.hpp"
 
 MenuInputHandler::MenuInputHandler(Game *g) : BaseInputHandler(g) {
 	menu = new MainMenu();
@@ -23,22 +24,24 @@ void MenuInputHandler::onUpdate() {
 
 void MenuInputHandler::onReset() {}
 
-void MenuInputHandler::onTap(int x, int y) {
+void MenuInputHandler::onTouch(const SDL_TouchFingerEvent &) {}
+
+void MenuInputHandler::onTouchUp(const SDL_TouchFingerEvent &event) {
+    int touchX = event.x * DisplayUtil::getScreenWidth();
+    int touchY = event.y * DisplayUtil::getScreenHeight();
     Sprite *playBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON);
     Sprite *exitBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON);
-    if(AndroidUtil::didTouchSprite(playBtn, x, y)) { 
+    if(AndroidUtil::didTouchSprite(playBtn, touchX, touchY)) { 
         getGame()->setGameState(PLAY);
     }
-    if(AndroidUtil::didTouchSprite(exitBtn, x, y)) {
+    if(AndroidUtil::didTouchSprite(exitBtn, touchX, touchY)) {
         getGame()->setGameState(EXIT);
     }
     playBtn = NULL;
     exitBtn = NULL;
 }
 
-void MenuInputHandler::onSwipe(Direction) {}
-
-void MenuInputHandler::onTouchAndHold(int, int) {}
+void MenuInputHandler::onFingerMotion(const SDL_TouchFingerEvent &) {}
 
 void MenuInputHandler::onPause() {
     AnimatorHelper::getInstance()->stopAnimation();
