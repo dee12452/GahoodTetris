@@ -78,59 +78,17 @@ void PlayInputHandler::onFingerMotion(const SDL_TouchFingerEvent &e) {
             grid->placePiece();
             swiped = true;
         }
-    } 
+    }
+    else if(touchTimer->check() && !swiped) {
+        touchTimer->reset();
+        grid->getCurrentPiece()->moveDown(grid->getGrid());
+    }
 }
 
 void PlayInputHandler::onBackPressed() { getGame()->setGameState(MAIN_MENU); }
 
 void PlayInputHandler::onPause() {}
 
-void PlayInputHandler::onResume() {}
+void PlayInputHandler::onResume() { onBackPressed(); }
 
 void PlayInputHandler::onDestroy() {}
-
-/*
-void PlayInputHandler::onKeyDown(SDL_Scancode key) {
-	TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
-    GameState state = getGame()->getGameState();
-	switch(key) {
-        case SDL_SCANCODE_LEFT:
-            if(grid == NULL || grid->getCurrentPiece() == NULL)
-                break;
-			grid->getCurrentPiece()->moveLeft(grid->getGrid());
-            break;
-        case SDL_SCANCODE_RIGHT:
-            if(grid == NULL || grid->getCurrentPiece() == NULL)
-                break;
-			grid->getCurrentPiece()->moveRight(grid->getGrid());
-            break;
-        case SDL_SCANCODE_DOWN:
-            if(grid == NULL || grid->getCurrentPiece() == NULL)
-                break;
-            if(!grid->getCurrentPiece()->moveDown(grid->getGrid())) {
-                grid->placePiece(static_cast<Player *>(getGame()->getPlayer()), state);
-            }
-            break;
-		case SDL_SCANCODE_SPACE:
-            if(grid == NULL || grid->getCurrentPiece() == NULL)
-                break;
-			grid->getCurrentPiece()->rotate(grid->getGrid(), true);
-			break;
-		case SDL_SCANCODE_ESCAPE:
-			static_cast<Player *> (getGame()->getPlayer())->resetPoints();
-			getGame()->setGameState(MAIN_MENU);
-			break;
-        case SDL_SCANCODE_RETURN:
-            if(grid == NULL || grid->getCurrentPiece() == NULL)
-                break;
-            grid->placePiece(static_cast<Player *>(getGame()->getPlayer()), state);
-            if(state != getGame()->getGameState()) {
-                static_cast<Player *> (getGame()->getPlayer())->resetPoints();
-                getGame()->setGameState(state);
-            }
-            break;
-        default:
-            break;
-    }
-}
-*/

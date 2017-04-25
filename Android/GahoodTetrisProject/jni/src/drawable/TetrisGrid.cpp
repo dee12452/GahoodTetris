@@ -127,9 +127,55 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 		}
 	}
 
-	//Draw the current piece
-	locX = (currentPiece->getX() * BLOCK_WIDTH) + gridX;
-	if (currentPiece != NULL) {
+    if(currentPiece != NULL) {
+        //Draw the shadow piece
+        TetrisPiece shadowPiece(*currentPiece);
+        shadowPiece.forcePlace(grid);
+        Uint8 SHADOW_ALPHA = 100;
+        locX = (shadowPiece.getX() * BLOCK_WIDTH) + gridX;
+        for (int i = 0; i < shadowPiece.getRows(); i++, locX += BLOCK_WIDTH) {
+            int locY = (shadowPiece.getY() * BLOCK_HEIGHT) + gridY;
+            for (int j = 0; j < shadowPiece.getColumns(); j++, locY += BLOCK_HEIGHT) {
+                if ((shadowPiece.getBlocks())[i][j] == 1) {
+					Sprite *currBlock = NULL;
+					switch (static_cast<int> (currentPiece->getPieceType())) {
+					case I:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_BLUE_BLOCK);
+						break;
+					case T:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_GREEN_BLOCK);
+						break;
+					case Z:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_PURPLE_BLOCK);
+						break;
+					case S:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_ORANGE_BLOCK);
+						break;
+					case O:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_YELLOW_BLOCK);
+						break;
+					case J:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_RED_BLOCK);
+						break;
+					case L:
+						currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_GREY_BLOCK);
+						break;
+					default:
+						std::cout << (int) grid[i][j] - 1 << std::endl;
+						Util::fatalError("Error: current block's sprite was not set to anything when drawing the current piece!");
+					}
+                    currBlock->setLocationX(locX);
+                    currBlock->setLocationY(locY);
+                    currBlock->setAlpha(SHADOW_ALPHA);
+                    currBlock->draw(renderer);
+                    currBlock->setAlpha(FULL_ALPHA_VALUE);
+                    currBlock = NULL;
+                }
+            }
+        }
+        
+        //Draw the current piece
+        locX = (currentPiece->getX() * BLOCK_WIDTH) + gridX;
 		for (int i = 0; i < currentPiece->getRows(); i++, locX += BLOCK_WIDTH) {
 			int locY = (currentPiece->getY() * BLOCK_HEIGHT) + gridY;
 			for (int j = 0; j < currentPiece->getColumns(); j++, locY += BLOCK_HEIGHT) {
@@ -167,8 +213,8 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 					currBlock = NULL;
 				}
 			}
-		}
-	}
+		}    
+    }
 
 	//Draw next piece
 	locX = (nextPiece->getX() * BLOCK_WIDTH);

@@ -77,6 +77,7 @@ void Game::changeEventHandler() {
 	BaseInputHandler *temp = NULL;
     switch (gameState) {
 	case PLAY:
+        AnimatorHelper::getInstance()->stopAnimation();
 		temp = currentHandler;
 		currentHandler = new PlayInputHandler(this);
 		window->setInputHandler(currentHandler);
@@ -95,8 +96,10 @@ void Game::changeEventHandler() {
 			temp = NULL;
 		}
 		window->releaseHandlerLock();
-		break;
+        AnimatorHelper::getInstance()->startAnimation(ANIMATION_MAIN_MENU);
+        break;
 	default:
+        AnimatorHelper::getInstance()->stopAnimation();
 		break;
 	}	
 	stateChanged = false;

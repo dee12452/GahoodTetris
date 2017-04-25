@@ -59,6 +59,22 @@ TetrisPiece::TetrisPiece(PieceTypes type, int x, int y) {
     placeTimer = new Timer(TETRIS_PIECE_DEFAULT_TIMER, false);
 }
 
+TetrisPiece::TetrisPiece(const TetrisPiece &piece) {
+    type = piece.getPieceType();
+    x = piece.getX();
+    y = piece.getY();
+    rows = piece.getRows();
+    columns = piece.getColumns();
+    placeTimer = NULL;
+    blocks = new Uint8 *[rows];
+    for(int i = 0; i < rows; i++) {
+        blocks[i] = new Uint8[columns];
+        for(int j = 0; j < columns; j++) {
+            blocks[i][j] = piece.getBlocks()[i][j];
+        }
+    }
+}
+
 TetrisPiece::~TetrisPiece() {
     if(blocks != NULL)
     {

@@ -8,6 +8,7 @@ class Timer;
 class TetrisPiece {
 public:
     TetrisPiece(PieceTypes, int, int);
+    TetrisPiece(const TetrisPiece &);
     ~TetrisPiece();
 
     int getX() const;
