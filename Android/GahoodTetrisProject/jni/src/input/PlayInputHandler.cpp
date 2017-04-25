@@ -46,11 +46,25 @@ void PlayInputHandler::onTouch(const SDL_TouchFingerEvent &) {
     touchTimer->reset();
 }
 
-void PlayInputHandler::onTouchUp(const SDL_TouchFingerEvent &) {
+void PlayInputHandler::onTouchUp(const SDL_TouchFingerEvent &e) {
     if(!swiped && !touchTimer->check()) {
         TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
         if(grid != NULL && grid->getCurrentPiece() != NULL) {
-            grid->getCurrentPiece()->rotate(grid->getGrid(), true);
+            int touchX = e.x * DisplayUtil::getScreenWidth();
+            int touchY = e.y * DisplayUtil::getScreenHeight();
+            SDL_Rect gridRect = AndroidUtil::getSpriteTouchRect(SpriteUtil::getSprite(SpriteUtil::SPRITE_GRID_BORDER));
+            if(touchX < gridRect.x) {
+                grid->getCurrentPiece()->moveLeft(grid->getGrid());
+            }
+            else if(touchX > gridRect.x + gridRect.w) {
+                grid->getCurrentPiece()->moveRight(grid->getGrid());
+            }
+            else if(touchY > gridRect.y + gridRect.h) {
+                grid->getCurrentPiece()->moveDown(grid->getGrid());
+            }
+            else {
+                grid->getCurrentPiece()->rotate(grid->getGrid(), true);
+            }
         }
     }
 }
@@ -59,33 +73,26 @@ void PlayInputHandler::onFingerMotion(const SDL_TouchFingerEvent &e) {
     TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
     if(grid == NULL || grid->getCurrentPiece() == NULL || swiped)
         return;
-    int swipeX = e.dx * DisplayUtil::getScreenWidth();
     int swipeY = e.dy * DisplayUtil::getScreenHeight();
-    if(std::abs(swipeX) > SWIPE_THRESHOLD && std::abs(swipeX) > std::abs(swipeY)) {
-        //Swiped right
-        if(swipeX > 0) {
-            grid->getCurrentPiece()->moveRight(grid->getGrid());
-        }
-        //Swiped left
-        else {
-            grid->getCurrentPiece()->moveLeft(grid->getGrid());
-        }
-        swiped = true;
-    }
-    else if(std::abs(swipeY) > SWIPE_THRESHOLD) {
+    if(std::abs(swipeY) > SWIPE_THRESHOLD) {
         //Swiped down
         if(swipeY > 0) {
             grid->placePiece();
             swiped = true;
         }
     }
+    /*
     else if(touchTimer->check() && !swiped) {
         touchTimer->reset();
         grid->getCurrentPiece()->moveDown(grid->getGrid());
     }
+    */
 }
 
-void PlayInputHandler::onBackPressed() { getGame()->setGameState(MAIN_MENU); }
+void PlayInputHandler::onBackPressed() { 
+    getGame()->setGameState(MAIN_MENU);
+    static_cast<Player *> (getGame()->getPlayer())->resetPoints();
+}
 
 void PlayInputHandler::onPause() {}
 

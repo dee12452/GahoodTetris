@@ -14,9 +14,9 @@ public:
     static int getScreenStartX();
     static int getScreenStartY();
     static bool didTouchSprite(Sprite *, int, int);
+    static SDL_Rect getSpriteTouchRect(Sprite *);
 
 private:
-    static SDL_Rect getSpriteTouchRect(Sprite *);
     AndroidUtil();
     ~AndroidUtil();
 };

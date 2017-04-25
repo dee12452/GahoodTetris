@@ -1,5 +1,6 @@
 #include "../headers/Player.hpp"
 #include "../headers/SpriteUtil.hpp"
+#include "../headers/AndroidUtil.hpp"
 
 Player::Player() {
 	resetPoints();
@@ -106,8 +107,7 @@ void Player::draw(SDL_Renderer *renderer) {
 		numbers->draw(renderer, numbersRect);
 	}
 
-    std::string levelStr = "";
-    levelStr += (char) (level + (int) '0');
+    std::string levelStr = AndroidUtil::toString(level);
     //Draw Level
     for(unsigned int i = 0; i < levelStr.length(); i++) {
         int numChar = (int) levelStr[i] - '0';
