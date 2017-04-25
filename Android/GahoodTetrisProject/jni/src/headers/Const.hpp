@@ -218,15 +218,15 @@ const int TETRIS_PIECE_DEFAULT_TIMER = 2000;
 //The number of points to get to the next level
 const int TARGET_POINTS_FACTOR = 100;
 //The factor by which the update time is reduced (updateTime -= (currentLevel * factor))
-const int UPDATE_TIME_FACTOR = 10;
+const int UPDATE_TIME_FACTOR = 15;
 //The minimum possible update time
-const int UPDATE_TIME_MINIMUM = 50;
+const int UPDATE_TIME_MINIMUM = 75;
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
 //Touch Timer Tap Time (To tell if the user tapped or swipe)
 const int TOUCH_TIMER_TIME = 125;
-const int SWIPE_THRESHOLD = 65;
+const int SWIPE_THRESHOLD = 50;
 ////////////////////////////////////////////////////////////////////
 
 #endif
