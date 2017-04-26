@@ -28,7 +28,7 @@ protected:
 private:
 	BaseDrawable *tetrisGrid;
     Timer *touchTimer;
-    bool swiped;
+    bool swiped, moveLeft, moveRight, moveDown;
 };
 
 #endif

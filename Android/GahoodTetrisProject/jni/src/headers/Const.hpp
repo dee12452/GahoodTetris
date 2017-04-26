@@ -9,6 +9,11 @@
 #include <vector>
 
 ////////////////////////////////////////////////////////////////////
+//Current Version
+const std::string VERSION = "v1.0"; 
+////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////
 //Game Name
 const char * const GAME_NAME = "Gahood Tetris Test";
 ////////////////////////////////////////////////////////////////////
@@ -81,6 +86,9 @@ const char * const SPRITE_W_FILE_LOCATION = "res/W.png";
 const char * const SPRITE_X_FILE_LOCATION = "res/X.png";
 const char * const SPRITE_Y_FILE_LOCATION = "res/Y.png";
 const char * const SPRITE_Z_FILE_LOCATION = "res/Z.png";
+const char * const SPRITE_INDICATOR_LEFT_FILE_LOCATION = "res/left_indicator.png";
+const char * const SPRITE_INDICATOR_RIGHT_FILE_LOCATION = "res/right_indicator.png";
+
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
@@ -216,11 +224,11 @@ const int TETRIS_PIECE_DEFAULT_TIMER = 2000;
 //Tetris Grid Points and Level Constants
 //
 //The number of points to get to the next level
-const int TARGET_POINTS_FACTOR = 100;
+const int TARGET_POINTS_FACTOR = 150;
 //The factor by which the update time is reduced (updateTime -= (currentLevel * factor))
-const int UPDATE_TIME_FACTOR = 15;
+const int UPDATE_TIME_FACTOR = 25;
 //The minimum possible update time
-const int UPDATE_TIME_MINIMUM = 75;
+const int UPDATE_TIME_MINIMUM = 250;
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////

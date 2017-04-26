@@ -62,6 +62,8 @@ public:
     const static int SPRITE_X;
     const static int SPRITE_Y;
     const static int SPRITE_Z;
+    const static int SPRITE_INDICATOR_LEFT;
+    const static int SPRITE_INDICATOR_RIGHT;
 };
 
 #endif

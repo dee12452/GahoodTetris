@@ -82,8 +82,10 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
         AnimatorHelper::getInstance()->stopAnimation();
     }
 
-    //Need the below to clear the screen
+    //Need the below to clear the screen and add indicators
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_BLANK_BLOCK)->draw(renderer);
+    SpriteUtil::getSprite(SpriteUtil::SPRITE_INDICATOR_LEFT)->draw(renderer);
+    SpriteUtil::getSprite(SpriteUtil::SPRITE_INDICATOR_RIGHT)->draw(renderer);
 	//
 
 	//Draw the grid

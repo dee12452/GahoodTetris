@@ -10,6 +10,10 @@
 PlayInputHandler::PlayInputHandler(Game *g) : BaseInputHandler(g) {
 	tetrisGrid = new TetrisGrid(((2 * DESIRED_WINDOW_WIDTH) - DESIRED_WINDOW_HEIGHT) / 4, 0);
     touchTimer = new Timer(TOUCH_TIMER_TIME, false);
+    swiped = false;
+    moveLeft = false;
+    moveRight = false;
+    moveDown = false;
 }
 
 PlayInputHandler::~PlayInputHandler() {
@@ -30,39 +34,69 @@ void PlayInputHandler::onDraw(SDL_Renderer *renderer) {
 
 void PlayInputHandler::onUpdate() {
 	Player *player = static_cast<Player *> (getGame()->getPlayer());
-	GameState state = getGame()->getGameState();
-    static_cast<TetrisGrid *> (tetrisGrid)->update(player, state);
-	if (state != getGame()->getGameState()) {
+	TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
+    GameState state = getGame()->getGameState();
+    if(grid != NULL && grid->getCurrentPiece() != NULL) {
+        grid->update(player, state);
+        if(touchTimer->check()) {
+            if(moveLeft) {
+                grid->getCurrentPiece()->moveLeft(grid->getGrid());
+            }
+            else if(moveRight) {
+                grid->getCurrentPiece()->moveRight(grid->getGrid());
+            }
+            else if(moveDown) {
+                grid->getCurrentPiece()->moveDown(grid->getGrid());
+            }
+        }
+    }
+    if (state != getGame()->getGameState()) {
 		player->resetPoints();
 		getGame()->setGameState(state);
 	}
+    grid = NULL;
 	player = NULL;
 }
 
 void PlayInputHandler::onReset() {}
 
-void PlayInputHandler::onTouch(const SDL_TouchFingerEvent &) {
+void PlayInputHandler::onTouch(const SDL_TouchFingerEvent &e) {
     swiped = false;
     touchTimer->reset();
+    TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
+    int touchX = e.x * DisplayUtil::getScreenWidth();
+    int touchY = e.y * DisplayUtil::getScreenHeight();
+    Sprite *leftInd = SpriteUtil::getSprite(SpriteUtil::SPRITE_INDICATOR_LEFT);
+    Sprite *rightInd = SpriteUtil::getSprite(SpriteUtil::SPRITE_INDICATOR_RIGHT);
+    SDL_Rect borderRect = AndroidUtil::getSpriteTouchRect(SpriteUtil::getSprite(SpriteUtil::SPRITE_GRID_BORDER));
+    if(grid != NULL && grid->getCurrentPiece() != NULL) {
+        if(AndroidUtil::didTouchSprite(leftInd, touchX, touchY)) {
+            moveLeft = true;
+            grid->getCurrentPiece()->moveLeft(grid->getGrid());
+        }
+        else if(AndroidUtil::didTouchSprite(rightInd, touchX, touchY)) {
+            moveRight = true;
+            grid->getCurrentPiece()->moveRight(grid->getGrid());
+        }
+        else if(touchY > borderRect.h + borderRect.y) {
+            moveDown = true;
+            grid->getCurrentPiece()->moveDown(grid->getGrid());
+        }
+        leftInd = NULL;
+        rightInd = NULL;
+    }
 }
 
 void PlayInputHandler::onTouchUp(const SDL_TouchFingerEvent &e) {
+    moveLeft = false;
+    moveRight = false;
+    moveDown = false;
     if(!swiped && !touchTimer->check()) {
         TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
+        int touchX = e.x * DisplayUtil::getScreenWidth();
+        int touchY = e.y * DisplayUtil::getScreenHeight();
         if(grid != NULL && grid->getCurrentPiece() != NULL) {
-            int touchX = e.x * DisplayUtil::getScreenWidth();
-            int touchY = e.y * DisplayUtil::getScreenHeight();
-            SDL_Rect gridRect = AndroidUtil::getSpriteTouchRect(SpriteUtil::getSprite(SpriteUtil::SPRITE_GRID_BORDER));
-            if(touchX < gridRect.x) {
-                grid->getCurrentPiece()->moveLeft(grid->getGrid());
-            }
-            else if(touchX > gridRect.x + gridRect.w) {
-                grid->getCurrentPiece()->moveRight(grid->getGrid());
-            }
-            else if(touchY > gridRect.y + gridRect.h) {
-                grid->getCurrentPiece()->moveDown(grid->getGrid());
-            }
-            else {
+            if(AndroidUtil::didTouchSprite(SpriteUtil::getSprite(SpriteUtil::SPRITE_GRID_BORDER), touchX, touchY)) {
                 grid->getCurrentPiece()->rotate(grid->getGrid(), true);
             }
         }
@@ -71,7 +105,7 @@ void PlayInputHandler::onTouchUp(const SDL_TouchFingerEvent &e) {
 
 void PlayInputHandler::onFingerMotion(const SDL_TouchFingerEvent &e) { 
     TetrisGrid *grid = static_cast<TetrisGrid *> (tetrisGrid);
-    if(grid == NULL || grid->getCurrentPiece() == NULL || swiped)
+    if(grid == NULL || grid->getCurrentPiece() == NULL || swiped || moveLeft || moveRight || moveDown)
         return;
     int swipeY = e.dy * DisplayUtil::getScreenHeight();
     if(std::abs(swipeY) > SWIPE_THRESHOLD) {
@@ -81,12 +115,6 @@ void PlayInputHandler::onFingerMotion(const SDL_TouchFingerEvent &e) {
             swiped = true;
         }
     }
-    /*
-    else if(touchTimer->check() && !swiped) {
-        touchTimer->reset();
-        grid->getCurrentPiece()->moveDown(grid->getGrid());
-    }
-    */
 }
 
 void PlayInputHandler::onBackPressed() { 

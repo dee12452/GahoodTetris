@@ -44,13 +44,6 @@ void AnimatorHelper::draw(SDL_Renderer *renderer) {
 
 void AnimatorHelper::startAnimation(const std::string &file) {
 	if (!animating) {
-        Util::print("*********************************************************");
-        Util::print("*********************************************************");
-        Util::print("*********************************************************");
-        Util::print("Started Animation!");
-        Util::print("*********************************************************");
-        Util::print("*********************************************************");
-        Util::print("*********************************************************");
 		animating = true;
 		parseAnimationFile(file);
 		animationThread = std::thread(&AnimatorHelper::animate, this);
@@ -69,14 +62,6 @@ void AnimatorHelper::stopAnimation() {
 	if (animating) {
 		animating = false;
 		animationThread.join();
-        Util::print("*********************************************************");
-        Util::print("*********************************************************");
-        Util::print("*********************************************************");
-        Util::print("Stopped Animation!");
-        Util::print("*********************************************************");
-        Util::print("*********************************************************");
-        Util::print("*********************************************************");
-        Util::print("*********************************************************");
         for (size_t i = 0; i < animations.size(); i++) {
 			delete animations[i];
 			animations[i] = 0;

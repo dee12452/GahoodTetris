@@ -43,6 +43,8 @@ const int SpriteUtil::SPRITE_X = 38;
 const int SpriteUtil::SPRITE_Y = 39;
 const int SpriteUtil::SPRITE_Z = 40;
 const int SpriteUtil::SPRITE_WHITE_BLOCK = 41;
+const int SpriteUtil::SPRITE_INDICATOR_LEFT = 42;
+const int SpriteUtil::SPRITE_INDICATOR_RIGHT = 43;
 
 std::vector<Sprite *> SpriteUtil::gameSprites;
 
@@ -177,6 +179,12 @@ void SpriteUtil::createSprites(SDL_Renderer *renderer) {
     gameSprites.push_back(new Sprite(renderer,
         SPRITE_WHITE_BLOCK_FILE_LOCATION,
         true));
+    gameSprites.push_back(new Sprite(renderer,
+        SPRITE_INDICATOR_LEFT_FILE_LOCATION,
+        true));
+    gameSprites.push_back(new Sprite(renderer,
+        SPRITE_INDICATOR_RIGHT_FILE_LOCATION,
+        true));
 	initSpriteDimensions();
 }
 
@@ -222,6 +230,20 @@ void SpriteUtil::initSpriteDimensions() {
         gameSprites[i]->setWidth(BLOCK_WIDTH * 2);
         gameSprites[i]->setHeight(BLOCK_HEIGHT * 2);
     }
+
+    //Set dimensions for the indicators
+    const int INDICATOR_Y_OFFSET = 75;
+    const int INDICATOR_DIMENSION_ADDITION = 20;
+    Sprite *leftInd = gameSprites[SPRITE_INDICATOR_LEFT];
+    Sprite *rightInd = gameSprites[SPRITE_INDICATOR_RIGHT];
+    leftInd->setWidth(DESIRED_WINDOW_WIDTH / 8 + INDICATOR_DIMENSION_ADDITION);
+    leftInd->setHeight(DESIRED_WINDOW_HEIGHT / 8 + INDICATOR_DIMENSION_ADDITION);
+    leftInd->setLocationX(DESIRED_WINDOW_WIDTH / 8 - leftInd->getWidth() / 2);
+    leftInd->setLocationY(DESIRED_WINDOW_HEIGHT / 2 + INDICATOR_Y_OFFSET);
+    rightInd->setRect(gameSprites[SPRITE_INDICATOR_LEFT]->getRect());
+    rightInd->setLocationX((DESIRED_WINDOW_WIDTH - DESIRED_WINDOW_WIDTH / 4) + (DESIRED_WINDOW_WIDTH / 8 - rightInd->getWidth() / 2));
+    leftInd = NULL;
+    rightInd = NULL;
 }
 
 void SpriteUtil::drawText(SDL_Renderer *renderer, const std::string &s, int x, int y) {
