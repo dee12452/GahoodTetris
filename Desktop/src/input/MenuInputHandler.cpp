@@ -20,6 +20,12 @@ void MenuInputHandler::onKeyDown(SDL_Scancode code) {
 	case SDL_SCANCODE_RIGHT:
 		menu->nextSelection();
 		break;
+    case SDL_SCANCODE_UP:
+        menu->verticalSelection();
+        break;
+    case SDL_SCANCODE_DOWN:
+        menu->verticalSelection();
+        break;
 	case SDL_SCANCODE_RETURN:
 		getGame()->setGameState(menu->selectItem());
 		break;

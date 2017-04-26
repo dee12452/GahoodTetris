@@ -1,7 +1,7 @@
 #include "../headers/MainMenu.hpp"
 #include "../headers/SpriteUtil.hpp"
 
-const int MainMenu::BUTTON_Y = 350, MainMenu::BUTTON_X = 115, MainMenu::BUTTON_WIDTH = 70, MainMenu::BUTTON_HEIGHT = 35;
+const int MainMenu::BUTTON_Y = 270, MainMenu::BUTTON_X = 115, MainMenu::BUTTON_WIDTH = 70, MainMenu::BUTTON_HEIGHT = 35;
 
 MainMenu::MainMenu() {
 	//Set location and dimensions of the sprites
@@ -24,6 +24,10 @@ MainMenu::MainMenu() {
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setHeight(BUTTON_HEIGHT);
 	selectorLocationX = BUTTON_X - BUTTON_WIDTH;
 
+    SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_BUTTON)->setRect(SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON)->getRect());
+    SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_BUTTON)->setLocationX(BUTTON_X * 2);
+    SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_BUTTON)->setLocationY(BUTTON_Y * 4 / 3);
+
 	shouldExit = false;
 	selectorMoveLeft = true;
 }
@@ -41,6 +45,7 @@ void MainMenu::draw(SDL_Renderer *renderer) {
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_MENU_BG)->draw(renderer);
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON)->draw(renderer);
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON)->draw(renderer);
+	SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_BUTTON)->draw(renderer);
 	//Since this is android, having this is weird
     //SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->draw(renderer);
     SDL_Rect r; r.x = 50; r.y = 200; r.w = 30; r.h = 30;

@@ -16,6 +16,7 @@ public:
 
 	void nextSelection();
 	void previousSelection();
+    void verticalSelection();
 	GameState selectItem() const;
 
 private:
@@ -25,7 +26,7 @@ private:
 	static const int BUTTON_HEIGHT;
 	int selectorLocationX;
 
-	bool shouldExit;
+	bool shouldExit, shouldHelp;
 	bool selectorMoveLeft;
 
 	void moveSelectorOnUpdate();

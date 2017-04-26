@@ -1,8 +1,7 @@
 #include "../headers/MainMenu.hpp"
 #include "../headers/SpriteUtil.hpp"
-#include "../headers/AnimatorHelper.hpp"
 
-const int MainMenu::BUTTON_Y = 350, MainMenu::BUTTON_X = 115, MainMenu::BUTTON_WIDTH = 70, MainMenu::BUTTON_HEIGHT = 35;
+const int MainMenu::BUTTON_Y = 270, MainMenu::BUTTON_X = 115, MainMenu::BUTTON_WIDTH = 70, MainMenu::BUTTON_HEIGHT = 35;
 
 MainMenu::MainMenu() {
 	//Set location and dimensions of the sprites
@@ -25,7 +24,12 @@ MainMenu::MainMenu() {
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setHeight(BUTTON_HEIGHT);
 	selectorLocationX = BUTTON_X - BUTTON_WIDTH;
 
+    SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_BUTTON)->setRect(SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON)->getRect());
+    SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_BUTTON)->setLocationX(BUTTON_X * 2);
+    SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_BUTTON)->setLocationY(BUTTON_Y * 4 / 3);
+
 	shouldExit = false;
+    shouldHelp = false;
 	selectorMoveLeft = true;
 }
 
@@ -40,11 +44,18 @@ MainMenu::~MainMenu() {
 
 void MainMenu::draw(SDL_Renderer *renderer) {
 	SpriteUtil::getSprite(SpriteUtil::SPRITE_MENU_BG)->draw(renderer);
-	SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON)->draw(renderer);
-	SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON)->draw(renderer);
-	SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->draw(renderer);
+	Sprite *playBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON);
+	Sprite *exitBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON);
+    Sprite *howBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_BUTTON);
+	playBtn->draw(renderer);
+    exitBtn->draw(renderer);
+    howBtn->draw(renderer);
+    SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->draw(renderer);
     SDL_Rect r; r.x = 50; r.y = 200; r.w = 30; r.h = 30;
     SpriteUtil::drawText(renderer, "Gahood Tetris", r);
+    playBtn = NULL;
+    exitBtn = NULL;
+    howBtn = NULL;
 }
 
 void MainMenu::update() {
@@ -52,6 +63,9 @@ void MainMenu::update() {
 }
 
 void MainMenu::nextSelection() {
+	if(shouldHelp)
+        return;
+    SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setLocationY(BUTTON_Y);
 	if (shouldExit) {
 		SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setLocationX(BUTTON_X - BUTTON_WIDTH);
 		selectorLocationX = BUTTON_X - BUTTON_WIDTH;
@@ -68,8 +82,26 @@ void MainMenu::previousSelection() {
 	nextSelection();
 }
 
+void MainMenu::verticalSelection() {
+    shouldHelp = !shouldHelp;
+    if(shouldHelp) {
+        Sprite *howBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_BUTTON);
+        SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setLocationX(howBtn->getLocationX() - howBtn->getWidth());
+        SpriteUtil::getSprite(SpriteUtil::SPRITE_SELECTOR)->setLocationY(howBtn->getLocationY());
+		selectorLocationX = howBtn->getLocationX() - howBtn->getWidth();
+        howBtn = NULL;
+    }
+    else {
+        nextSelection();
+        nextSelection();
+    }
+}
+
 GameState MainMenu::selectItem() const {
-	if(shouldExit)
+    if(shouldHelp) {
+        return MAIN_MENU;
+    }
+    if(shouldExit)
 		return EXIT;
 	return PLAY;
 }

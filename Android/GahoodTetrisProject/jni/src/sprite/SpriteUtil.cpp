@@ -45,6 +45,7 @@ const int SpriteUtil::SPRITE_Z = 40;
 const int SpriteUtil::SPRITE_WHITE_BLOCK = 41;
 const int SpriteUtil::SPRITE_INDICATOR_LEFT = 42;
 const int SpriteUtil::SPRITE_INDICATOR_RIGHT = 43;
+const int SpriteUtil::SPRITE_HOW_BUTTON = 44;
 
 std::vector<Sprite *> SpriteUtil::gameSprites;
 
@@ -184,6 +185,9 @@ void SpriteUtil::createSprites(SDL_Renderer *renderer) {
         true));
     gameSprites.push_back(new Sprite(renderer,
         SPRITE_INDICATOR_RIGHT_FILE_LOCATION,
+        true));
+    gameSprites.push_back(new Sprite(renderer,
+        SPRITE_HOW_BUTTON_FILE_LOCATION,
         true));
 	initSpriteDimensions();
 }

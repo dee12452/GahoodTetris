@@ -33,6 +33,7 @@ public:
 	const static int SPRITE_NUMBERS_SHEET;
 	const static int SPRITE_PLAY_BUTTON;
 	const static int SPRITE_EXIT_BUTTON;
+    const static int SPRITE_HOW_BUTTON;
 	const static int SPRITE_SELECTOR;
 	const static int SPRITE_MENU_BG;
 	const static int SPRITE_NEXT_PIECE_BORDER;
@@ -62,6 +63,8 @@ public:
     const static int SPRITE_X;
     const static int SPRITE_Y;
     const static int SPRITE_Z;
+    const static int SPRITE_INDICATOR_LEFT;
+    const static int SPRITE_INDICATOR_RIGHT;
 };
 
 #endif
