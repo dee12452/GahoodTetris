@@ -99,7 +99,7 @@ void MainMenu::verticalSelection() {
 
 GameState MainMenu::selectItem() const {
     if(shouldHelp) {
-        return MAIN_MENU;
+        return HOW_TO_PLAY;
     }
     if(shouldExit)
 		return EXIT;

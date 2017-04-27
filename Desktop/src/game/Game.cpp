@@ -4,6 +4,7 @@
 #include "../headers/PlayInputHandler.hpp"
 #include "../headers/MenuInputHandler.hpp"
 #include "../headers/AnimatorHelper.hpp"
+#include "../headers/HowToPlayInputHandler.hpp"
 
 Game::Game() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -51,21 +52,23 @@ void Game::setGameState(GameState state) {
 void Game::run() {
 	window->start();
 	setGameState(MAIN_MENU);
-	while (window->isRendering()) {
+    while (window->isRendering()) {
         SDL_Delay(CPU_USAGE_LOGIC_DELAY);
-
-		if(currentHandler != NULL) {
-			currentHandler->onUpdate();
-        }
-
+		
 		if (stateChanged) {
 			changeEventHandler();
 		}
-
-		switch (gameState) {
+        
+        switch (gameState) {
 			case MAIN_MENU:
+                if(currentHandler != NULL) {
+                    currentHandler->onUpdate();
+                }
 				break;
 			case PLAY:
+                if(currentHandler != NULL) {
+                    currentHandler->onUpdate();
+                }
 				break;
 		    default:
 				break;
@@ -77,7 +80,6 @@ void Game::changeEventHandler() {
 	BaseInputHandler *temp = NULL;
     switch (gameState) {
 	case PLAY:
-        AnimatorHelper::getInstance()->stopAnimation();
 		temp = currentHandler;
 		currentHandler = new PlayInputHandler(this);
 		window->setInputHandler(currentHandler);
@@ -86,7 +88,8 @@ void Game::changeEventHandler() {
 			temp = NULL;
 		}
 		window->releaseHandlerLock();
-		break;
+        AnimatorHelper::getInstance()->stopAnimation();
+        break;
 	case MAIN_MENU:
 		temp = currentHandler;
 		currentHandler = new MenuInputHandler(this);
@@ -97,6 +100,17 @@ void Game::changeEventHandler() {
 		}
 		window->releaseHandlerLock();
         AnimatorHelper::getInstance()->startAnimation(ANIMATION_MAIN_MENU);
+        break;
+    case HOW_TO_PLAY:
+		temp = currentHandler;
+		currentHandler = new HowToPlayInputHandler(this);
+		window->setInputHandler(currentHandler);
+		if (temp != NULL) {
+			delete temp;
+			temp = NULL;
+		}
+		window->releaseHandlerLock();
+        AnimatorHelper::getInstance()->stopAnimation();
         break;
 	default:
         AnimatorHelper::getInstance()->stopAnimation();
