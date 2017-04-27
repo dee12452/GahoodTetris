@@ -51,8 +51,8 @@ void PlayInputHandler::onUpdate() {
         }
     }
     if (state != getGame()->getGameState()) {
-		player->resetPoints();
 		getGame()->setGameState(state);
+		player->resetPoints();
 	}
     grid = NULL;
 	player = NULL;

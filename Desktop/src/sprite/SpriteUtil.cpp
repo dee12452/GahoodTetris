@@ -46,6 +46,7 @@ const int SpriteUtil::SPRITE_WHITE_BLOCK = 41;
 const int SpriteUtil::SPRITE_INDICATOR_LEFT = 42;
 const int SpriteUtil::SPRITE_INDICATOR_RIGHT = 43;
 const int SpriteUtil::SPRITE_HOW_BUTTON = 44;
+const int SpriteUtil::SPRITE_HOW_TO_SCREEN = 45;
 
 std::vector<Sprite *> SpriteUtil::gameSprites;
 
@@ -189,6 +190,9 @@ void SpriteUtil::createSprites(SDL_Renderer *renderer) {
     gameSprites.push_back(new Sprite(renderer,
         SPRITE_HOW_BUTTON_FILE_LOCATION,
         true));
+	gameSprites.push_back(new Sprite(renderer,
+		SPRITE_HOW_TO_SCREEN_FILE_LOCATION,
+		true));
 	initSpriteDimensions();
 }
 
@@ -228,6 +232,11 @@ void SpriteUtil::initSpriteDimensions() {
 	gameSprites[SPRITE_NEXT_PIECE_BORDER]->setHeight(BLOCK_HEIGHT * 5);
 	gameSprites[SPRITE_NEXT_PIECE_BORDER]->setLocationX(DESIRED_WINDOW_WIDTH - (BLOCK_WIDTH * 5));
 	gameSprites[SPRITE_NEXT_PIECE_BORDER]->setLocationY((BLOCK_WIDTH * 3) - 30);
+
+	gameSprites[SPRITE_HOW_TO_SCREEN]->setWidth(DESIRED_WINDOW_WIDTH);
+	gameSprites[SPRITE_HOW_TO_SCREEN]->setHeight(DESIRED_WINDOW_HEIGHT);
+	gameSprites[SPRITE_HOW_TO_SCREEN]->setLocationX(0);
+	gameSprites[SPRITE_HOW_TO_SCREEN]->setLocationY(0);
 
     //Set dimensions for the font sprites (A - Z)
     for(int i = 15; i <= 40; i++) {

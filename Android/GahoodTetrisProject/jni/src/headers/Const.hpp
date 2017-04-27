@@ -89,6 +89,7 @@ const char * const SPRITE_Y_FILE_LOCATION = "res/Y.png";
 const char * const SPRITE_Z_FILE_LOCATION = "res/Z.png";
 const char * const SPRITE_INDICATOR_LEFT_FILE_LOCATION = "res/left_indicator.png";
 const char * const SPRITE_INDICATOR_RIGHT_FILE_LOCATION = "res/right_indicator.png";
+const char * const SPRITE_HOW_TO_SCREEN_FILE_LOCATION = "res/how_to_screen.png";
 
 ////////////////////////////////////////////////////////////////////
 
@@ -227,9 +228,9 @@ const int TETRIS_PIECE_DEFAULT_TIMER = 2000;
 //The number of points to get to the next level
 const int TARGET_POINTS_FACTOR = 150;
 //The factor by which the update time is reduced (updateTime -= (currentLevel * factor))
-const int UPDATE_TIME_FACTOR = 25;
+const int UPDATE_TIME_FACTOR = 50;
 //The minimum possible update time
-const int UPDATE_TIME_MINIMUM = 250;
+const int UPDATE_TIME_MINIMUM = 200;
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////

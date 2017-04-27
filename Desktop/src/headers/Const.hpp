@@ -89,6 +89,7 @@ const char * const SPRITE_Y_FILE_LOCATION = "../res/Y.png";
 const char * const SPRITE_Z_FILE_LOCATION = "../res/Z.png";
 const char * const SPRITE_INDICATOR_LEFT_FILE_LOCATION = "../res/left_indicator.png";
 const char * const SPRITE_INDICATOR_RIGHT_FILE_LOCATION = "../res/right_indicator.png";
+const char * const SPRITE_HOW_TO_SCREEN_FILE_LOCATION = "../res/how_to_screen.png";
 
 ////////////////////////////////////////////////////////////////////
 

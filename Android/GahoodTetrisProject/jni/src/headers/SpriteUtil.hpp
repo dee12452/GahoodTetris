@@ -65,6 +65,8 @@ public:
     const static int SPRITE_Z;
     const static int SPRITE_INDICATOR_LEFT;
     const static int SPRITE_INDICATOR_RIGHT;
+    const static int SPRITE_HOW_TO_SCREEN;
+
 };
 
 #endif
