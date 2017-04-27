@@ -1,4 +1,4 @@
-make/
+game.o
 .vscode/
 *.apk
 Android/GahoodTetrisProject/libs
