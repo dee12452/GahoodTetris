@@ -30,7 +30,7 @@ ndk-build
 ``` sh
 ant debug install
 ```
-- Alternatively, you can download the release APK here: <NONE>
+- Alternatively, you can download the release APK here: <https://drive.google.com/file/d/0B0nvrOhCcZQdeTdsOGptWGhRRFU/view?usp=sharing>
 
 ### **Desktop**
 
