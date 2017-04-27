@@ -31,14 +31,19 @@ void MenuInputHandler::onTouchUp(const SDL_TouchFingerEvent &event) {
     int touchY = event.y * DisplayUtil::getScreenHeight();
     Sprite *playBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON);
     Sprite *exitBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON);
+    Sprite *howBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_TO_SCREEN);
     if(AndroidUtil::didTouchSprite(playBtn, touchX, touchY)) { 
         getGame()->setGameState(PLAY);
     }
-    if(AndroidUtil::didTouchSprite(exitBtn, touchX, touchY)) {
+    else if(AndroidUtil::didTouchSprite(exitBtn, touchX, touchY)) {
         getGame()->setGameState(EXIT);
+    }
+    else if(AndroidUtil::didTouchSprite(howBtn, touchX, touchY)) {
+        getGame()->setGameState(HOW_TO_PLAY); 
     }
     playBtn = NULL;
     exitBtn = NULL;
+    howBtn = NULL;
 }
 
 void MenuInputHandler::onFingerMotion(const SDL_TouchFingerEvent &) {}

@@ -16,7 +16,7 @@ void HowToPlayInputHandler::onBackPressed() {
 }
 
 void HowToPlayInputHandler::onTouch(const SDL_TouchFingerEvent &) {}
-void HowToPlayInputHandler::onTouchUp(const SDL_TouchFingerEvent &) {}
+void HowToPlayInputHandler::onTouchUp(const SDL_TouchFingerEvent &) { onBackPressed(); }
 void HowToPlayInputHandler::onFingerMotion(const SDL_TouchFingerEvent &) {}
 
 void HowToPlayInputHandler::onPause() {}

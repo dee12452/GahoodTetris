@@ -4,6 +4,7 @@
 #include "../headers/PlayInputHandler.hpp"
 #include "../headers/MenuInputHandler.hpp"
 #include "../headers/AnimatorHelper.hpp"
+#include "../headers/HowToPlayInputHandler.hpp"
 
 Game::Game() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -99,6 +100,17 @@ void Game::changeEventHandler() {
 		}
 		window->releaseHandlerLock();
         AnimatorHelper::getInstance()->startAnimation(ANIMATION_MAIN_MENU);
+        break;
+    case HOW_TO_PLAY:
+		temp = currentHandler;
+		currentHandler = new HowToPlayInputHandler(this);
+		window->setInputHandler(currentHandler);
+		if (temp != NULL) {
+			delete temp;
+			temp = NULL;
+		}
+		window->releaseHandlerLock();
+        AnimatorHelper::getInstance()->stopAnimation();
         break;
 	default:
         AnimatorHelper::getInstance()->stopAnimation();
