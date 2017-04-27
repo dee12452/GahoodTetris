@@ -31,7 +31,7 @@ void MenuInputHandler::onTouchUp(const SDL_TouchFingerEvent &event) {
     int touchY = event.y * DisplayUtil::getScreenHeight();
     Sprite *playBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_PLAY_BUTTON);
     Sprite *exitBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_EXIT_BUTTON);
-    Sprite *howBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_TO_SCREEN);
+    Sprite *howBtn = SpriteUtil::getSprite(SpriteUtil::SPRITE_HOW_BUTTON);
     if(AndroidUtil::didTouchSprite(playBtn, touchX, touchY)) { 
         getGame()->setGameState(PLAY);
     }
