@@ -205,10 +205,13 @@ void TetrisPiece::rotateClockwise(Uint8 **grid) {
 		}
 	}
 
-	if (x + rows > GRID_ROWS || y + columns > GRID_COLUMNS)
+	if (y + columns > GRID_COLUMNS)
 		preventRotate = true;
 
 	if (!preventRotate) {
+        int xOffset = x;
+        while(x + rows > GRID_ROWS)
+            x--;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < columns; j++) {
 				if (y + j < 0)
@@ -218,6 +221,9 @@ void TetrisPiece::rotateClockwise(Uint8 **grid) {
 				}
 			}
 		}
+        if(preventRotate) {
+            x = xOffset; 
+        }
 	}
 
 	if (preventRotate) {
