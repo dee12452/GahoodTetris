@@ -4,6 +4,8 @@
 #include <sstream>
 #include <fstream>
 
+void * animate(void *);
+
 AnimatorHelper * AnimatorHelper::helper = NULL;
 
 AnimatorHelper::AnimatorHelper() { 
@@ -46,7 +48,8 @@ void AnimatorHelper::startAnimation(const std::string &file) {
 	if (!animating) {
 		animating = true;
 		parseAnimationFile(file);
-		animationThread = std::thread(&AnimatorHelper::animate, this);
+        pthread_create(&animationThread, NULL, animate, this);
+		//animationThread = std::thread(&AnimatorHelper::animate, this);
 	}
 }
 
@@ -61,7 +64,7 @@ void AnimatorHelper::resumeAnimation() {
 void AnimatorHelper::stopAnimation() {
 	if (animating) {
 		animating = false;
-		animationThread.join();
+		pthread_join(animationThread, NULL);
         for (size_t i = 0; i < animations.size(); i++) {
 			delete animations[i];
 			animations[i] = 0;
@@ -70,13 +73,23 @@ void AnimatorHelper::stopAnimation() {
 	}
 }
 
-void AnimatorHelper::animate() {
-	while (animating) {
+bool AnimatorHelper::getAnimating() const {
+    return animating;
+}
+
+std::vector<BaseAnimation *> AnimatorHelper::getAnimationsToAnimate() const {
+    return animations;
+}
+
+void * animate(void *data) {
+    AnimatorHelper *animHelper = (AnimatorHelper *) data;
+	while (animHelper->getAnimating()) {
 		SDL_Delay(CPU_USAGE_ANIMATION_DELAY);
-		for (size_t i = 0; i < animations.size(); i++) {
-			animations[i]->update();
+		for (size_t i = 0; i < animHelper->getAnimationsToAnimate().size(); i++) {
+			animHelper->getAnimationsToAnimate()[i]->update();
 		}
 	}
+    return NULL;
 }
 
 void AnimatorHelper::parseAnimationFile(const std::string &file) {

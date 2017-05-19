@@ -10,12 +10,11 @@ class AnimatorHelper : public BaseDrawable {
 private:
 	AnimatorHelper();
 	~AnimatorHelper();
-	std::thread animationThread;
+	pthread_t animationThread;
 	bool animating, updating;
 	static AnimatorHelper *helper;
 	std::vector<BaseAnimation *> animations;
 	void parseAnimationFile(const std::string &);
-	void animate();
 
 public:
 	static AnimatorHelper * getInstance();
@@ -29,6 +28,8 @@ public:
     void stopAnimation();
 
 	bool isAnimating() const;
+    bool getAnimating() const;
+    std::vector<BaseAnimation *> getAnimationsToAnimate() const;
 };
 
 #endif
