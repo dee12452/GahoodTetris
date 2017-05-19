@@ -12,6 +12,7 @@ Window::Window() {
 	eventHandler = NULL;
 	fps = DEFAULT_FPS;
 	timer = new Timer(fps, true);
+	rendering = true;
 }
 
 Window::Window(int targetFPS) : Window() {
@@ -20,18 +21,16 @@ Window::Window(int targetFPS) : Window() {
 }
 
 Window::~Window() {
-	thread.join();
 	SpriteUtil::deleteSprites();
 	if (timer != NULL) {
 		delete timer;
 		timer = NULL;
 	}
+	rendering = false;
 }
 
 void Window::render() {
-    init();
 	bool windowRunning = true;
-	rendering = true;
     while (windowRunning) {
         SDL_Delay(CPU_USAGE_EVENT_DELAY);
 		if (eventHandler != NULL) {
@@ -50,17 +49,11 @@ void Window::render() {
 			while (changeHandler) { SDL_Delay(CPU_USAGE_LOGIC_DELAY); }
 		}
 	}
-	close();
-	rendering = false;
 }
 
 void Window::start() {
-    thread = std::thread(&Window::render, this);
-
-	//Wait for the window to initialize so it can load the sprites
-	Util::print("Loading window...");
-	while (!rendering) { SDL_Delay(CPU_USAGE_LOGIC_DELAY); }
-	Util::print("Done loading window!");
+    render();
+	close();
 }
 
 bool Window::isRendering() const {

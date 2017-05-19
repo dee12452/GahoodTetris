@@ -12,18 +12,22 @@ public:
 	Game();
 	~Game();
 
-	void run();
+	void changeEventHandler();
+    void startWindow() const;
+    bool getWindowState() const;
+    bool shouldChangeState() const;
+    BaseInputHandler * getCurrentHandler() const;
     GameState getGameState() const;
 	BaseDrawable * getPlayer() const;
     void setGameState(GameState);
 
 private:
-	Window *window;
+	pthread_t thread;
+    Window *window;
 	BaseInputHandler *currentHandler;
 	BaseDrawable *player;
     GameState gameState;
 
-	void changeEventHandler();
 	bool stateChanged;
 };
 

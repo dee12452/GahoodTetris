@@ -12,6 +12,7 @@ public:
 	Window();
 	Window(int);
 	~Window();
+	void init();
 	void start();
 	bool isRendering() const;
 	int getWindowWidth() const;
@@ -30,8 +31,6 @@ private:
 	void renderToScreen();
 
 	//For the window thread
-	std::thread thread;
-	void init();
 	void close();
 	void render();
 	bool rendering, changeHandler, allowChangeHandler;
