@@ -3,7 +3,6 @@
 #include "../headers/DisplayUtil.hpp"
 #include "../headers/BaseInputHandler.hpp"
 #include "../headers/SpriteUtil.hpp"
-#include "../headers/AnimatorHelper.hpp"
 
 Window::Window() {
 	windowWidth = DESIRED_WINDOW_WIDTH;
@@ -13,6 +12,7 @@ Window::Window() {
 	eventHandler = NULL;
 	fps = DEFAULT_FPS;
 	timer = new Timer(fps, true);
+	rendering = true;
 }
 
 Window::Window(int targetFPS) : Window() {
@@ -21,18 +21,16 @@ Window::Window(int targetFPS) : Window() {
 }
 
 Window::~Window() {
-	thread.join();
 	SpriteUtil::deleteSprites();
 	if (timer != NULL) {
 		delete timer;
 		timer = NULL;
 	}
+	rendering = false;
 }
 
 void Window::render() {
-	init();
 	bool windowRunning = true;
-	rendering = true;
     while (windowRunning) {
         SDL_Delay(CPU_USAGE_EVENT_DELAY);
 		if (eventHandler != NULL) {
@@ -51,17 +49,11 @@ void Window::render() {
 			while (changeHandler) { SDL_Delay(CPU_USAGE_LOGIC_DELAY); }
 		}
 	}
-	close();
-	rendering = false;
 }
 
 void Window::start() {
-    thread = std::thread(&Window::render, this);
-
-	//Wait for the window to initialize so it can load the sprites
-	Util::print("Loading window...");
-	while (!rendering) { SDL_Delay(CPU_USAGE_LOGIC_DELAY); }
-	Util::print("Done loading window!");
+    render();
+	close();
 }
 
 bool Window::isRendering() const {
@@ -73,7 +65,6 @@ void Window::renderToScreen() {
 	SDL_RenderCopy(windowRenderer, windowTexture, NULL, NULL);
 	SDL_SetRenderTarget(windowRenderer, windowTexture);
 	eventHandler->onDraw(windowRenderer);
-	AnimatorHelper::getInstance()->draw(windowRenderer);
 	SDL_SetRenderTarget(windowRenderer, NULL);
 	SDL_RenderPresent(windowRenderer);
 }
@@ -83,9 +74,9 @@ int Window::getWindowHeight() const { return windowHeight; }
 
 void Window::init() {
 	window = SDL_CreateWindow(GAME_NAME,
-		DisplayUtil::getScreenWidth() / 2 - windowWidth / 2,
-		DisplayUtil::getScreenHeight() / 2 - windowHeight / 2,
-		windowWidth,
+		SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+	    windowWidth,
 		windowHeight,
 		SDL_WINDOW_OPENGL/* | SDL_WINDOW_RESIZABLE*/);
 	if (window == NULL)
@@ -96,7 +87,8 @@ void Window::init() {
 		SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
 	if (windowRenderer == NULL)
 		Util::fatalSDLError("Failed to create window renderer");
-	SDL_SetRenderDrawColor(windowRenderer, 0, 0, 0, 255);
+	SDL_RenderSetLogicalSize(windowRenderer, windowWidth, windowHeight);
+    SDL_SetRenderDrawColor(windowRenderer, 0, 0, 0, 255);
 
 	SpriteUtil::createSprites(windowRenderer);
 
