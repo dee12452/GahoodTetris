@@ -26,6 +26,7 @@ public:
 	void pauseAnimation();
 	void resumeAnimation();
     void stopAnimation();
+    void animate();
 
 	bool isAnimating() const;
     bool getAnimating() const;

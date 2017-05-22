@@ -90,13 +90,17 @@ void * run(void *data) {
 				break;
 		    default:
 				break;
-		}
-	}
+		
+	    }
+                    
+        AnimatorHelper::getInstance()->animate();
+    }
     return NULL;
 }
 
 void Game::changeEventHandler() {
-	BaseInputHandler *temp = NULL;
+    Util::androidPrint("*************** CHANGE GAME STATE ***************");
+    BaseInputHandler *temp = NULL;
     switch (gameState) {
 	case PLAY:
 		temp = currentHandler;

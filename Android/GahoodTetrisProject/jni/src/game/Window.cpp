@@ -3,6 +3,7 @@
 #include "../headers/DisplayUtil.hpp"
 #include "../headers/BaseInputHandler.hpp"
 #include "../headers/SpriteUtil.hpp"
+#include "../headers/AnimatorHelper.hpp"
 
 Window::Window() {
 	windowWidth = DESIRED_WINDOW_WIDTH;
@@ -65,7 +66,8 @@ void Window::renderToScreen() {
 	SDL_RenderCopy(windowRenderer, windowTexture, NULL, NULL);
 	SDL_SetRenderTarget(windowRenderer, windowTexture);
 	eventHandler->draw(windowRenderer);
-	SDL_SetRenderTarget(windowRenderer, NULL);
+    AnimatorHelper::getInstance()->draw(windowRenderer);
+    SDL_SetRenderTarget(windowRenderer, NULL);
 	SDL_RenderPresent(windowRenderer);
 }
 
