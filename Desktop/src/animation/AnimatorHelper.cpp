@@ -62,7 +62,7 @@ void AnimatorHelper::stopAnimation() {
 void AnimatorHelper::animate() {
 	while (animating) {
 		SDL_Delay(CPU_USAGE_ANIMATION_DELAY);
-		for (size_t i = 0; i < animations.size(); i++) {
+        for (size_t i = 0; i < animations.size(); i++) {
 			animations[i]->update();
 		}
 	}

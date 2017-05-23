@@ -6,6 +6,8 @@
 #include "../headers/AnimatorHelper.hpp"
 #include "../headers/HowToPlayInputHandler.hpp"
 
+void * run(void *);
+
 Game::Game() {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
 		Util::fatalSDLError("Failed to initialize SDL");
@@ -18,6 +20,9 @@ Game::Game() {
 	currentHandler = NULL;
     gameState = START;
 	stateChanged = false;
+    window->init();
+    pthread_create(&thread, NULL, run, this);
+    window->start();
 }
 
 Game::~Game() {
@@ -25,6 +30,7 @@ Game::~Game() {
 		delete window;
 		window = NULL;
 	}
+    pthread_join(thread, NULL);
 	if (currentHandler != NULL) {
 		delete currentHandler;
 		currentHandler = NULL;
@@ -49,35 +55,52 @@ void Game::setGameState(GameState state) {
 	}
 }
 
-void Game::run() {
-	window->start();
-	setGameState(MAIN_MENU);
-    while (window->isRendering()) {
+bool Game::getWindowState() const {
+    return window->isRendering();
+}
+
+bool Game::shouldChangeState() const {
+    return stateChanged;
+}
+
+BaseInputHandler * Game::getCurrentHandler() const {
+    return currentHandler;
+}
+
+void * run(void *data) {
+    Game *game = (Game *) data;
+	game->setGameState(MAIN_MENU);
+    while (game->getWindowState()) {
         SDL_Delay(CPU_USAGE_LOGIC_DELAY);
 		
-		if (stateChanged) {
-			changeEventHandler();
+		if (game->shouldChangeState()) {
+			game->changeEventHandler();
 		}
         
-        switch (gameState) {
+        switch (game->getGameState()) {
 			case MAIN_MENU:
-                if(currentHandler != NULL) {
-                    currentHandler->update();
+                if(game->getCurrentHandler() != NULL) {
+                    game->getCurrentHandler()->update();
                 }
 				break;
 			case PLAY:
-                if(currentHandler != NULL) {
-                    currentHandler->update();
+                if(game->getCurrentHandler() != NULL) {
+                    game->getCurrentHandler()->update();
                 }
 				break;
 		    default:
 				break;
-		}
-	}
+		
+	    }
+                    
+        AnimatorHelper::getInstance()->animate();
+    }
+    return NULL;
 }
 
 void Game::changeEventHandler() {
-	BaseInputHandler *temp = NULL;
+    Util::androidPrint("*************** CHANGE GAME STATE ***************");
+    BaseInputHandler *temp = NULL;
     switch (gameState) {
 	case PLAY:
 		temp = currentHandler;

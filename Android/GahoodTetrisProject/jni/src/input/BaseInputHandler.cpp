@@ -22,7 +22,6 @@ void BaseInputHandler::update() {
 void BaseInputHandler::draw(SDL_Renderer *renderer) {
     if(!isPaused) {
         onDraw(renderer);
-        AnimatorHelper::getInstance()->draw(renderer);
     }
 }
 

@@ -42,7 +42,7 @@ void RowCompleteAnimation::onAnimate(SDL_Renderer *renderer) {
 }
 
 void RowCompleteAnimation::onUpdate() {
-    currentAlpha = std::max(currentAlpha - 5, 0);
+    currentAlpha = std::max(currentAlpha - 15, 0);
 }
 
 void RowCompleteAnimation::parseAnimation(const std::string &) {}
