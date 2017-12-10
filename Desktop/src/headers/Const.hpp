@@ -10,12 +10,12 @@
 
 ////////////////////////////////////////////////////////////////////
 //Current Version
-const std::string VERSION = "v1.0"; 
+const std::string VERSION = "1.0.0";
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
 //Game Name
-const char * const GAME_NAME = "Gahood Tetris Test";
+const char * const GAME_NAME = "Gahood Tetris";
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
@@ -44,59 +44,59 @@ const int INPUT_PLAY = 1;
 
 ////////////////////////////////////////////////////////////////////
 //Sprite File Locations
-const char * const BLOCK_YELLOW_SPRITE_FILE_LOCATION = "../res/tetris_block_yellow.png";
-const char * const BLOCK_GREEN_SPRITE_FILE_LOCATION = "../res/tetris_block_green.png";
-const char * const BLOCK_GREY_SPRITE_FILE_LOCATION = "../res/tetris_block_grey.png";
-const char * const BLOCK_ORANGE_SPRITE_FILE_LOCATION = "../res/tetris_block_orange.png";
-const char * const BLOCK_PURPLE_SPRITE_FILE_LOCATION = "../res/tetris_block_purple.png";
-const char * const BLOCK_RED_SPRITE_FILE_LOCATION = "../res/tetris_block_red.png";
-const char * const BLOCK_BLUE_SPRITE_FILE_LOCATION = "../res/tetris_block_blue.png";
-const char * const SPRITE_WHITE_BLOCK_FILE_LOCATION = "../res/tetris_block_white.png";
-const char * const BLOCK_BLANK_SPRITE_FILE_LOCATION = "../res/tetris_block_empty.png";
-const char * const GRID_SPRITE_FILE_LOCATION = "../res/tetris_border.png";
-const char * const NUMBERS_SPRITE_SHEET_FILE_LOCATION = "../res/numbers.png";
-const char * const SPRITE_MENU_BG_FILE_LOCATION = "../res/menu_bg.png";
-const char * const SPRITE_PLAY_BUTTON_FILE_LOCATION = "../res/play_button.png";
-const char * const SPRITE_EXIT_BUTTON_FILE_LOCATION = "../res/exit_button.png";
-const char * const SPRITE_HOW_BUTTON_FILE_LOCATION = "../res/how_button.png";
-const char * const SPRITE_SELECTOR_FILE_LOCATION = "../res/selector.png";
-const char * const SPRITE_NEXT_BORDER_FILE_LOCATION = "../res/next_border.png";
-const char * const SPRITE_A_FILE_LOCATION = "../res/A.png";
-const char * const SPRITE_B_FILE_LOCATION = "../res/B.png";
-const char * const SPRITE_C_FILE_LOCATION = "../res/C.png";
-const char * const SPRITE_D_FILE_LOCATION = "../res/D.png";
-const char * const SPRITE_E_FILE_LOCATION = "../res/E.png";
-const char * const SPRITE_F_FILE_LOCATION = "../res/F.png";
-const char * const SPRITE_G_FILE_LOCATION = "../res/G.png";
-const char * const SPRITE_H_FILE_LOCATION = "../res/H.png";
-const char * const SPRITE_I_FILE_LOCATION = "../res/I.png";
-const char * const SPRITE_J_FILE_LOCATION = "../res/J.png";
-const char * const SPRITE_K_FILE_LOCATION = "../res/K.png";
-const char * const SPRITE_L_FILE_LOCATION = "../res/L.png";
-const char * const SPRITE_M_FILE_LOCATION = "../res/M.png";
-const char * const SPRITE_N_FILE_LOCATION = "../res/N.png";
-const char * const SPRITE_O_FILE_LOCATION = "../res/O.png";
-const char * const SPRITE_P_FILE_LOCATION = "../res/P.png";
-const char * const SPRITE_Q_FILE_LOCATION = "../res/Q.png";
-const char * const SPRITE_R_FILE_LOCATION = "../res/R.png";
-const char * const SPRITE_S_FILE_LOCATION = "../res/S.png";
-const char * const SPRITE_T_FILE_LOCATION = "../res/T.png";
-const char * const SPRITE_U_FILE_LOCATION = "../res/U.png";
-const char * const SPRITE_V_FILE_LOCATION = "../res/V.png";
-const char * const SPRITE_W_FILE_LOCATION = "../res/W.png";
-const char * const SPRITE_X_FILE_LOCATION = "../res/X.png";
-const char * const SPRITE_Y_FILE_LOCATION = "../res/Y.png";
-const char * const SPRITE_Z_FILE_LOCATION = "../res/Z.png";
-const char * const SPRITE_INDICATOR_LEFT_FILE_LOCATION = "../res/left_indicator.png";
-const char * const SPRITE_INDICATOR_RIGHT_FILE_LOCATION = "../res/right_indicator.png";
-const char * const SPRITE_HOW_TO_SCREEN_FILE_LOCATION = "../res/how_to_screen.png";
+const char * const BLOCK_YELLOW_SPRITE_FILE_LOCATION = "./res/tetris_block_yellow.png";
+const char * const BLOCK_GREEN_SPRITE_FILE_LOCATION = "./res/tetris_block_green.png";
+const char * const BLOCK_GREY_SPRITE_FILE_LOCATION = "./res/tetris_block_grey.png";
+const char * const BLOCK_ORANGE_SPRITE_FILE_LOCATION = "./res/tetris_block_orange.png";
+const char * const BLOCK_PURPLE_SPRITE_FILE_LOCATION = "./res/tetris_block_purple.png";
+const char * const BLOCK_RED_SPRITE_FILE_LOCATION = "./res/tetris_block_red.png";
+const char * const BLOCK_BLUE_SPRITE_FILE_LOCATION = "./res/tetris_block_blue.png";
+const char * const SPRITE_WHITE_BLOCK_FILE_LOCATION = "./res/tetris_block_white.png";
+const char * const BLOCK_BLANK_SPRITE_FILE_LOCATION = "./res/tetris_block_empty.png";
+const char * const GRID_SPRITE_FILE_LOCATION = "./res/tetris_border.png";
+const char * const NUMBERS_SPRITE_SHEET_FILE_LOCATION = "./res/numbers.png";
+const char * const SPRITE_MENU_BG_FILE_LOCATION = "./res/menu_bg.png";
+const char * const SPRITE_PLAY_BUTTON_FILE_LOCATION = "./res/play_button.png";
+const char * const SPRITE_EXIT_BUTTON_FILE_LOCATION = "./res/exit_button.png";
+const char * const SPRITE_HOW_BUTTON_FILE_LOCATION = "./res/how_button.png";
+const char * const SPRITE_SELECTOR_FILE_LOCATION = "./res/selector.png";
+const char * const SPRITE_NEXT_BORDER_FILE_LOCATION = "./res/next_border.png";
+const char * const SPRITE_A_FILE_LOCATION = "./res/A.png";
+const char * const SPRITE_B_FILE_LOCATION = "./res/B.png";
+const char * const SPRITE_C_FILE_LOCATION = "./res/C.png";
+const char * const SPRITE_D_FILE_LOCATION = "./res/D.png";
+const char * const SPRITE_E_FILE_LOCATION = "./res/E.png";
+const char * const SPRITE_F_FILE_LOCATION = "./res/F.png";
+const char * const SPRITE_G_FILE_LOCATION = "./res/G.png";
+const char * const SPRITE_H_FILE_LOCATION = "./res/H.png";
+const char * const SPRITE_I_FILE_LOCATION = "./res/I.png";
+const char * const SPRITE_J_FILE_LOCATION = "./res/J.png";
+const char * const SPRITE_K_FILE_LOCATION = "./res/K.png";
+const char * const SPRITE_L_FILE_LOCATION = "./res/L.png";
+const char * const SPRITE_M_FILE_LOCATION = "./res/M.png";
+const char * const SPRITE_N_FILE_LOCATION = "./res/N.png";
+const char * const SPRITE_O_FILE_LOCATION = "./res/O.png";
+const char * const SPRITE_P_FILE_LOCATION = "./res/P.png";
+const char * const SPRITE_Q_FILE_LOCATION = "./res/Q.png";
+const char * const SPRITE_R_FILE_LOCATION = "./res/R.png";
+const char * const SPRITE_S_FILE_LOCATION = "./res/S.png";
+const char * const SPRITE_T_FILE_LOCATION = "./res/T.png";
+const char * const SPRITE_U_FILE_LOCATION = "./res/U.png";
+const char * const SPRITE_V_FILE_LOCATION = "./res/V.png";
+const char * const SPRITE_W_FILE_LOCATION = "./res/W.png";
+const char * const SPRITE_X_FILE_LOCATION = "./res/X.png";
+const char * const SPRITE_Y_FILE_LOCATION = "./res/Y.png";
+const char * const SPRITE_Z_FILE_LOCATION = "./res/Z.png";
+const char * const SPRITE_INDICATOR_LEFT_FILE_LOCATION = "./res/left_indicator.png";
+const char * const SPRITE_INDICATOR_RIGHT_FILE_LOCATION = "./res/right_indicator.png";
+const char * const SPRITE_HOW_TO_SCREEN_FILE_LOCATION = "./res/how_to_screen.png";
 
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
 //Animation File Locations
-const char * const ANIMATION_MAIN_MENU = "../animations/MainMenuAnimation.txt";
-const char * const ANIMATION_CLEAR_ROW = "../animations/ClearRowAnimation.txt";
+const char * const ANIMATION_MAIN_MENU = "./animations/MainMenuAnimation.txt";
+const char * const ANIMATION_CLEAR_ROW = "./animations/ClearRowAnimation.txt";
 ////////////////////////////////////////////////////////////////////
 
 ////////////////////////////////////////////////////////////////////
