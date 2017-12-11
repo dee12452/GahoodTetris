@@ -117,7 +117,8 @@ void TetrisGrid::draw(SDL_Renderer *renderer) {
 					break;
 				default:
 					std::cout << (int) grid[i][j] - 1 << std::endl;
-					Util::fatalError("Error: current block's sprite was not set to anything when drawing the grid!");
+					Util::printError("Error: current block's sprite was not set to anything when drawing the grid! Defaulting to yellow.");
+					currBlock = SpriteUtil::getSprite(SpriteUtil::SPRITE_YELLOW_BLOCK);
 				}
 				currBlock->setLocationX(locX);
 				currBlock->setLocationY(locY);
